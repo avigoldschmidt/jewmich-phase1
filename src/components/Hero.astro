@@ -115,49 +115,49 @@ const resolvedImage = imageSrc ? withBase(imageSrc) : undefined;
     background: linear-gradient(155deg, #12324d 0%, #06101c 70%);
   }
 
-  /* Lighter veil — photo should read */
+  /* Soft left scrim — keep photo readable */
   .hero__veil {
     position: absolute;
     inset: 0;
     background:
       linear-gradient(
-        95deg,
-        rgba(6, 16, 28, 0.72) 0%,
-        rgba(6, 16, 28, 0.48) 36%,
-        rgba(6, 16, 28, 0.18) 68%,
-        rgba(6, 16, 28, 0.22) 100%
+        92deg,
+        rgba(6, 16, 28, 0.66) 0%,
+        rgba(6, 16, 28, 0.4) 34%,
+        rgba(6, 16, 28, 0.12) 64%,
+        rgba(6, 16, 28, 0.16) 100%
       ),
-      linear-gradient(to top, rgba(6, 16, 28, 0.42) 0%, transparent 38%);
+      linear-gradient(to top, rgba(6, 16, 28, 0.34) 0%, transparent 36%);
   }
 
   .hero--community .hero__veil {
     background:
       linear-gradient(
-        95deg,
-        rgba(6, 16, 28, 0.74) 0%,
-        rgba(6, 16, 28, 0.5) 38%,
-        rgba(6, 16, 28, 0.2) 70%,
-        rgba(6, 16, 28, 0.26) 100%
+        92deg,
+        rgba(6, 16, 28, 0.68) 0%,
+        rgba(6, 16, 28, 0.42) 36%,
+        rgba(6, 16, 28, 0.14) 66%,
+        rgba(6, 16, 28, 0.2) 100%
       ),
-      linear-gradient(to top, rgba(6, 16, 28, 0.4) 0%, transparent 40%);
+      linear-gradient(to top, rgba(6, 16, 28, 0.32) 0%, transparent 38%);
   }
 
   .hero__content {
     position: relative;
     z-index: 1;
-    max-width: 36rem;
-    padding-block: clamp(3.5rem, 10vh, 5.5rem) clamp(2.25rem, 6vh, 3.5rem);
+    max-width: 34rem;
+    padding-block: clamp(3.25rem, 9vh, 5rem) clamp(2.1rem, 5.5vh, 3.25rem);
     animation: fade-up 700ms var(--ease) both;
   }
 
-  /* Brand: elegant signal, not shouting */
+  /* Brand: elegant hero signal */
   .hero__brand {
-    margin: 0 0 0.7rem;
+    margin: 0 0 0.55rem;
     font-family: var(--font-display);
-    font-size: clamp(1.65rem, 3.6vw, 2.35rem);
+    font-size: clamp(1.7rem, 3.4vw, 2.2rem);
     font-weight: 600;
     font-optical-sizing: auto;
-    letter-spacing: -0.028em;
+    letter-spacing: -0.026em;
     line-height: 1.05;
     color: var(--color-on-photo);
   }
@@ -165,33 +165,33 @@ const resolvedImage = imageSrc ? withBase(imageSrc) : undefined;
   .hero--students .hero__brand::after {
     content: '';
     display: block;
-    width: 2rem;
+    width: 1.75rem;
     height: 2px;
-    margin-top: 0.55rem;
+    margin-top: 0.5rem;
     background: var(--color-maize);
   }
 
-  /* Headline: clear but subordinate to brand */
+  /* Headline: subordinate — UI face, not second brand shout */
   .hero__headline {
-    margin: 0 0 0.7rem;
-    font-family: var(--font-display);
-    font-size: clamp(1.2rem, 2.2vw, 1.55rem);
-    font-weight: 500;
-    letter-spacing: -0.012em;
-    line-height: 1.28;
-    color: rgba(255, 255, 255, 0.95);
+    margin: 0 0 0.55rem;
+    font-family: var(--font-ui);
+    font-size: clamp(1.12rem, 1.9vw, 1.35rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+    color: rgba(255, 255, 255, 0.96);
     max-width: 26rem;
   }
 
   .hero__sentence {
-    margin: 0 0 1.35rem;
-    max-width: 28rem;
+    margin: 0 0 1.25rem;
+    max-width: 27rem;
     font-family: var(--font-ui);
-    font-size: 1rem;
-    font-weight: 450;
+    font-size: 0.98rem;
+    font-weight: 400;
     line-height: 1.5;
-    letter-spacing: 0.005em;
-    color: rgba(255, 255, 255, 0.86);
+    letter-spacing: 0.01em;
+    color: rgba(255, 255, 255, 0.84);
   }
 
   @media (min-width: 900px) {

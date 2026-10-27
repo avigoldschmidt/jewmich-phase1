@@ -1,0 +1,72 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Prose from '../components/Prose.astro';
+import CtaLink from '../components/CtaLink.astro';
+import type { Audience } from '../lib/nav';
+
+interface Registration {
+  type: 'url' | 'embed';
+  href: string;
+  label?: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  audience: Audience;
+  registration?: Registration;
+  canonicalPath?: string;
+}
+
+const { title, description, audience, registration, canonicalPath } =
+  Astro.props;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  audience={audience}
+  canonicalPath={canonicalPath}
+>
+  <section class="section">
+    <div class="container content-page">
+      <header class="content-page__header">
+        <h1 class="content-page__title">{title}</h1>
+        <p class="content-page__desc">{description}</p>
+        {
+          registration?.type === 'url' && (
+            <div class="cta-row">
+              <CtaLink
+                href={registration.href}
+                label={registration.label ?? 'Register'}
+                variant="primary"
+              />
+            </div>
+          )
+        }
+      </header>
+      <Prose>
+        <slot />
+      </Prose>
+      <slot name="after" />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .content-page__header {
+    margin-bottom: var(--space-lg);
+    max-width: 42rem;
+  }
+
+  .content-page__title {
+    margin: 0 0 0.55rem;
+    font-size: clamp(2rem, 4vw, 2.7rem);
+  }
+
+  .content-page__desc {
+    margin: 0 0 1.1rem;
+    color: var(--color-ink-muted);
+    font-size: 1.08rem;
+  }
+</style>

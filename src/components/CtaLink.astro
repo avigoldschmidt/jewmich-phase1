@@ -1,0 +1,88 @@
+---
+interface Props {
+  href: string;
+  label?: string;
+  variant?: 'primary' | 'secondary' | 'maize';
+  external?: boolean;
+  class?: string;
+}
+
+const {
+  href,
+  label,
+  variant = 'primary',
+  external,
+  class: className,
+} = Astro.props;
+
+const isExternal =
+  external ?? (/^https?:\/\//.test(href) || href.startsWith('mailto:'));
+---
+
+<a
+  class:list={['cta-link', `cta-link--${variant}`, className]}
+  href={href}
+  {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+>
+  <slot>{label}</slot>
+</a>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.7rem 1.2rem;
+    border: 1.5px solid transparent;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    line-height: 1.2;
+    text-decoration: none;
+    transition:
+      transform 180ms var(--ease),
+      background-color 180ms var(--ease),
+      color 180ms var(--ease),
+      border-color 180ms var(--ease),
+      box-shadow 180ms var(--ease);
+  }
+
+  .cta-link:hover {
+    transform: translateY(-2px);
+  }
+
+  .cta-link--primary {
+    background: var(--color-navy);
+    color: var(--color-paper);
+  }
+
+  .cta-link--primary:hover {
+    background: var(--color-um-blue);
+    color: #fff;
+    box-shadow: 0 8px 20px rgba(11, 31, 58, 0.18);
+  }
+
+  .cta-link--secondary {
+    background: transparent;
+    color: var(--color-navy);
+    border-color: var(--color-brass);
+  }
+
+  .cta-link--secondary:hover {
+    background: rgba(196, 163, 90, 0.12);
+    color: var(--color-navy);
+  }
+
+  .cta-link--maize {
+    background: var(--color-maize);
+    color: var(--color-um-blue);
+  }
+
+  .cta-link--maize:hover {
+    background: #ffe066;
+    color: var(--color-um-blue);
+    box-shadow: 0 8px 20px rgba(255, 203, 5, 0.28);
+  }
+</style>

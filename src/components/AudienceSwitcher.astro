@@ -1,0 +1,96 @@
+---
+import type { Audience } from '../lib/nav';
+import { SITE } from '../lib/nav';
+
+interface Props {
+  audience: Audience;
+  compact?: boolean;
+}
+
+const { audience, compact = false } = Astro.props;
+const current =
+  audience === 'community' || audience === 'youth' ? 'community' : 'students';
+---
+
+<nav
+  class:list={['audience-switcher', compact && 'audience-switcher--compact']}
+  aria-label="Audience"
+>
+  <a
+    class:list={['audience-switcher__link', current === 'students' && 'is-active']}
+    href={SITE.homes.students}
+    aria-current={current === 'students' ? 'page' : undefined}
+  >
+    Students
+  </a>
+  <span class="audience-switcher__sep" aria-hidden="true">|</span>
+  <a
+    class:list={[
+      'audience-switcher__link',
+      current === 'community' && 'is-active',
+    ]}
+    href={SITE.homes.community}
+    aria-current={current === 'community' ? 'page' : undefined}
+  >
+    Community
+  </a>
+</nav>
+
+<style>
+  .audience-switcher {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 560;
+  }
+
+  .audience-switcher__link {
+    position: relative;
+    color: rgba(247, 244, 238, 0.78);
+    text-decoration: none;
+    padding: 0.15rem 0;
+  }
+
+  .audience-switcher__link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.12rem;
+    height: 2px;
+    background: var(--color-brass);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 220ms var(--ease);
+  }
+
+  .audience-switcher__link:hover,
+  .audience-switcher__link.is-active {
+    color: var(--color-paper);
+  }
+
+  .audience-switcher__link:hover::after,
+  .audience-switcher__link.is-active::after {
+    transform: scaleX(1);
+  }
+
+  .audience-switcher__sep {
+    color: rgba(247, 244, 238, 0.35);
+    user-select: none;
+  }
+
+  .audience-switcher--compact .audience-switcher__link {
+    color: var(--color-navy);
+  }
+
+  .audience-switcher--compact .audience-switcher__link:hover,
+  .audience-switcher--compact .audience-switcher__link.is-active {
+    color: var(--color-navy);
+  }
+
+  .audience-switcher--compact .audience-switcher__sep {
+    color: rgba(11, 31, 58, 0.35);
+  }
+</style>

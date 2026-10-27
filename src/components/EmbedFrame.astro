@@ -1,0 +1,37 @@
+---
+interface Props {
+  src: string;
+  title: string;
+  height?: string;
+  class?: string;
+}
+
+const { src, title, height = '720px', class: className } = Astro.props;
+---
+
+<div class:list={['embed-frame', className]}>
+  <iframe
+    src={src}
+    title={title}
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+    style={`min-height: ${height};`}
+  ></iframe>
+</div>
+
+<style>
+  .embed-frame {
+    width: 100%;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px solid rgba(11, 31, 58, 0.1);
+  }
+
+  .embed-frame iframe {
+    display: block;
+    width: 100%;
+    border: 0;
+    min-height: 480px;
+    background: #fff;
+  }
+</style>

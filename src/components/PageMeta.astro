@@ -1,0 +1,25 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath?: string;
+}
+
+const { title, description, canonicalPath } = Astro.props;
+const siteName = 'Chabad House of Ann Arbor';
+const fullTitle = title.includes('Chabad') || title.includes('JewMich')
+  ? title
+  : `${title} · ${siteName}`;
+const canonical = canonicalPath
+  ? new URL(canonicalPath, Astro.site).href
+  : Astro.url.href;
+---
+
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:type" content="website" />
+<meta property="og:url" content={canonical} />
+<meta name="twitter:card" content="summary_large_image" />

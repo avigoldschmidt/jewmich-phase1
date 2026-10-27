@@ -1,0 +1,8 @@
+---
+/**
+ * Local / preview fallback. Production host rewrites send apex `/`:
+ * - JewMich.com → /home/students
+ * - ChabadAnnArbor.com → /home/community
+ */
+return Astro.redirect('/home/students');
+---

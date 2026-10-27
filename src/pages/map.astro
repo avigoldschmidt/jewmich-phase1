@@ -1,0 +1,30 @@
+---
+import ContentPage from '../layouts/ContentPage.astro';
+import EmbedFrame from '../components/EmbedFrame.astro';
+import { loadPage } from '../lib/content';
+
+const { entry, Content } = await loadPage('shared', 'map');
+const { title, description, audience, registration } = entry.data;
+
+const mapsSrc =
+  'https://www.google.com/maps?q=715+Hill+Street,+Ann+Arbor,+MI+48104&output=embed';
+---
+
+<ContentPage
+  title={title}
+  description={description}
+  audience={audience}
+  registration={registration}
+  canonicalPath="/map"
+>
+  <Content />
+  <Fragment slot="after">
+    <div style="margin-top: 1.5rem;">
+      <EmbedFrame
+        src={mapsSrc}
+        title="Map of Chabad House of Ann Arbor at 715 Hill Street"
+        height="420px"
+      />
+    </div>
+  </Fragment>
+</ContentPage>

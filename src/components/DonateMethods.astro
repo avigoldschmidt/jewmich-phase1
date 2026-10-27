@@ -1,0 +1,96 @@
+---
+import CtaLink from './CtaLink.astro';
+import EmbedFrame from './EmbedFrame.astro';
+
+/**
+ * Live donate rails from jewmich.com crawl (2026-10):
+ * - ChabadMS formid 8080
+ * - Zeffy donation embed from /donatewithzeffy/
+ * - PayPal charity fundraiser
+ */
+const CHABADMS_SRC =
+  'https://forms.chabadms.com/payment.aspx?serialnumber=4111-1189-6338&formid=8080';
+const ZEFFY_SRC =
+  'https://www.zeffy.com/en-US/embed/donation-form/8aef2ddb-4496-401c-be91-d04b7eca6263';
+const PAYPAL_HREF = 'https://www.paypal.com/fundraiser/charity/1619170';
+const PAYMENT_HREF = 'https://www.jewmich.com/payment/';
+---
+
+<div class="donate-methods">
+  <section class="donate-methods__method" aria-labelledby="donate-chabadms">
+    <h2 id="donate-chabadms">Give online (ChabadMS)</h2>
+    <p>
+      Secure donation form used on the live Chabad House donate page.
+    </p>
+    <EmbedFrame
+      src={CHABADMS_SRC}
+      title="Chabad of Ann Arbor donation form"
+      height="820px"
+    />
+  </section>
+
+  <section class="donate-methods__method" aria-labelledby="donate-zeffy">
+    <h2 id="donate-zeffy">Give with Zeffy</h2>
+    <p>
+      Zero-fee nonprofit donation form. Staff: if this embed drifts, paste the
+      current src from jewmich.com/donatewithzeffy into this section.
+    </p>
+    <EmbedFrame
+      src={ZEFFY_SRC}
+      title="Donate with Zeffy"
+      height="900px"
+    />
+    <p class="donate-methods__alt">
+      Prefer a dedicated page?
+      <a href="https://www.jewmich.com/donatewithzeffy/"
+        >Open the legacy Zeffy donate page</a
+      >.
+    </p>
+  </section>
+
+  <section class="donate-methods__method" aria-labelledby="donate-paypal">
+    <h2 id="donate-paypal">PayPal</h2>
+    <p>Give through PayPal’s charity fundraiser for Chabad of Ann Arbor.</p>
+    <div class="cta-row">
+      <CtaLink href={PAYPAL_HREF} label="Donate with PayPal" variant="primary" />
+    </div>
+  </section>
+
+  <section class="donate-methods__method" aria-labelledby="donate-payment">
+    <h2 id="donate-payment">Make a payment</h2>
+    <p>
+      Paying an invoice, event fee, or other amount already arranged with the
+      House? Use the existing payment page.
+    </p>
+    <div class="cta-row">
+      <CtaLink
+        href={PAYMENT_HREF}
+        label="Open payment form"
+        variant="secondary"
+      />
+    </div>
+  </section>
+</div>
+
+<style>
+  .donate-methods {
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  .donate-methods__method h2 {
+    margin: 0 0 0.45rem;
+    font-size: clamp(1.35rem, 2vw, 1.7rem);
+  }
+
+  .donate-methods__method p {
+    margin: 0 0 1rem;
+    max-width: 40rem;
+    color: var(--color-ink-muted);
+  }
+
+  .donate-methods__alt {
+    margin-top: 0.75rem !important;
+    font-size: 0.95rem;
+  }
+</style>

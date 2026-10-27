@@ -1,0 +1,64 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div class:list={['prose', className]}>
+  <slot />
+</div>
+
+<style>
+  .prose {
+    max-width: 42rem;
+    color: var(--color-ink);
+  }
+
+  .prose :global(> :first-child) {
+    margin-top: 0;
+  }
+
+  .prose :global(> :last-child) {
+    margin-bottom: 0;
+  }
+
+  .prose :global(h2),
+  .prose :global(h3) {
+    margin: 1.75rem 0 0.65rem;
+  }
+
+  .prose :global(p),
+  .prose :global(ul),
+  .prose :global(ol) {
+    margin: 0 0 1rem;
+  }
+
+  .prose :global(ul),
+  .prose :global(ol) {
+    padding-left: 1.2rem;
+  }
+
+  .prose :global(li) {
+    margin-bottom: 0.35rem;
+  }
+
+  .prose :global(a) {
+    color: var(--color-navy);
+    text-decoration-color: rgba(196, 163, 90, 0.7);
+  }
+
+  .prose :global(blockquote) {
+    margin: 1.25rem 0;
+    padding: 0.2rem 0 0.2rem 1rem;
+    border-left: 3px solid var(--color-brass);
+    color: var(--color-ink-muted);
+  }
+
+  .prose :global(hr) {
+    border: 0;
+    border-top: 1px solid rgba(11, 31, 58, 0.12);
+    margin: 1.75rem 0;
+  }
+</style>

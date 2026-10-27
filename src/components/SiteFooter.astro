@@ -1,0 +1,125 @@
+---
+import AudienceSwitcher from './AudienceSwitcher.astro';
+import type { Audience } from '../lib/nav';
+import { SITE, SHARED_FOOTER_LINKS } from '../lib/nav';
+
+interface Props {
+  audience: Audience;
+}
+
+const { audience } = Astro.props;
+---
+
+<footer class="site-footer">
+  <div class="site-footer__inner container">
+    <div class="site-footer__brand">
+      <p class="site-footer__name">{SITE.name}</p>
+      <p class="site-footer__address">
+        {SITE.addressLines.map((line) => (
+          <>
+            {line}
+            <br />
+          </>
+        ))}
+        <a href={`tel:${SITE.phoneTel}`}>{SITE.phoneDisplay}</a>
+      </p>
+      <div class="site-footer__domains">
+        <a href={SITE.domains.students}>JewMich.com</a>
+        <span aria-hidden="true">·</span>
+        <a href={SITE.domains.community}>ChabadAnnArbor.com</a>
+      </div>
+      <div class="site-footer__switcher">
+        <AudienceSwitcher audience={audience} />
+      </div>
+    </div>
+
+    <nav class="site-footer__links" aria-label="Shared links">
+      {
+        SHARED_FOOTER_LINKS.map((item) => (
+          <a href={item.href}>{item.label}</a>
+        ))
+      }
+    </nav>
+  </div>
+  <div class="site-footer__bar">
+    <div class="container">
+      <p>
+        © {new Date().getFullYear()} {SITE.name}. One codebase · two homes.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: var(--space-2xl);
+    background: var(--color-navy);
+    color: rgba(247, 244, 238, 0.84);
+  }
+
+  .site-footer a {
+    color: rgba(247, 244, 238, 0.9);
+    text-decoration: none;
+  }
+
+  .site-footer a:hover {
+    color: var(--color-brass);
+  }
+
+  .site-footer__inner {
+    display: grid;
+    gap: var(--space-lg);
+    padding: var(--space-xl) 0 var(--space-lg);
+  }
+
+  .site-footer__name {
+    margin: 0 0 0.5rem;
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 650;
+    color: var(--color-paper);
+  }
+
+  .site-footer__address {
+    margin: 0 0 0.85rem;
+    line-height: 1.55;
+  }
+
+  .site-footer__domains {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-bottom: 1rem;
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+  }
+
+  .site-footer__links {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem 1rem;
+    align-content: start;
+  }
+
+  .site-footer__bar {
+    border-top: 1px solid rgba(196, 163, 90, 0.25);
+    padding: 0.85rem 0 1.1rem;
+    font-size: 0.88rem;
+    color: rgba(247, 244, 238, 0.55);
+  }
+
+  .site-footer__bar p {
+    margin: 0;
+  }
+
+  @media (min-width: 800px) {
+    .site-footer__inner {
+      grid-template-columns: 1.1fr 1fr;
+      gap: 2rem;
+    }
+
+    .site-footer__links {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+</style>

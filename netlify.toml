@@ -1,0 +1,96 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Dual-domain homepage rewrites (Phase 1)
+[[redirects]]
+  from = "/"
+  to = "/home/students"
+  status = 200
+  force = true
+  conditions = { Host = ["jewmich.com", "www.jewmich.com"] }
+
+[[redirects]]
+  from = "/"
+  to = "/home/community"
+  status = 200
+  force = true
+  conditions = { Host = ["chabadannarbor.com", "www.chabadannarbor.com"] }
+
+# Legacy path redirects (also listed in public/_redirects)
+[[redirects]]
+  from = "/studentcenter"
+  to = "/home/students"
+  status = 301
+
+[[redirects]]
+  from = "/studentcenter/"
+  to = "/home/students"
+  status = 301
+
+[[redirects]]
+  from = "/cong"
+  to = "/home/community"
+  status = 301
+
+[[redirects]]
+  from = "/cong/"
+  to = "/home/community"
+  status = 301
+
+[[redirects]]
+  from = "/chs"
+  to = "/youth"
+  status = 301
+
+[[redirects]]
+  from = "/chs/"
+  to = "/youth"
+  status = 301
+
+[[redirects]]
+  from = "/visitingliving"
+  to = "/visit"
+  status = 301
+
+[[redirects]]
+  from = "/visitingliving/"
+  to = "/visit"
+  status = 301
+
+[[redirects]]
+  from = "/donation"
+  to = "/donate"
+  status = 301
+
+[[redirects]]
+  from = "/donation/"
+  to = "/donate"
+  status = 301
+
+[[redirects]]
+  from = "/highholidays"
+  to = "/events"
+  status = 301
+
+[[redirects]]
+  from = "/highholidays/"
+  to = "/events"
+  status = 301
+
+[[redirects]]
+  from = "/aboutus"
+  to = "/about"
+  status = 301
+
+[[redirects]]
+  from = "/aboutus/"
+  to = "/about"
+  status = 301
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Content-Type-Options = "nosniff"

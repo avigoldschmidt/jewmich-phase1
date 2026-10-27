@@ -1,0 +1,184 @@
+---
+import AudienceSwitcher from './AudienceSwitcher.astro';
+import type { Audience } from '../lib/nav';
+import { SITE, navForAudience, homeForAudience } from '../lib/nav';
+
+interface Props {
+  audience: Audience;
+}
+
+const { audience } = Astro.props;
+const nav = navForAudience(audience);
+const homeHref = homeForAudience(audience);
+const brand =
+  audience === 'community' || audience === 'youth'
+    ? SITE.communityBrand
+    : SITE.studentBrand;
+---
+
+<header class="site-header">
+  <div class="site-header__inner container">
+    <a class="site-header__brand" href={homeHref}>
+      <span class="site-header__mark" aria-hidden="true">
+        <svg viewBox="0 0 32 40" width="28" height="34" fill="none">
+          <path
+            d="M16 2c2.8 5.2 9 9.4 9 17.2C25 27 21 34 16 38c-5-4-9-11-9-18.8C7 11.4 13.2 7.2 16 2Z"
+            fill="#FFCB05"
+          ></path>
+          <path
+            d="M16 8c1.5 3.1 5 5.5 5 10.1 0 5.3-2.2 9.3-5 11.9-2.8-2.6-5-6.6-5-11.9 0-4.6 3.5-7 5-10.1Z"
+            fill="#C4A35A"
+            opacity="0.85"
+          ></path>
+        </svg>
+      </span>
+      <span class="site-header__names">
+        <span class="site-header__brand-name">{brand}</span>
+        <span class="site-header__house">{SITE.name}</span>
+      </span>
+    </a>
+
+    <div class="site-header__switcher">
+      <AudienceSwitcher audience={audience} />
+    </div>
+
+    <nav class="site-header__nav" aria-label="Primary">
+      {
+        nav.map((item) => (
+          <a href={item.href}>{item.label}</a>
+        ))
+      }
+      <a class="site-header__contact" href="/contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: rgba(11, 31, 58, 0.96);
+    color: var(--color-paper);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(196, 163, 90, 0.28);
+  }
+
+  .site-header__inner {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      'brand switcher'
+      'nav nav';
+    gap: 0.65rem 1rem;
+    align-items: center;
+    min-height: var(--header-height);
+    padding-block: 0.7rem;
+  }
+
+  .site-header__brand {
+    grid-area: brand;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    color: inherit;
+    text-decoration: none;
+    min-width: 0;
+  }
+
+  .site-header__mark {
+    flex: 0 0 auto;
+    display: grid;
+    place-items: center;
+  }
+
+  .site-header__names {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    line-height: 1.15;
+  }
+
+  .site-header__brand-name {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+  }
+
+  .site-header__house {
+    font-size: 0.72rem;
+    color: rgba(247, 244, 238, 0.68);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .site-header__switcher {
+    grid-area: switcher;
+    justify-self: end;
+  }
+
+  .site-header__nav {
+    grid-area: nav;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.9rem;
+    align-items: center;
+  }
+
+  .site-header__nav a {
+    position: relative;
+    color: rgba(247, 244, 238, 0.82);
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-size: 0.92rem;
+    font-weight: 540;
+    padding: 0.15rem 0;
+  }
+
+  .site-header__nav a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.1rem;
+    height: 2px;
+    background: var(--color-brass);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 220ms var(--ease);
+  }
+
+  .site-header__nav a:hover {
+    color: #fff;
+  }
+
+  .site-header__nav a:hover::after {
+    transform: scaleX(1);
+  }
+
+  .site-header__contact {
+    margin-left: auto;
+  }
+
+  @media (min-width: 960px) {
+    .site-header__inner {
+      grid-template-columns: auto 1fr auto;
+      grid-template-areas: 'brand nav switcher';
+      gap: 1.25rem;
+    }
+
+    .site-header__nav {
+      justify-content: center;
+    }
+
+    .site-header__contact {
+      margin-left: 0.5rem;
+    }
+
+    .site-header__brand-name {
+      font-size: 1.35rem;
+    }
+  }
+</style>

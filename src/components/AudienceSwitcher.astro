@@ -1,6 +1,7 @@
 ---
 import type { Audience } from '../lib/nav';
 import { SITE } from '../lib/nav';
+import { withBase } from '../lib/paths';
 
 interface Props {
   audience: Audience;
@@ -18,7 +19,7 @@ const current =
 >
   <a
     class:list={['audience-switcher__link', current === 'students' && 'is-active']}
-    href={SITE.homes.students}
+    href={withBase(SITE.homes.students)}
     aria-current={current === 'students' ? 'page' : undefined}
   >
     Students
@@ -29,7 +30,7 @@ const current =
       'audience-switcher__link',
       current === 'community' && 'is-active',
     ]}
-    href={SITE.homes.community}
+    href={withBase(SITE.homes.community)}
     aria-current={current === 'community' ? 'page' : undefined}
   >
     Community

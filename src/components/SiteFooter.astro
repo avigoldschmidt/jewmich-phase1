@@ -2,6 +2,7 @@
 import AudienceSwitcher from './AudienceSwitcher.astro';
 import type { Audience } from '../lib/nav';
 import { SITE, SHARED_FOOTER_LINKS } from '../lib/nav';
+import { withBase } from '../lib/paths';
 
 interface Props {
   audience: Audience;
@@ -36,7 +37,7 @@ const { audience } = Astro.props;
     <nav class="site-footer__links" aria-label="Shared links">
       {
         SHARED_FOOTER_LINKS.map((item) => (
-          <a href={item.href}>{item.label}</a>
+          <a href={withBase(item.href)}>{item.label}</a>
         ))
       }
     </nav>

@@ -1,8 +1,10 @@
 ---
+import { withBase } from '../lib/paths';
+
 /**
  * Local / preview fallback. Production host rewrites send apex `/`:
  * - JewMich.com → /home/students
  * - ChabadAnnArbor.com → /home/community
  */
-return Astro.redirect('/home/students');
+return Astro.redirect(withBase('/home/students'));
 ---

@@ -1,4 +1,6 @@
 ---
+import { withBase } from '../lib/paths';
+
 interface Props {
   href: string;
   label?: string;
@@ -17,11 +19,12 @@ const {
 
 const isExternal =
   external ?? (/^https?:\/\//.test(href) || href.startsWith('mailto:'));
+const resolvedHref = isExternal ? href : withBase(href);
 ---
 
 <a
   class:list={['cta-link', `cta-link--${variant}`, className]}
-  href={href}
+  href={resolvedHref}
   {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
 >
   <slot>{label}</slot>

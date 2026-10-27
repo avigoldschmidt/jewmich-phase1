@@ -2,6 +2,7 @@
 import AudienceSwitcher from './AudienceSwitcher.astro';
 import type { Audience } from '../lib/nav';
 import { SITE, navForAudience, homeForAudience } from '../lib/nav';
+import { withBase } from '../lib/paths';
 
 interface Props {
   audience: Audience;
@@ -9,7 +10,7 @@ interface Props {
 
 const { audience } = Astro.props;
 const nav = navForAudience(audience);
-const homeHref = homeForAudience(audience);
+const homeHref = withBase(homeForAudience(audience));
 const brand =
   audience === 'community' || audience === 'youth'
     ? SITE.communityBrand
@@ -45,10 +46,10 @@ const brand =
     <nav class="site-header__nav" aria-label="Primary">
       {
         nav.map((item) => (
-          <a href={item.href}>{item.label}</a>
+          <a href={withBase(item.href)}>{item.label}</a>
         ))
       }
-      <a class="site-header__contact" href="/contact">Contact</a>
+      <a class="site-header__contact" href={withBase('/contact')}>Contact</a>
     </nav>
   </div>
 </header>

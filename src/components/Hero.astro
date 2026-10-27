@@ -1,5 +1,6 @@
 ---
 import CtaLink from './CtaLink.astro';
+import { withBase } from '../lib/paths';
 
 interface Cta {
   href: string;
@@ -29,11 +30,13 @@ const {
   tone = 'students',
   placeholderNote,
 } = Astro.props;
+
+const resolvedImage = withBase(imageSrc);
 ---
 
 <section class:list={['hero', `hero--${tone}`]} aria-label="Hero">
   <div class="hero__media" aria-hidden="true">
-    <img src={imageSrc} alt="" width="1920" height="1080" />
+    <img src={resolvedImage} alt="" width="1920" height="1080" />
   </div>
   <div class="hero__veil" aria-hidden="true"></div>
   <div class="hero__content container">

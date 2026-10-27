@@ -17,7 +17,6 @@ interface Props {
   imageAlt: string;
   ctas?: Cta[];
   tone?: 'students' | 'community';
-  placeholderNote?: string;
 }
 
 const {
@@ -28,7 +27,6 @@ const {
   imageAlt,
   ctas = [],
   tone = 'students',
-  placeholderNote,
 } = Astro.props;
 
 const resolvedImage = withBase(imageSrc);
@@ -40,6 +38,11 @@ const resolvedImage = withBase(imageSrc);
   </div>
   <div class="hero__veil" aria-hidden="true"></div>
   <div class="hero__content container">
+    {
+      tone === 'students' && (
+        <p class="hero__cue">For University of Michigan students</p>
+      )
+    }
     <p class="hero__brand">{brand}</p>
     <h1 class="hero__headline">{headline}</h1>
     <p class="hero__sentence">{sentence}</p>
@@ -51,19 +54,13 @@ const resolvedImage = withBase(imageSrc);
               href={cta.href}
               label={cta.label}
               variant={
-                cta.variant ??
-                (i === 0 ? (tone === 'students' ? 'maize' : 'primary') : 'secondary')
+                cta.variant ?? (i === 0 ? (tone === 'students' ? 'maize' : 'primary') : 'secondary')
               }
               external={cta.external}
               class="hero__cta"
             />
           ))}
         </div>
-      )
-    }
-    {
-      placeholderNote && (
-        <p class="hero__note">{placeholderNote}</p>
       )
     }
   </div>
@@ -76,7 +73,7 @@ const resolvedImage = withBase(imageSrc);
     min-height: min(88vh, 46rem);
     display: grid;
     align-items: end;
-    color: var(--color-paper);
+    color: var(--color-page);
     overflow: clip;
   }
 
@@ -94,82 +91,75 @@ const resolvedImage = withBase(imageSrc);
   }
 
   .hero__veil {
-    background:
-      linear-gradient(
-        180deg,
-        rgba(11, 31, 58, 0.35) 0%,
-        rgba(11, 31, 58, 0.55) 45%,
-        rgba(11, 31, 58, 0.88) 100%
-      ),
-      linear-gradient(90deg, rgba(11, 31, 58, 0.45), transparent 55%);
-  }
-
-  .hero--students .hero__veil {
-    background:
-      linear-gradient(
-        180deg,
-        rgba(0, 39, 76, 0.3) 0%,
-        rgba(11, 31, 58, 0.55) 48%,
-        rgba(11, 31, 58, 0.9) 100%
-      ),
-      linear-gradient(100deg, rgba(0, 39, 76, 0.5), transparent 60%);
+    background: linear-gradient(
+      180deg,
+      rgba(14, 15, 18, 0.28) 0%,
+      rgba(14, 15, 18, 0.45) 42%,
+      rgba(14, 15, 18, 0.88) 100%
+    );
   }
 
   .hero__content {
     position: relative;
     z-index: 1;
     padding-block: clamp(3rem, 10vh, 5.5rem) clamp(2.5rem, 8vh, 4.5rem);
-    max-width: 42rem;
+    max-width: 40rem;
     margin-inline: 0 auto 0 0;
     animation: fade-up 700ms var(--ease) both;
   }
 
+  .hero__cue {
+    margin: 0 0 0.65rem;
+    font-family: var(--font-ui);
+    font-size: 0.78rem;
+    font-weight: 650;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: rgba(251, 251, 250, 0.78);
+    border-left: 2px solid var(--color-maize);
+    padding-left: 0.55rem;
+  }
+
   .hero__brand {
-    margin: 0 0 0.85rem;
+    margin: 0 0 0.7rem;
     font-family: var(--font-display);
-    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-size: clamp(2.35rem, 6vw, 3.6rem);
     font-weight: 700;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
+    line-height: 1.02;
     color: #fff;
-    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.25);
   }
 
   .hero__headline {
-    margin: 0 0 0.85rem;
-    font-size: clamp(1.35rem, 2.8vw, 1.85rem);
-    font-weight: 560;
-    color: rgba(247, 244, 238, 0.96);
+    margin: 0 0 0.75rem;
+    font-size: clamp(1.2rem, 2.4vw, 1.55rem);
+    font-weight: 520;
+    color: rgba(251, 251, 250, 0.94);
   }
 
   .hero__sentence {
     margin: 0 0 1.4rem;
     max-width: 32rem;
-    font-size: 1.08rem;
-    color: rgba(247, 244, 238, 0.86);
+    font-family: var(--font-ui);
+    font-size: 1.05rem;
+    color: rgba(251, 251, 250, 0.82);
   }
 
   .hero__ctas :global(.cta-link--secondary) {
-    color: var(--color-paper);
-    border-color: rgba(196, 163, 90, 0.85);
+    color: var(--color-page);
+    border-color: rgba(251, 251, 250, 0.45);
   }
 
   .hero__ctas :global(.cta-link--secondary:hover) {
-    background: rgba(196, 163, 90, 0.18);
+    border-color: var(--color-accent);
     color: #fff;
-  }
-
-  .hero__note {
-    margin: 1rem 0 0;
-    max-width: 28rem;
-    font-size: 0.88rem;
-    color: rgba(247, 244, 238, 0.65);
   }
 
   @media (min-width: 900px) {
     .hero__content {
       width: min(100% - 2rem, var(--max-width));
       margin-inline: auto;
-      padding-right: 40%;
+      padding-right: 38%;
     }
   }
 </style>

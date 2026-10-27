@@ -11,25 +11,23 @@ interface Props {
 const { audience } = Astro.props;
 const nav = navForAudience(audience);
 const homeHref = withBase(homeForAudience(audience));
-const brand =
-  audience === 'community' || audience === 'youth'
-    ? SITE.communityBrand
-    : SITE.studentBrand;
+const isStudent = !(audience === 'community' || audience === 'youth');
+const brand = isStudent ? SITE.studentBrand : SITE.communityBrand;
 ---
 
-<header class="site-header">
+<header class:list={['site-header', isStudent && 'site-header--students']}>
   <div class="site-header__inner container">
     <a class="site-header__brand" href={homeHref}>
       <span class="site-header__mark" aria-hidden="true">
-        <svg viewBox="0 0 32 40" width="28" height="34" fill="none">
+        <svg viewBox="0 0 32 40" width="26" height="32" fill="none">
           <path
             d="M16 2c2.8 5.2 9 9.4 9 17.2C25 27 21 34 16 38c-5-4-9-11-9-18.8C7 11.4 13.2 7.2 16 2Z"
-            fill="#FFCB05"
+            fill="#C8962E"
           ></path>
           <path
             d="M16 8c1.5 3.1 5 5.5 5 10.1 0 5.3-2.2 9.3-5 11.9-2.8-2.6-5-6.6-5-11.9 0-4.6 3.5-7 5-10.1Z"
-            fill="#C4A35A"
-            opacity="0.85"
+            fill="#FBFBFA"
+            opacity="0.35"
           ></path>
         </svg>
       </span>
@@ -49,6 +47,7 @@ const brand =
           <a href={withBase(item.href)}>{item.label}</a>
         ))
       }
+      <a class="site-header__donate" href={withBase('/donate')}>Donate</a>
       <a class="site-header__contact" href={withBase('/contact')}>Contact</a>
     </nav>
   </div>
@@ -59,10 +58,14 @@ const brand =
     position: sticky;
     top: 0;
     z-index: 40;
-    background: rgba(11, 31, 58, 0.96);
-    color: var(--color-paper);
+    background: rgba(251, 251, 250, 0.92);
+    color: var(--color-ink);
     backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(196, 163, 90, 0.28);
+    border-bottom: 1px solid rgba(14, 15, 18, 0.08);
+  }
+
+  .site-header--students {
+    border-top: 2px solid var(--color-maize);
   }
 
   .site-header__inner {
@@ -81,10 +84,14 @@ const brand =
     grid-area: brand;
     display: inline-flex;
     align-items: center;
-    gap: 0.7rem;
+    gap: 0.65rem;
     color: inherit;
     text-decoration: none;
     min-width: 0;
+  }
+
+  .site-header__brand:hover {
+    color: inherit;
   }
 
   .site-header__mark {
@@ -102,14 +109,14 @@ const brand =
 
   .site-header__brand-name {
     font-family: var(--font-display);
-    font-size: 1.2rem;
+    font-size: 1.25rem;
     font-weight: 650;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
   }
 
   .site-header__house {
-    font-size: 0.72rem;
-    color: rgba(247, 244, 238, 0.68);
+    font-size: 0.7rem;
+    color: var(--color-muted);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -124,43 +131,65 @@ const brand =
     grid-area: nav;
     display: flex;
     flex-wrap: wrap;
-    gap: 0.35rem 0.9rem;
+    gap: 0.35rem 0.95rem;
     align-items: center;
   }
 
   .site-header__nav a {
     position: relative;
-    color: rgba(247, 244, 238, 0.82);
+    color: var(--color-muted);
     text-decoration: none;
-    font-family: var(--font-display);
+    font-family: var(--font-ui);
     font-size: 0.92rem;
-    font-weight: 540;
-    padding: 0.15rem 0;
+    font-weight: 560;
+    padding: 0.35rem 0;
+    min-height: 2.75rem;
+    display: inline-flex;
+    align-items: center;
   }
 
+  /* Motion 2: nav underline grow */
   .site-header__nav a::after {
     content: '';
     position: absolute;
     left: 0;
     right: 0;
-    bottom: -0.1rem;
-    height: 2px;
-    background: var(--color-brass);
+    bottom: 0.2rem;
+    height: 1.5px;
+    background: var(--color-accent);
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 220ms var(--ease);
   }
 
-  .site-header__nav a:hover {
-    color: #fff;
+  .site-header__nav a:hover,
+  .site-header__nav a:focus-visible {
+    color: var(--color-ink);
   }
 
-  .site-header__nav a:hover::after {
+  .site-header__nav a:hover::after,
+  .site-header__nav a:focus-visible::after {
     transform: scaleX(1);
   }
 
-  .site-header__contact {
+  .site-header__donate {
     margin-left: auto;
+    color: var(--color-ink) !important;
+    font-weight: 650 !important;
+  }
+
+  .site-header__donate::after {
+    background: var(--color-accent) !important;
+    transform: scaleX(1) !important;
+  }
+
+  .site-header__contact {
+    color: var(--color-muted);
+    font-weight: 500 !important;
+  }
+
+  .site-header__contact::after {
+    display: none;
   }
 
   @media (min-width: 960px) {
@@ -174,12 +203,12 @@ const brand =
       justify-content: center;
     }
 
-    .site-header__contact {
-      margin-left: 0.5rem;
+    .site-header__donate {
+      margin-left: 0.75rem;
     }
 
     .site-header__brand-name {
-      font-size: 1.35rem;
+      font-size: 1.4rem;
     }
   }
 </style>

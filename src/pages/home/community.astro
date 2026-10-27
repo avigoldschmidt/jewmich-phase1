@@ -25,63 +25,129 @@ const { title, description, heroImage } = entry.data;
     tone="community"
     ctas={[
       {
-        href: '/community/services',
-        label: 'Services',
+        href: '/visit',
+        label: 'Plan a visit',
         variant: 'primary',
         external: false,
       },
       {
-        href: '/youth',
-        label: 'Youth / CHS',
+        href: '/community/services',
+        label: 'Services',
         variant: 'secondary',
         external: false,
       },
     ]}
-    placeholderNote="Placeholder hero until staff supply real community gathering photos."
   />
 
-  <section class="section">
-    <div class="container home-grid">
-      <div>
-        <h2 class="section-heading">Welcome to Congregation Chabad</h2>
-        <p class="section-lede">
-          Pray, celebrate, and learn with a community that feels like family —
-          right at 715 Hill Street.
-        </p>
+  <section class="section" data-reveal>
+    <div class="container">
+      <h2 class="section-heading">Visit &amp; services</h2>
+      <p class="section-lede">
+        Pray, celebrate, and learn with a community that feels like family —
+        right at 715 Hill Street.
+      </p>
+      <div class="home-block">
         <Prose>
           <Content />
         </Prose>
+        <div class="cta-row home-block__actions">
+          <CtaLink href="/visit" label="Visit" variant="primary" />
+          <CtaLink href="/community/services" label="Services" variant="secondary" />
+          <CtaLink
+            href="/community/high-holidays"
+            label="Holidays"
+            variant="secondary"
+          />
+        </div>
       </div>
-      <div class="cta-row home-grid__actions">
-        <CtaLink
-          href="/community/high-holidays"
-          label="High Holidays"
-          variant="primary"
-        />
-        <CtaLink href="/events" label="Events" variant="secondary" />
+    </div>
+  </section>
+
+  <section class="section section--youth" data-reveal>
+    <div class="container youth-block">
+      <div>
+        <h2 class="section-heading">Youth</h2>
+        <p class="section-lede">
+          Chabad Hebrew School and programs for kids and teens — a warm path
+          into Jewish life.
+        </p>
+      </div>
+      <CtaLink href="/youth" label="Explore youth / CHS" variant="secondary" />
+    </div>
+  </section>
+
+  <section class="section section--give" data-reveal>
+    <div class="container give-strip">
+      <div>
+        <h2 class="section-heading">Give</h2>
+        <p class="section-lede give-strip__lede">
+          Your support sustains services, youth, and a house open to Ann Arbor.
+        </p>
+      </div>
+      <div class="cta-row">
+        <CtaLink href="/donate" label="Donate" variant="primary" />
         <CtaLink href="/membership" label="Membership" variant="secondary" />
-        <CtaLink href="/donate" label="Donate" variant="secondary" />
       </div>
     </div>
   </section>
 </BaseLayout>
 
 <style>
-  .home-grid {
+  .home-block {
     display: grid;
     gap: var(--space-lg);
   }
 
+  .section--youth {
+    background: var(--color-elevated);
+    border-block: 1px solid rgba(14, 15, 18, 0.06);
+  }
+
+  .youth-block {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem 2rem;
+  }
+
+  .youth-block .section-lede {
+    margin-bottom: 0;
+  }
+
+  .section--give {
+    padding-block: var(--space-lg);
+  }
+
+  .give-strip {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    padding: 1.5rem 0;
+    border-top: 1px solid rgba(14, 15, 18, 0.08);
+  }
+
+  .give-strip .section-heading {
+    margin-bottom: 0.35rem;
+    font-size: clamp(1.35rem, 2vw, 1.7rem);
+  }
+
+  .give-strip__lede {
+    margin: 0;
+  }
+
   @media (min-width: 800px) {
-    .home-grid {
-      grid-template-columns: 1.4fr 0.8fr;
+    .home-block {
+      grid-template-columns: 1.5fr auto;
       align-items: start;
     }
 
-    .home-grid__actions {
+    .home-block__actions {
       flex-direction: column;
       align-items: stretch;
-      padding-top: 2.4rem;
+      padding-top: 0.25rem;
     }
   }
 </style>

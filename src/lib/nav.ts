@@ -5,22 +5,21 @@ export type NavItem = {
   href: string;
 };
 
+/** ≤5 primary links; Donate is always rendered separately in the header. */
 export const STUDENT_NAV: NavItem[] = [
   { label: 'Shabbat', href: '/students/shabbat' },
-  { label: 'High Holidays', href: '/students/high-holidays' },
+  { label: 'Holidays', href: '/students/high-holidays' },
   { label: 'Learn', href: '/students/learn' },
-  { label: 'Events', href: '/events' },
   { label: 'Visit', href: '/visit' },
-  { label: 'Donate', href: '/donate' },
+  { label: 'Events', href: '/events' },
 ];
 
 export const COMMUNITY_NAV: NavItem[] = [
-  { label: 'Services', href: '/community/services' },
-  { label: 'High Holidays', href: '/community/high-holidays' },
-  { label: 'Youth', href: '/youth' },
-  { label: 'Events', href: '/events' },
   { label: 'Visit', href: '/visit' },
-  { label: 'Donate', href: '/donate' },
+  { label: 'Services', href: '/community/services' },
+  { label: 'Youth', href: '/youth' },
+  { label: 'Holidays', href: '/community/high-holidays' },
+  { label: 'Events', href: '/events' },
 ];
 
 export const SHARED_FOOTER_LINKS: NavItem[] = [
@@ -42,6 +41,7 @@ export const SITE = {
   studentBrand: 'JewMich',
   communityBrand: 'Chabad Ann Arbor',
   addressLines: ['715 Hill Street', 'Ann Arbor, MI 48104'],
+  addressShort: '715 Hill',
   phoneDisplay: '734-995-3276',
   phoneTel: '+17349953276',
   domains: {

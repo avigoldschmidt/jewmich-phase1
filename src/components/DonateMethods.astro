@@ -18,6 +18,7 @@ const PAYMENT_HREF = 'https://www.jewmich.com/payment/';
 
 <div class="donate-methods">
   <section class="donate-methods__method" aria-labelledby="donate-chabadms">
+    <p class="donate-methods__kicker">Method one</p>
     <h2 id="donate-chabadms">Give online (ChabadMS)</h2>
     <p>
       Secure donation form used on the live Chabad House donate page.
@@ -30,6 +31,7 @@ const PAYMENT_HREF = 'https://www.jewmich.com/payment/';
   </section>
 
   <section class="donate-methods__method" aria-labelledby="donate-zeffy">
+    <p class="donate-methods__kicker">Method two</p>
     <h2 id="donate-zeffy">Give with Zeffy</h2>
     <p>
       Zero-fee nonprofit donation form. Staff: if this embed drifts, paste the
@@ -49,6 +51,7 @@ const PAYMENT_HREF = 'https://www.jewmich.com/payment/';
   </section>
 
   <section class="donate-methods__method" aria-labelledby="donate-paypal">
+    <p class="donate-methods__kicker">Method three</p>
     <h2 id="donate-paypal">PayPal</h2>
     <p>Give through PayPal’s charity fundraiser for Chabad of Ann Arbor.</p>
     <div class="cta-row">
@@ -57,6 +60,7 @@ const PAYMENT_HREF = 'https://www.jewmich.com/payment/';
   </section>
 
   <section class="donate-methods__method" aria-labelledby="donate-payment">
+    <p class="donate-methods__kicker">Already arranged</p>
     <h2 id="donate-payment">Make a payment</h2>
     <p>
       Paying an invoice, event fee, or other amount already arranged with the
@@ -76,6 +80,27 @@ const PAYMENT_HREF = 'https://www.jewmich.com/payment/';
   .donate-methods {
     display: grid;
     gap: var(--space-xl);
+    max-width: 44rem;
+  }
+
+  .donate-methods__method {
+    padding-top: var(--space-lg);
+    border-top: 1px solid rgba(14, 15, 18, 0.08);
+  }
+
+  .donate-methods__method:first-child {
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .donate-methods__kicker {
+    margin: 0 0 0.35rem;
+    font-family: var(--font-ui);
+    font-size: 0.75rem;
+    font-weight: 650;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-accent);
   }
 
   .donate-methods__method h2 {
@@ -86,7 +111,7 @@ const PAYMENT_HREF = 'https://www.jewmich.com/payment/';
   .donate-methods__method p {
     margin: 0 0 1rem;
     max-width: 40rem;
-    color: var(--color-ink-muted);
+    color: var(--color-muted);
   }
 
   .donate-methods__alt {

@@ -1,14 +1,15 @@
 :root {
-  --color-navy: #0b1f3a;
-  --color-paper: #f7f4ee;
-  --color-brass: #c4a35a;
-  --color-ink: #1a1a1a;
+  --color-page: #fbfbfa;
+  --color-elevated: #ffffff;
+  --color-ink: #0e0f12;
+  --color-muted: #5c5f66;
+  --color-accent: #c8962e;
   --color-maize: #ffcb05;
-  --color-um-blue: #00274c;
-  --color-paper-deep: #ebe6dc;
-  --color-ink-muted: #4a4a4a;
-  --font-display: 'Fraunces', 'Palatino Linotype', Palatino, serif;
-  --font-body: 'Source Serif 4', 'Source Serif Pro', 'Georgia', serif;
+  --color-ink-muted: var(--color-muted);
+  --font-display: 'Newsreader', 'Palatino Linotype', Palatino, Georgia, serif;
+  --font-ui: 'Manrope', 'Segoe UI', sans-serif;
+  --font-body: var(--font-ui);
+  --radius: 4px;
   --space-xs: 0.35rem;
   --space-sm: 0.75rem;
   --space-md: 1.25rem;
@@ -34,11 +35,7 @@ body {
   margin: 0;
   min-height: 100vh;
   color: var(--color-ink);
-  background:
-    radial-gradient(1200px 600px at 10% -10%, rgba(196, 163, 90, 0.14), transparent 55%),
-    radial-gradient(900px 500px at 100% 0%, rgba(11, 31, 58, 0.08), transparent 50%),
-    linear-gradient(180deg, var(--color-paper) 0%, var(--color-paper-deep) 100%);
-  background-attachment: fixed;
+  background: var(--color-page);
   font-family: var(--font-body);
   font-size: 1.0625rem;
   line-height: 1.65;
@@ -52,12 +49,12 @@ img {
 }
 
 a {
-  color: var(--color-navy);
+  color: var(--color-ink);
   text-underline-offset: 0.18em;
 }
 
 a:hover {
-  color: var(--color-brass);
+  color: var(--color-accent);
 }
 
 h1,
@@ -67,8 +64,8 @@ h4 {
   font-family: var(--font-display);
   font-weight: 600;
   line-height: 1.15;
-  letter-spacing: -0.01em;
-  color: var(--color-navy);
+  letter-spacing: -0.015em;
+  color: var(--color-ink);
 }
 
 p {
@@ -112,13 +109,13 @@ p {
 
 .section-heading {
   margin: 0 0 var(--space-sm);
-  font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+  font-size: clamp(1.75rem, 2.8vw, 2.35rem);
 }
 
 .section-lede {
   margin: 0 0 var(--space-lg);
   max-width: 38rem;
-  color: var(--color-ink-muted);
+  color: var(--color-muted);
   font-size: 1.05rem;
 }
 
@@ -132,12 +129,14 @@ p {
 .flag-note {
   margin: var(--space-md) 0;
   padding: 0.85rem 1rem;
-  border-left: 3px solid var(--color-brass);
-  background: rgba(255, 255, 255, 0.45);
-  color: var(--color-ink-muted);
+  border-left: 3px solid var(--color-accent);
+  background: var(--color-elevated);
+  color: var(--color-muted);
   font-size: 0.98rem;
+  border-radius: 0 var(--radius) var(--radius) 0;
 }
 
+/* Motion 1: hero fade / slide-up */
 @keyframes fade-up {
   from {
     opacity: 0;
@@ -149,6 +148,20 @@ p {
   }
 }
 
+/* Motion 3: soft section reveal on scroll */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(1rem);
+  transition:
+    opacity 650ms var(--ease),
+    transform 650ms var(--ease);
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -157,5 +170,10 @@ p {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
   }
 }

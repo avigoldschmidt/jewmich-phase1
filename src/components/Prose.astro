@@ -45,20 +45,20 @@ const { class: className } = Astro.props;
   }
 
   .prose :global(a) {
-    color: var(--color-navy);
-    text-decoration-color: rgba(196, 163, 90, 0.7);
+    color: var(--color-ink);
+    text-decoration-color: rgba(200, 150, 46, 0.7);
   }
 
   .prose :global(blockquote) {
     margin: 1.25rem 0;
     padding: 0.2rem 0 0.2rem 1rem;
-    border-left: 3px solid var(--color-brass);
-    color: var(--color-ink-muted);
+    border-left: 3px solid var(--color-accent);
+    color: var(--color-muted);
   }
 
   .prose :global(hr) {
     border: 0;
-    border-top: 1px solid rgba(11, 31, 58, 0.12);
+    border-top: 1px solid rgba(14, 15, 18, 0.1);
     margin: 1.75rem 0;
   }
 </style>

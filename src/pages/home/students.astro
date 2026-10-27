@@ -5,6 +5,7 @@ import Prose from '../../components/Prose.astro';
 import CtaLink from '../../components/CtaLink.astro';
 import { loadPage } from '../../lib/content';
 import { SITE } from '../../lib/nav';
+import { withBase } from '../../lib/paths';
 
 const { entry, Content } = await loadPage('home', 'students');
 const { title, description, heroImage } = entry.data;
@@ -30,53 +31,153 @@ const { title, description, heroImage } = entry.data;
         variant: 'maize',
       },
       {
-        href: '/students/high-holidays',
-        label: 'High Holidays',
+        href: '/visit',
+        label: 'Visit',
         variant: 'secondary',
         external: false,
       },
     ]}
-    placeholderNote="Staff: swap hero art for an authentic student gathering photo (do not alter faces)."
   />
 
-  <section class="section">
-    <div class="container home-grid">
+  <section class="section" data-reveal>
+    <div class="container">
+      <h2 class="section-heading">This week</h2>
+      <p class="section-lede">
+        Start with Shabbat. Then see what’s coming up at the House.
+      </p>
+      <div class="this-week">
+        <div class="this-week__main">
+          <Prose>
+            <Content />
+          </Prose>
+        </div>
+        <div class="cta-row this-week__actions">
+          <CtaLink href="/students/shabbat" label="Shabbat details" variant="primary" />
+          <CtaLink href="/events" label="All events" variant="secondary" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--plug" data-reveal>
+    <div class="container">
+      <h2 class="section-heading">How to plug in</h2>
+      <p class="section-lede">
+        Three clear paths — no maze of cards.
+      </p>
+      <ul class="plug-list">
+        <li class="plug-list__row">
+          <a href={withBase('/students/learn')}>
+            <span class="plug-list__label">Learn</span>
+            <span class="plug-list__desc">Classes, Sinai Scholars, and Jewish learning on campus.</span>
+          </a>
+        </li>
+        <li class="plug-list__row">
+          <a href={withBase('/students/high-holidays')}>
+            <span class="plug-list__label">Holidays</span>
+            <span class="plug-list__desc">High Holidays and celebrations with the student community.</span>
+          </a>
+        </li>
+        <li class="plug-list__row">
+          <a href={withBase('/visit')}>
+            <span class="plug-list__label">Visit</span>
+            <span class="plug-list__desc">Find 715 Hill, meet the House, and come as you are.</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--give" data-reveal>
+    <div class="container give-strip">
       <div>
-        <h2 class="section-heading">This week at JewMich</h2>
-        <p class="section-lede">
-          Start with Shabbat. Stay for learning, holidays, and a community that
-          knows your name.
+        <h2 class="section-heading">Support student life</h2>
+        <p class="section-lede give-strip__lede">
+          Quiet generosity keeps Friday nights warm and the door open.
         </p>
-        <Prose>
-          <Content />
-        </Prose>
       </div>
-      <div class="cta-row home-grid__actions">
-        <CtaLink href="/students/shabbat" label="Shabbat" variant="primary" />
-        <CtaLink href="/students/learn" label="Learn" variant="secondary" />
-        <CtaLink href="/visit" label="Visit" variant="secondary" />
-        <CtaLink href="/donate" label="Donate" variant="secondary" />
-      </div>
+      <CtaLink href="/donate" label="Donate" variant="secondary" />
     </div>
   </section>
 </BaseLayout>
 
 <style>
-  .home-grid {
+  .this-week {
     display: grid;
     gap: var(--space-lg);
   }
 
+  .section--plug {
+    background: var(--color-elevated);
+    border-block: 1px solid rgba(14, 15, 18, 0.06);
+  }
+
+  .plug-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-width: 42rem;
+  }
+
+  .plug-list__row + .plug-list__row {
+    border-top: 1px solid rgba(14, 15, 18, 0.08);
+  }
+
+  .plug-list__row a {
+    display: grid;
+    gap: 0.25rem;
+    padding: 1.15rem 0;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .plug-list__row a:hover .plug-list__label {
+    color: var(--color-accent);
+  }
+
+  .plug-list__label {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 650;
+    transition: color 180ms var(--ease);
+  }
+
+  .plug-list__desc {
+    color: var(--color-muted);
+    font-size: 1rem;
+  }
+
+  .section--give {
+    padding-block: var(--space-lg);
+  }
+
+  .give-strip {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    padding: 1.5rem 0;
+    border-top: 1px solid rgba(14, 15, 18, 0.08);
+  }
+
+  .give-strip .section-heading {
+    margin-bottom: 0.35rem;
+    font-size: clamp(1.35rem, 2vw, 1.7rem);
+  }
+
+  .give-strip__lede {
+    margin: 0;
+  }
+
   @media (min-width: 800px) {
-    .home-grid {
-      grid-template-columns: 1.4fr 0.8fr;
+    .this-week {
+      grid-template-columns: 1.5fr auto;
       align-items: start;
     }
 
-    .home-grid__actions {
-      flex-direction: column;
-      align-items: stretch;
-      padding-top: 2.4rem;
+    .this-week__actions {
+      padding-top: 0.35rem;
     }
   }
 </style>

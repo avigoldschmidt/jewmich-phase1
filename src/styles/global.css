@@ -1,46 +1,53 @@
-@import '@fontsource-variable/newsreader';
+@import '@fontsource-variable/fraunces';
+@import '@fontsource-variable/source-serif-4';
 @import '@fontsource-variable/source-sans-3';
 
 :root {
-  /* Colour — navy / paper / brass / maize */
-  --paper: #faf9f6;
+  /* Cool campus nonprofit — not cream / brass */
+  --paper: #f2f5f8;
   --surface: #ffffff;
-  --sand: #f1eee7;
-  --ink: #13213a;
-  --muted: #4a5568;
-  --brass: #b8862b;
-  --brass-text: #7e5b12;
-  --night: #0e1a2e;
+  --mist: #e3e9f0;
+  --ink: #0a1628;
+  --muted: #4f5f70;
+  --lake: #1a5f8a;
+  --lake-deep: #0e4266;
+  --night: #06101c;
   --maize: #ffcb05;
+  --on-photo: #ffffff;
 
-  /* Compat aliases used across components */
   --color-page: var(--paper);
   --color-elevated: var(--surface);
-  --color-sand: var(--sand);
+  --color-sand: var(--mist);
+  --color-mist: var(--mist);
   --color-ink: var(--ink);
   --color-muted: var(--muted);
-  --color-accent: var(--brass);
-  --color-brass-text: var(--brass-text);
+  --color-accent: var(--lake);
+  --color-accent-text: var(--lake-deep);
+  --color-lake-deep: var(--lake-deep);
+  --color-brass: var(--lake);
+  --color-brass-text: var(--lake-deep);
   --color-night: var(--night);
   --color-maize: var(--maize);
   --color-ink-muted: var(--muted);
+  --color-on-photo: var(--on-photo);
 
-  --font-display: 'Newsreader Variable', 'Newsreader', Georgia, serif;
+  /* Fraunces display · Source Serif 4 reading · Source Sans 3 chrome */
+  --font-display: 'Fraunces Variable', 'Fraunces', Georgia, serif;
+  --font-body: 'Source Serif 4 Variable', 'Source Serif 4', Georgia, serif;
   --font-ui: 'Source Sans 3 Variable', 'Source Sans 3', 'Segoe UI', sans-serif;
-  --font-body: var(--font-ui);
 
-  --radius: 6px;
-  --radius-card: 8px;
+  --radius: 4px;
+  --radius-card: 4px;
   --space-unit: 4px;
   --space-xs: 0.35rem;
   --space-sm: 0.75rem;
   --space-md: 1.25rem;
   --space-lg: 2rem;
-  --space-xl: clamp(3rem, 8vw, 7rem);
+  --space-xl: clamp(3rem, 8vw, 6.5rem);
   --space-2xl: 5.5rem;
   --max-width: 72rem;
   --prose-width: 42rem;
-  --header-height: 4.25rem;
+  --header-height: 4.1rem;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -61,7 +68,7 @@ body {
   background: var(--color-page);
   font-family: var(--font-body);
   font-size: 1.0625rem;
-  line-height: 1.6;
+  line-height: 1.65;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -72,7 +79,7 @@ img {
 }
 
 a {
-  color: var(--color-brass-text);
+  color: var(--color-accent-text);
   text-underline-offset: 0.18em;
 }
 
@@ -81,7 +88,7 @@ a:hover {
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-brass-text);
+  outline: 2px solid var(--color-accent);
   outline-offset: 3px;
 }
 
@@ -91,17 +98,18 @@ h3,
 h4 {
   font-family: var(--font-display);
   font-weight: 600;
+  font-optical-sizing: auto;
   line-height: 1.15;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.02em;
   color: var(--color-ink);
 }
 
 h1 {
-  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-size: clamp(2.35rem, 5vw, 3.75rem);
 }
 
 h2 {
-  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-size: clamp(1.65rem, 3vw, 2.35rem);
 }
 
 p {
@@ -139,8 +147,9 @@ p {
   padding: var(--space-xl) 0;
 }
 
-.section--sand {
-  background: var(--color-sand);
+.section--sand,
+.section--mist {
+  background: var(--color-mist);
 }
 
 .section--tight {
@@ -149,7 +158,7 @@ p {
 
 .section-heading {
   margin: 0 0 var(--space-sm);
-  font-size: clamp(1.75rem, 2.8vw, 2.35rem);
+  font-size: clamp(1.65rem, 2.8vw, 2.25rem);
 }
 
 .section-lede {
@@ -157,6 +166,7 @@ p {
   max-width: 38rem;
   color: var(--color-muted);
   font-size: 1.05rem;
+  font-family: var(--font-body);
 }
 
 .cta-row {
@@ -166,15 +176,25 @@ p {
   align-items: center;
 }
 
-/* Motion 1: hero fade / slide-up */
+/* Motion 1: hero copy entrance */
 @keyframes fade-up {
   from {
     opacity: 0;
-    transform: translateY(0.85rem);
+    transform: translateY(0.9rem);
   }
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* Motion 2: gentle hero photo settle */
+@keyframes hero-settle {
+  from {
+    transform: scale(1.06);
+  }
+  to {
+    transform: scale(1);
   }
 }
 

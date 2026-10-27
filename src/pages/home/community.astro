@@ -26,11 +26,11 @@ const events = (await getCollection('events')).filter(
 >
   <Hero
     tone="community"
-    label={hero?.label}
+    brand={SITE.communityBrand}
     headline={hero?.headline ?? title}
     sentence={hero?.sentence ?? description}
-    imageSrc={hero?.image}
-    imageAlt={hero?.imageAlt}
+    imageSrc={hero?.image ?? '/images/heroes/community-wide.jpg'}
+    imageAlt={hero?.imageAlt ?? 'Community gathering at Chabad House of Ann Arbor'}
     ctas={[
       {
         href: hero?.primaryCta?.href ?? '/visit',
@@ -55,7 +55,7 @@ const events = (await getCollection('events')).filter(
     </div>
   </section>
 
-  <section class="section section--sand" data-reveal>
+  <section class="section section--mist" data-reveal>
     <div class="container">
       <h2 class="section-heading">What's on</h2>
       <p class="section-lede">Current community sign-ups and seasonal programs.</p>
@@ -80,7 +80,7 @@ const events = (await getCollection('events')).filter(
     </div>
   </section>
 
-  <section class="section section--sand" data-reveal>
+  <section class="section section--mist" data-reveal>
     <div class="container">
       <h2 class="section-heading">Belong &amp; support</h2>
       <p class="section-lede">

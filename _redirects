@@ -1,0 +1,25 @@
+# Path redirects (Netlify + Cloudflare Pages)
+# Do NOT 301 active form processors (/shabbat/, /form-process-*, GF pages).
+
+/studentcenter/   /home/students   301
+/studentcenter    /home/students   301
+/cong/            /home/community  301
+/cong             /home/community  301
+/chs/             /youth           301
+/chs              /youth           301
+/visitingliving/  /visit           301
+/visitingliving   /visit           301
+/visiting&living  /visit           301
+/visiting&living/ /visit           301
+/donation/        /donate          301
+/donation         /donate          301
+/highholidays     /events          301
+/highholidays/    /events          301
+/aboutus/         /about           301
+/aboutus          /about           301
+
+# Host-aware homepage rewrites (Netlify; Cloudflare uses functions/_middleware.js)
+https://jewmich.com/              /home/students   200!
+https://www.jewmich.com/          /home/students   200!
+https://chabadannarbor.com/       /home/community  200!
+https://www.chabadannarbor.com/   /home/community  200!

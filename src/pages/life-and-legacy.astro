@@ -1,17 +1,3 @@
 ---
-import ContentPage from '../layouts/ContentPage.astro';
-import { loadPage } from '../lib/content';
-
-const { entry, Content } = await loadPage('shared', 'life-and-legacy');
-const { title, description, audience, registration } = entry.data;
+return Astro.redirect('/donate#life-and-legacy', 301);
 ---
-
-<ContentPage
-  title={title}
-  description={description}
-  audience={audience}
-  registration={registration}
-  canonicalPath="/life-and-legacy"
->
-  <Content />
-</ContentPage>

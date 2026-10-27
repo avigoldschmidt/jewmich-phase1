@@ -1,22 +1,45 @@
+@import '@fontsource-variable/newsreader';
+@import '@fontsource-variable/source-sans-3';
+
 :root {
-  --color-page: #fbfbfa;
-  --color-elevated: #ffffff;
-  --color-ink: #0e0f12;
-  --color-muted: #5c5f66;
-  --color-accent: #c8962e;
-  --color-maize: #ffcb05;
-  --color-ink-muted: var(--color-muted);
-  --font-display: 'Newsreader', 'Palatino Linotype', Palatino, Georgia, serif;
-  --font-ui: 'Manrope', 'Segoe UI', sans-serif;
+  /* Colour — navy / paper / brass / maize */
+  --paper: #faf9f6;
+  --surface: #ffffff;
+  --sand: #f1eee7;
+  --ink: #13213a;
+  --muted: #4a5568;
+  --brass: #b8862b;
+  --brass-text: #7e5b12;
+  --night: #0e1a2e;
+  --maize: #ffcb05;
+
+  /* Compat aliases used across components */
+  --color-page: var(--paper);
+  --color-elevated: var(--surface);
+  --color-sand: var(--sand);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-accent: var(--brass);
+  --color-brass-text: var(--brass-text);
+  --color-night: var(--night);
+  --color-maize: var(--maize);
+  --color-ink-muted: var(--muted);
+
+  --font-display: 'Newsreader Variable', 'Newsreader', Georgia, serif;
+  --font-ui: 'Source Sans 3 Variable', 'Source Sans 3', 'Segoe UI', sans-serif;
   --font-body: var(--font-ui);
-  --radius: 4px;
+
+  --radius: 6px;
+  --radius-card: 8px;
+  --space-unit: 4px;
   --space-xs: 0.35rem;
   --space-sm: 0.75rem;
   --space-md: 1.25rem;
   --space-lg: 2rem;
-  --space-xl: 3.5rem;
+  --space-xl: clamp(3rem, 8vw, 7rem);
   --space-2xl: 5.5rem;
-  --max-width: 70rem;
+  --max-width: 72rem;
+  --prose-width: 42rem;
   --header-height: 4.25rem;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -38,7 +61,7 @@ body {
   background: var(--color-page);
   font-family: var(--font-body);
   font-size: 1.0625rem;
-  line-height: 1.65;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -49,12 +72,17 @@ img {
 }
 
 a {
-  color: var(--color-ink);
+  color: var(--color-brass-text);
   text-underline-offset: 0.18em;
 }
 
 a:hover {
-  color: var(--color-accent);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-brass-text);
+  outline-offset: 3px;
 }
 
 h1,
@@ -66,6 +94,14 @@ h4 {
   line-height: 1.15;
   letter-spacing: -0.015em;
   color: var(--color-ink);
+}
+
+h1 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+}
+
+h2 {
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
 }
 
 p {
@@ -103,6 +139,10 @@ p {
   padding: var(--space-xl) 0;
 }
 
+.section--sand {
+  background: var(--color-sand);
+}
+
 .section--tight {
   padding: var(--space-lg) 0;
 }
@@ -124,16 +164,6 @@ p {
   flex-wrap: wrap;
   gap: 0.75rem 1rem;
   align-items: center;
-}
-
-.flag-note {
-  margin: var(--space-md) 0;
-  padding: 0.85rem 1rem;
-  border-left: 3px solid var(--color-accent);
-  background: var(--color-elevated);
-  color: var(--color-muted);
-  font-size: 0.98rem;
-  border-radius: 0 var(--radius) var(--radius) 0;
 }
 
 /* Motion 1: hero fade / slide-up */

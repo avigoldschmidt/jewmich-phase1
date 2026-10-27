@@ -1,14 +1,21 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Hero from '../../components/Hero.astro';
-import Prose from '../../components/Prose.astro';
+import Notice from '../../components/Notice.astro';
+import TaskList from '../../components/TaskList.astro';
+import EventList from '../../components/EventList.astro';
 import CtaLink from '../../components/CtaLink.astro';
+import { getCollection } from 'astro:content';
 import { loadPage } from '../../lib/content';
 import { SITE } from '../../lib/nav';
 import { withBase } from '../../lib/paths';
 
-const { entry, Content } = await loadPage('home', 'students');
-const { title, description, heroImage } = entry.data;
+const { entry } = await loadPage('home', 'students');
+const { title, description, hero, notice, tasks } = entry.data;
+
+const events = (await getCollection('events')).filter(
+  (e) => !e.data.draft && (e.data.audience === 'students' || e.data.audience === 'both'),
+);
 ---
 
 <BaseLayout
@@ -18,166 +25,147 @@ const { title, description, heroImage } = entry.data;
   canonicalPath="/home/students"
 >
   <Hero
-    brand={SITE.studentBrand}
-    headline={title}
-    sentence="Shabbat dinner, friendship, and Jewish life for University of Michigan students — your home away from home."
-    imageSrc={heroImage ?? '/images/hero-students.svg'}
-    imageAlt="Students gathering at Chabad House — replace with authentic JHP photo when available"
     tone="students"
+    label={hero?.label}
+    headline={hero?.headline ?? title}
+    sentence={hero?.sentence ?? description}
+    imageSrc={hero?.image}
+    imageAlt={hero?.imageAlt}
     ctas={[
       {
-        href: 'https://www.jewmich.com/shabbat/',
-        label: 'Reserve Shabbat',
-        variant: 'maize',
+        href: hero?.primaryCta?.href ?? 'https://www.jewmich.com/shabbat/',
+        label: hero?.primaryCta?.label ?? 'Reserve Shabbat dinner',
+        variant: 'primary',
+        sameTab: true,
       },
       {
-        href: '/visit',
-        label: 'Visit',
+        href: hero?.secondaryCta?.href ?? '/events',
+        label: hero?.secondaryCta?.label ?? "See what's on",
         variant: 'secondary',
-        external: false,
       },
     ]}
   />
 
+  <Notice notice={notice} />
+
   <section class="section" data-reveal>
     <div class="container">
-      <h2 class="section-heading">This week</h2>
+      <h2 class="section-heading">Start here</h2>
+      <p class="section-lede">Four clear paths — pick one and go.</p>
+      {tasks && <TaskList tasks={tasks} />}
+    </div>
+  </section>
+
+  <section class="section section--sand" data-reveal>
+    <div class="container">
+      <h2 class="section-heading">What's on</h2>
       <p class="section-lede">
-        Start with Shabbat. Then see what’s coming up at the House.
+        Current sign-ups. Shabbat dinner happens every Friday of the semester.
       </p>
-      <div class="this-week">
-        <div class="this-week__main">
-          <Prose>
-            <Content />
-          </Prose>
-        </div>
-        <div class="cta-row this-week__actions">
-          <CtaLink href="/students/shabbat" label="Shabbat details" variant="primary" />
-          <CtaLink href="/events" label="All events" variant="secondary" />
-        </div>
+      <EventList events={events} />
+      <div class="cta-row" style="margin-top: 1.25rem;">
+        <CtaLink href="/events" label="All events" variant="secondary" />
       </div>
     </div>
   </section>
 
-  <section class="section section--plug" data-reveal>
-    <div class="container">
-      <h2 class="section-heading">How to plug in</h2>
+  <section class="section" data-reveal>
+    <div class="container who">
+      <h2 class="section-heading">Who we are</h2>
       <p class="section-lede">
-        Three clear paths — no maze of cards.
+        Since {SITE.since}. Every background welcome. A home away from home for
+        University of Michigan students at 715 Hill Street.
       </p>
-      <ul class="plug-list">
-        <li class="plug-list__row">
-          <a href={withBase('/students/learn')}>
-            <span class="plug-list__label">Learn</span>
-            <span class="plug-list__desc">Classes, Sinai Scholars, and Jewish learning on campus.</span>
-          </a>
-        </li>
-        <li class="plug-list__row">
-          <a href={withBase('/students/high-holidays')}>
-            <span class="plug-list__label">Holidays</span>
-            <span class="plug-list__desc">High Holidays and celebrations with the student community.</span>
-          </a>
-        </li>
-        <li class="plug-list__row">
-          <a href={withBase('/visit')}>
-            <span class="plug-list__label">Visit</span>
-            <span class="plug-list__desc">Find 715 Hill, meet the House, and come as you are.</span>
-          </a>
-        </li>
-      </ul>
+      <p class="who__people">
+        <!-- staff: add rabbi and rebbetzin names and photos -->
+        Meet the House team when you visit — or
+        <a href={withBase('/about')}>read about us</a>.
+      </p>
+      <blockquote class="who__quote">
+        <p>
+          “Students of every background and every level of observance are welcome
+          to stop by, relax, schmooze, and connect.”
+        </p>
+        <footer>— From the Student Center welcome</footer>
+      </blockquote>
     </div>
   </section>
 
-  <section class="section section--give" data-reveal>
-    <div class="container give-strip">
+  <section class="section section--sand" data-reveal>
+    <div class="container">
+      <h2 class="section-heading">Parents &amp; families</h2>
+      <p class="section-lede">
+        Visit for Shabbat, sponsor a dinner, or send a little care from home.
+      </p>
+      <div class="cta-row">
+        <CtaLink href="/students/parents" label="For parents" variant="primary" />
+        <CtaLink
+          href="https://www.jewmich.com/sponsorshabbat/"
+          label="Sponsor a Shabbat"
+          variant="secondary"
+          sameTab
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="section" data-reveal>
+    <div class="container give-band">
       <div>
-        <h2 class="section-heading">Support student life</h2>
-        <p class="section-lede give-strip__lede">
-          Quiet generosity keeps Friday nights warm and the door open.
+        <h2 class="section-heading">Give</h2>
+        <p class="section-lede">
+          Gifts fund Shabbat dinners, holidays, learning, and the open door at
+          715 Hill. <!-- staff: refine "how gifts are used" line -->
         </p>
       </div>
-      <CtaLink href="/donate" label="Donate" variant="secondary" />
+      <div class="cta-row">
+        <CtaLink href="/donate" label="Donate" variant="primary" />
+        <CtaLink href="/donate#chai-club" label="Give monthly: Chai Club" variant="text" />
+      </div>
     </div>
   </section>
 </BaseLayout>
 
 <style>
-  .this-week {
-    display: grid;
-    gap: var(--space-lg);
-  }
-
-  .section--plug {
-    background: var(--color-elevated);
-    border-block: 1px solid rgba(14, 15, 18, 0.06);
-  }
-
-  .plug-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    max-width: 42rem;
-  }
-
-  .plug-list__row + .plug-list__row {
-    border-top: 1px solid rgba(14, 15, 18, 0.08);
-  }
-
-  .plug-list__row a {
-    display: grid;
-    gap: 0.25rem;
-    padding: 1.15rem 0;
-    text-decoration: none;
-    color: inherit;
-  }
-
-  .plug-list__row a:hover .plug-list__label {
-    color: var(--color-accent);
-  }
-
-  .plug-list__label {
-    font-family: var(--font-display);
-    font-size: 1.35rem;
-    font-weight: 650;
-    transition: color 180ms var(--ease);
-  }
-
-  .plug-list__desc {
+  .who__people {
     color: var(--color-muted);
-    font-size: 1rem;
+    max-width: 38rem;
   }
 
-  .section--give {
-    padding-block: var(--space-lg);
+  .who__quote {
+    margin: 1.5rem 0 0;
+    padding: 0 0 0 1rem;
+    border-left: 3px solid var(--color-brass);
+    max-width: 36rem;
   }
 
-  .give-strip {
+  .who__quote p {
+    margin: 0 0 0.5rem;
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    color: var(--color-ink);
+  }
+
+  .who__quote footer {
+    color: var(--color-muted);
+    font-size: 0.95rem;
+  }
+
+  .give-band {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: flex-end;
     justify-content: space-between;
-    gap: 1rem 2rem;
-    padding: 1.5rem 0;
-    border-top: 1px solid rgba(14, 15, 18, 0.08);
+    gap: 1.25rem 2rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(19, 33, 58, 0.1);
   }
 
-  .give-strip .section-heading {
+  .give-band .section-heading {
     margin-bottom: 0.35rem;
-    font-size: clamp(1.35rem, 2vw, 1.7rem);
   }
 
-  .give-strip__lede {
-    margin: 0;
-  }
-
-  @media (min-width: 800px) {
-    .this-week {
-      grid-template-columns: 1.5fr auto;
-      align-items: start;
-    }
-
-    .this-week__actions {
-      padding-top: 0.35rem;
-    }
+  .give-band .section-lede {
+    margin-bottom: 0;
   }
 </style>

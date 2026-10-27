@@ -1,17 +1,77 @@
 ---
-import ContentPage from '../layouts/ContentPage.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EventList from '../components/EventList.astro';
+import ActionPanel from '../components/ActionPanel.astro';
+import Prose from '../components/Prose.astro';
+import { getCollection } from 'astro:content';
 import { loadPage } from '../lib/content';
 
 const { entry, Content } = await loadPage('shared', 'events');
-const { title, description, audience, registration } = entry.data;
+const { title, description } = entry.data;
+
+const all = (await getCollection('events')).filter((e) => !e.data.draft);
+const students = all.filter((e) => e.data.audience === 'students' || e.data.audience === 'both');
+const community = all.filter((e) => e.data.audience === 'community' || e.data.audience === 'both');
 ---
 
-<ContentPage
+<BaseLayout
   title={title}
   description={description}
-  audience={audience}
-  registration={registration}
+  audience="shared"
   canonicalPath="/events"
 >
-  <Content />
-</ContentPage>
+  <section class="section">
+    <div class="container">
+      <header class="events-header">
+        <h1>{title}</h1>
+        <p>{description}</p>
+      </header>
+      <Prose>
+        <Content />
+      </Prose>
+
+      <div class="events-cols" data-reveal>
+        <section>
+          <h2 class="section-heading">For students</h2>
+          <EventList events={students} />
+        </section>
+        <section>
+          <h2 class="section-heading">For community</h2>
+          <EventList events={community} />
+        </section>
+      </div>
+
+      <div style="margin-top: 2rem;" data-reveal>
+        <h2 class="section-heading">Ticketed registration</h2>
+        <ActionPanel id="events-zeffy" heading="Current Zeffy event" />
+        <ActionPanel id="event-register-zeffy" heading="Event register via Zeffy" />
+        <ActionPanel id="early-move-in" heading="Early move-in" />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .events-header {
+    max-width: 42rem;
+    margin-bottom: var(--space-lg);
+  }
+  .events-header h1 {
+    margin: 0 0 0.55rem;
+  }
+  .events-header p {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 1.08rem;
+  }
+  .events-cols {
+    display: grid;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  @media (min-width: 800px) {
+    .events-cols {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

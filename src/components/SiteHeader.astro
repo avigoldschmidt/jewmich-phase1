@@ -1,7 +1,12 @@
 ---
 import AudienceSwitcher from './AudienceSwitcher.astro';
 import type { Audience } from '../lib/nav';
-import { SITE, navForAudience, homeForAudience } from '../lib/nav';
+import {
+  SITE,
+  navForAudience,
+  homeForAudience,
+  primaryMobileLink,
+} from '../lib/nav';
 import { withBase } from '../lib/paths';
 
 interface Props {
@@ -13,20 +18,35 @@ const nav = navForAudience(audience);
 const homeHref = withBase(homeForAudience(audience));
 const isStudent = !(audience === 'community' || audience === 'youth');
 const brand = isStudent ? SITE.studentBrand : SITE.communityBrand;
+const mobilePrimary = primaryMobileLink(audience);
+const menuId = 'site-primary-menu';
 ---
 
-<header class:list={['site-header', isStudent && 'site-header--students']}>
+<div class:list={['top-strip', isStudent && 'top-strip--students']}>
+  <div class="container top-strip__inner">
+    <AudienceSwitcher audience={audience} />
+    <p class="top-strip__meta">
+      <span>{SITE.addressShort}</span>
+      <span aria-hidden="true">·</span>
+      <a href={`tel:${SITE.phoneTel}`}>{SITE.phoneDisplay}</a>
+      <span aria-hidden="true">·</span>
+      <a href={withBase('/visit')}>Find us</a>
+    </p>
+  </div>
+</div>
+
+<header class="site-header">
   <div class="site-header__inner container">
     <a class="site-header__brand" href={homeHref}>
       <span class="site-header__mark" aria-hidden="true">
         <svg viewBox="0 0 32 40" width="26" height="32" fill="none">
           <path
             d="M16 2c2.8 5.2 9 9.4 9 17.2C25 27 21 34 16 38c-5-4-9-11-9-18.8C7 11.4 13.2 7.2 16 2Z"
-            fill="#C8962E"
+            fill="#B8862B"
           ></path>
           <path
             d="M16 8c1.5 3.1 5 5.5 5 10.1 0 5.3-2.2 9.3-5 11.9-2.8-2.6-5-6.6-5-11.9 0-4.6 3.5-7 5-10.1Z"
-            fill="#FBFBFA"
+            fill="#FAF9F6"
             opacity="0.35"
           ></path>
         </svg>
@@ -37,57 +57,114 @@ const brand = isStudent ? SITE.studentBrand : SITE.communityBrand;
       </span>
     </a>
 
-    <div class="site-header__switcher">
-      <AudienceSwitcher audience={audience} />
-    </div>
-
-    <nav class="site-header__nav" aria-label="Primary">
+    <nav class="site-header__nav" aria-label="Primary" id={menuId}>
       {
         nav.map((item) => (
           <a href={withBase(item.href)}>{item.label}</a>
         ))
       }
-      <a class="site-header__donate" href={withBase('/donate')}>Donate</a>
-      <a class="site-header__contact" href={withBase('/contact')}>Contact</a>
     </nav>
+
+    <div class="site-header__actions">
+      <a
+        class="site-header__mobile-primary"
+        href={withBase(mobilePrimary.href)}
+      >
+        {mobilePrimary.label}
+      </a>
+      <a class="site-header__search" href={withBase('/search')}>Search</a>
+      <a class="site-header__donate" href={withBase('/donate')}>Donate</a>
+      <button
+        class="site-header__menu-btn"
+        type="button"
+        aria-expanded="false"
+        aria-controls={menuId}
+        data-menu-toggle
+      >
+        Menu
+      </button>
+    </div>
   </div>
 </header>
 
+<script>
+  const btn = document.querySelector('[data-menu-toggle]');
+  const nav = document.getElementById('site-primary-menu');
+  if (btn && nav) {
+    btn.addEventListener('click', () => {
+      const open = nav.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  }
+</script>
+
 <style>
+  .top-strip {
+    background: var(--color-sand);
+    border-bottom: 1px solid rgba(19, 33, 58, 0.08);
+    font-family: var(--font-ui);
+    font-size: 0.86rem;
+  }
+
+  .top-strip--students {
+    border-top: 3px solid var(--color-maize);
+  }
+
+  .top-strip__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.55rem 1rem;
+    padding-block: 0.45rem;
+  }
+
+  .top-strip__meta {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.5rem;
+    color: var(--color-muted);
+    font-weight: 500;
+  }
+
+  .top-strip__meta a {
+    color: var(--color-ink);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .top-strip__meta a:hover {
+    color: var(--color-brass-text);
+  }
+
   .site-header {
     position: sticky;
     top: 0;
     z-index: 40;
-    background: rgba(251, 251, 250, 0.92);
+    background: rgba(250, 249, 246, 0.94);
     color: var(--color-ink);
     backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(14, 15, 18, 0.08);
-  }
-
-  .site-header--students {
-    border-top: 2px solid var(--color-maize);
+    border-bottom: 1px solid rgba(19, 33, 58, 0.08);
   }
 
   .site-header__inner {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    grid-template-areas:
-      'brand switcher'
-      'nav nav';
-    gap: 0.65rem 1rem;
+    display: flex;
+    flex-wrap: wrap;
     align-items: center;
+    gap: 0.65rem 1rem;
     min-height: var(--header-height);
-    padding-block: 0.7rem;
+    padding-block: 0.65rem;
   }
 
   .site-header__brand {
-    grid-area: brand;
     display: inline-flex;
     align-items: center;
     gap: 0.65rem;
     color: inherit;
     text-decoration: none;
     min-width: 0;
+    margin-right: auto;
   }
 
   .site-header__brand:hover {
@@ -122,17 +199,17 @@ const brand = isStudent ? SITE.studentBrand : SITE.communityBrand;
     text-overflow: ellipsis;
   }
 
-  .site-header__switcher {
-    grid-area: switcher;
-    justify-self: end;
+  .site-header__nav {
+    display: none;
+    flex-wrap: wrap;
+    gap: 0.35rem 1rem;
+    align-items: center;
+    width: 100%;
+    order: 5;
   }
 
-  .site-header__nav {
-    grid-area: nav;
+  .site-header__nav.is-open {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.35rem 0.95rem;
-    align-items: center;
   }
 
   .site-header__nav a {
@@ -140,15 +217,14 @@ const brand = isStudent ? SITE.studentBrand : SITE.communityBrand;
     color: var(--color-muted);
     text-decoration: none;
     font-family: var(--font-ui);
-    font-size: 0.92rem;
-    font-weight: 560;
+    font-size: 0.95rem;
+    font-weight: 600;
     padding: 0.35rem 0;
     min-height: 2.75rem;
     display: inline-flex;
     align-items: center;
   }
 
-  /* Motion 2: nav underline grow */
   .site-header__nav a::after {
     content: '';
     position: absolute;
@@ -156,7 +232,7 @@ const brand = isStudent ? SITE.studentBrand : SITE.communityBrand;
     right: 0;
     bottom: 0.2rem;
     height: 1.5px;
-    background: var(--color-accent);
+    background: var(--color-brass);
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 220ms var(--ease);
@@ -172,39 +248,75 @@ const brand = isStudent ? SITE.studentBrand : SITE.communityBrand;
     transform: scaleX(1);
   }
 
-  .site-header__donate {
-    margin-left: auto;
-    color: var(--color-ink) !important;
-    font-weight: 650 !important;
+  .site-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem 0.75rem;
   }
 
-  .site-header__donate::after {
-    background: var(--color-accent) !important;
-    transform: scaleX(1) !important;
+  .site-header__mobile-primary,
+  .site-header__search,
+  .site-header__donate,
+  .site-header__menu-btn {
+    font-family: var(--font-ui);
+    font-size: 0.92rem;
+    font-weight: 650;
+    text-decoration: none;
+    min-height: 2.75rem;
+    display: inline-flex;
+    align-items: center;
   }
 
-  .site-header__contact {
+  .site-header__mobile-primary {
+    color: var(--color-ink);
+  }
+
+  .site-header__search {
     color: var(--color-muted);
-    font-weight: 500 !important;
   }
 
-  .site-header__contact::after {
-    display: none;
+  .site-header__search:hover {
+    color: var(--color-ink);
   }
 
-  @media (min-width: 960px) {
+  .site-header__donate {
+    background: var(--color-ink);
+    color: var(--color-page) !important;
+    padding: 0.45rem 0.9rem;
+    border-radius: var(--radius);
+  }
+
+  .site-header__donate:hover {
+    background: var(--color-night);
+    color: #fff !important;
+  }
+
+  .site-header__menu-btn {
+    appearance: none;
+    border: 1px solid rgba(19, 33, 58, 0.2);
+    background: transparent;
+    color: var(--color-ink);
+    border-radius: var(--radius);
+    padding: 0.4rem 0.75rem;
+    cursor: pointer;
+  }
+
+  @media (min-width: 980px) {
     .site-header__inner {
-      grid-template-columns: auto 1fr auto;
-      grid-template-areas: 'brand nav switcher';
-      gap: 1.25rem;
+      flex-wrap: nowrap;
     }
 
     .site-header__nav {
+      display: flex;
+      width: auto;
+      order: 0;
+      flex: 1;
       justify-content: center;
     }
 
-    .site-header__donate {
-      margin-left: 0.75rem;
+    .site-header__mobile-primary,
+    .site-header__menu-btn {
+      display: none;
     }
 
     .site-header__brand-name {

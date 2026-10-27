@@ -2,7 +2,9 @@
 import BaseLayout from './BaseLayout.astro';
 import Prose from '../components/Prose.astro';
 import CtaLink from '../components/CtaLink.astro';
+import ActionPanel from '../components/ActionPanel.astro';
 import type { Audience } from '../lib/nav';
+import type { ActionId } from '../data/actions';
 
 interface Registration {
   type: 'url' | 'embed';
@@ -15,10 +17,11 @@ interface Props {
   description: string;
   audience: Audience;
   registration?: Registration;
+  actions?: string[];
   canonicalPath?: string;
 }
 
-const { title, description, audience, registration, canonicalPath } =
+const { title, description, audience, registration, actions = [], canonicalPath } =
   Astro.props;
 ---
 
@@ -34,20 +37,28 @@ const { title, description, audience, registration, canonicalPath } =
         <h1 class="content-page__title">{title}</h1>
         <p class="content-page__desc">{description}</p>
         {
-          registration?.type === 'url' && (
+          actions.length > 0 ? (
+            <ActionPanel id={actions[0] as ActionId} />
+          ) : registration?.type === 'url' ? (
             <div class="cta-row">
               <CtaLink
                 href={registration.href}
                 label={registration.label ?? 'Register'}
                 variant="primary"
+                sameTab
               />
+              <p class="content-page__form-note">Opens our registration form</p>
             </div>
-          )
+          ) : null
         }
       </header>
       <Prose>
         <slot />
       </Prose>
+      {
+        actions.length > 1 &&
+          actions.slice(1).map((id) => <ActionPanel id={id as ActionId} />)
+      }
       <slot name="after" />
     </div>
   </section>
@@ -68,5 +79,12 @@ const { title, description, audience, registration, canonicalPath } =
     margin: 0 0 1.1rem;
     color: var(--color-muted);
     font-size: 1.08rem;
+  }
+
+  .content-page__form-note {
+    margin: 0;
+    width: 100%;
+    color: var(--color-muted);
+    font-size: 0.92rem;
   }
 </style>

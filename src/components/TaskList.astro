@@ -1,0 +1,71 @@
+---
+import { withBase } from '../lib/paths';
+
+export type Task = {
+  label: string;
+  description: string;
+  href: string;
+  external?: boolean;
+};
+
+interface Props {
+  tasks: Task[];
+  class?: string;
+}
+
+const { tasks, class: className } = Astro.props;
+---
+
+<ul class:list={['task-list', className]}>
+  {
+    tasks.map((task) => {
+      const href = task.external ? task.href : withBase(task.href);
+      return (
+        <li class="task-list__row">
+          <a href={href} {...(task.external ? {} : {})}>
+            <span class="task-list__label">{task.label}</span>
+            <span class="task-list__desc">{task.description}</span>
+          </a>
+        </li>
+      );
+    })
+  }
+</ul>
+
+<style>
+  .task-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-width: 42rem;
+  }
+
+  .task-list__row + .task-list__row {
+    border-top: 1px solid rgba(19, 33, 58, 0.1);
+  }
+
+  .task-list__row a {
+    display: grid;
+    gap: 0.25rem;
+    padding: 1.15rem 0;
+    text-decoration: none;
+    color: inherit;
+    min-height: 3rem;
+  }
+
+  .task-list__row a:hover .task-list__label {
+    color: var(--color-brass-text);
+  }
+
+  .task-list__label {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 650;
+    transition: color 180ms var(--ease);
+  }
+
+  .task-list__desc {
+    color: var(--color-muted);
+    font-size: 1rem;
+  }
+</style>

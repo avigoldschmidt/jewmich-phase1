@@ -7,14 +7,18 @@
   },
   "scripts": {
     "dev": "node ./scripts/run-astro.mjs dev",
-    "build": "node ./scripts/run-astro.mjs build",
+    "build": "node ./scripts/run-astro.mjs build && npm run pagefind",
+    "pagefind": "pagefind --site dist",
     "preview": "node ./scripts/run-astro.mjs preview",
     "astro": "node ./scripts/run-astro.mjs",
-    "build:direct": "astro build",
+    "build:direct": "astro build && npm run pagefind",
     "dev:direct": "astro dev"
   },
   "dependencies": {
     "@astrojs/mdx": "^8.1.1",
-    "astro": "^7.4.2"
+    "@fontsource-variable/newsreader": "^5.3.0",
+    "@fontsource-variable/source-sans-3": "^5.3.1",
+    "astro": "^7.4.2",
+    "pagefind": "^1.5.2"
   }
 }

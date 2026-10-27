@@ -14,17 +14,22 @@ const current =
 ---
 
 <nav
-  class:list={['audience-switcher', compact && 'audience-switcher--compact']}
+  class:list={[
+    'audience-switcher',
+    compact && 'audience-switcher--compact',
+  ]}
   aria-label="Audience"
 >
   <a
-    class:list={['audience-switcher__link', current === 'students' && 'is-active']}
+    class:list={[
+      'audience-switcher__link',
+      current === 'students' && 'is-active',
+    ]}
     href={withBase(SITE.homes.students)}
     aria-current={current === 'students' ? 'page' : undefined}
   >
     Students
   </a>
-  <span class="audience-switcher__sep" aria-hidden="true">|</span>
   <a
     class:list={[
       'audience-switcher__link',
@@ -40,54 +45,51 @@ const current =
 <style>
   .audience-switcher {
     display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
+    align-items: stretch;
+    gap: 0;
+    padding: 2px;
+    border: 1px solid rgba(19, 33, 58, 0.14);
+    border-radius: var(--radius);
+    background: rgba(255, 255, 255, 0.55);
     font-family: var(--font-ui);
-    font-size: 0.88rem;
-    font-weight: 600;
+    font-size: 0.84rem;
+    font-weight: 650;
   }
 
   .audience-switcher__link {
-    position: relative;
     color: var(--color-muted);
     text-decoration: none;
-    padding: 0.2rem 0;
+    padding: 0.35rem 0.7rem;
+    border-radius: calc(var(--radius) - 2px);
+    min-height: 2rem;
+    display: inline-flex;
+    align-items: center;
   }
 
-  .audience-switcher__link::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -0.1rem;
-    height: 1.5px;
-    background: var(--color-accent);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 220ms var(--ease);
-  }
-
-  .audience-switcher__link:hover,
-  .audience-switcher__link.is-active {
+  .audience-switcher__link:hover {
     color: var(--color-ink);
   }
 
-  .audience-switcher__link:hover::after,
-  .audience-switcher__link.is-active::after {
-    transform: scaleX(1);
+  .audience-switcher__link.is-active {
+    background: var(--color-ink);
+    color: var(--color-page);
   }
 
-  .audience-switcher__sep {
-    color: rgba(14, 15, 18, 0.28);
-    user-select: none;
+  .audience-switcher--compact {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(250, 249, 246, 0.2);
   }
 
   .audience-switcher--compact .audience-switcher__link {
-    color: var(--color-muted);
+    color: rgba(250, 249, 246, 0.72);
   }
 
-  .audience-switcher--compact .audience-switcher__link:hover,
+  .audience-switcher--compact .audience-switcher__link:hover {
+    color: #fff;
+  }
+
   .audience-switcher--compact .audience-switcher__link.is-active {
-    color: var(--color-ink);
+    background: rgba(250, 249, 246, 0.16);
+    color: #fff;
   }
 </style>

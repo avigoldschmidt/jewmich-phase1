@@ -1,106 +1,182 @@
 ---
+import ActionPanel from './ActionPanel.astro';
 import CtaLink from './CtaLink.astro';
-import EmbedFrame from './EmbedFrame.astro';
-
-/**
- * Live donate rails from jewmich.com crawl (2026-10):
- * - ChabadMS formid 8080
- * - Zeffy donation embed from /donatewithzeffy/
- * - PayPal charity fundraiser
- */
-const CHABADMS_SRC =
-  'https://forms.chabadms.com/payment.aspx?serialnumber=4111-1189-6338&formid=8080';
-const ZEFFY_SRC =
-  'https://www.zeffy.com/en-US/embed/donation-form/8aef2ddb-4496-401c-be91-d04b7eca6263';
-const PAYPAL_HREF = 'https://www.paypal.com/fundraiser/charity/1619170';
-const PAYMENT_HREF = 'https://www.jewmich.com/payment/';
+import { withBase } from '../lib/paths';
 ---
 
 <div class="donate-methods">
-  <section class="donate-methods__method" aria-labelledby="donate-chabadms">
-    <p class="donate-methods__kicker">Method one</p>
-    <h2 id="donate-chabadms">Give online (ChabadMS)</h2>
-    <p>
-      Secure donation form used on the live Chabad House donate page.
-    </p>
-    <EmbedFrame
-      src={CHABADMS_SRC}
-      title="Chabad of Ann Arbor donation form"
-      height="820px"
-    />
+  <nav class="donate-chooser" aria-label="Choose how to give">
+    <h2 class="donate-chooser__heading">Choose how to give</h2>
+    <ul class="donate-chooser__grid">
+      <li>
+        <a href="#card-or-bank">
+          <span class="donate-chooser__label">Card or bank</span>
+          <span class="donate-chooser__desc">Recommended · ChabadMS</span>
+        </a>
+      </li>
+      <li>
+        <a href="#zeffy">
+          <span class="donate-chooser__label">Zeffy</span>
+          <span class="donate-chooser__desc">No platform fee to the House</span>
+        </a>
+      </li>
+      <li>
+        <a href="#paypal">
+          <span class="donate-chooser__label">PayPal</span>
+          <span class="donate-chooser__desc">PayPal Giving Fund</span>
+        </a>
+      </li>
+      <li>
+        <a href="#chai-club">
+          <span class="donate-chooser__label">Give monthly</span>
+          <span class="donate-chooser__desc">Chai Club</span>
+        </a>
+      </li>
+      <li>
+        <a href="#pay-invoice">
+          <span class="donate-chooser__label">Pay an invoice</span>
+          <span class="donate-chooser__desc">Event fees and arranged payments</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <section class="donate-methods__method" id="card-or-bank" aria-labelledby="donate-chabadms">
+    <h2 id="donate-chabadms">Card or bank</h2>
+    <p>Secure online giving through ChabadMS — the primary donate form on the live site.</p>
+    <ActionPanel id="donate-chabadms" />
   </section>
 
-  <section class="donate-methods__method" aria-labelledby="donate-zeffy">
-    <p class="donate-methods__kicker">Method two</p>
-    <h2 id="donate-zeffy">Give with Zeffy</h2>
-    <p>
-      Zero-fee nonprofit donation form. Staff: if this embed drifts, paste the
-      current src from jewmich.com/donatewithzeffy into this section.
-    </p>
-    <EmbedFrame
-      src={ZEFFY_SRC}
-      title="Donate with Zeffy"
-      height="900px"
-    />
-    <p class="donate-methods__alt">
-      Prefer a dedicated page?
-      <a href="https://www.jewmich.com/donatewithzeffy/"
-        >Open the legacy Zeffy donate page</a
-      >.
-    </p>
+  <section class="donate-methods__method" id="zeffy" aria-labelledby="donate-zeffy">
+    <h2 id="donate-zeffy">Zeffy</h2>
+    <p>Zero platform fee charged to the House. Tip optional for the donor.</p>
+    <ActionPanel id="donate-zeffy" />
   </section>
 
-  <section class="donate-methods__method" aria-labelledby="donate-paypal">
-    <p class="donate-methods__kicker">Method three</p>
+  <section class="donate-methods__method" id="paypal" aria-labelledby="donate-paypal">
     <h2 id="donate-paypal">PayPal</h2>
     <p>Give through PayPal’s charity fundraiser for Chabad of Ann Arbor.</p>
+    <ActionPanel id="donate-paypal" />
+  </section>
+
+  <section class="donate-methods__method" id="chai-club" aria-labelledby="donate-chai">
+    <h2 id="donate-chai">Give monthly — Chai Club</h2>
+    <p>
+      Monthly support that helps keep Shabbat dinners, services, classes, and youth
+      programs going. Chai Club is monthly giving — it is separate from congregation
+      membership. <!-- staff: confirm membership vs Chai Club policy -->
+    </p>
     <div class="cta-row">
-      <CtaLink href={PAYPAL_HREF} label="Donate with PayPal" variant="primary" />
+      <CtaLink href="/donate#card-or-bank" label="Set up monthly giving" variant="secondary" />
     </div>
   </section>
 
-  <section class="donate-methods__method" aria-labelledby="donate-payment">
-    <p class="donate-methods__kicker">Already arranged</p>
-    <h2 id="donate-payment">Make a payment</h2>
-    <p>
-      Paying an invoice, event fee, or other amount already arranged with the
-      House? Use the existing payment page.
-    </p>
-    <div class="cta-row">
-      <CtaLink
-        href={PAYMENT_HREF}
-        label="Open payment form"
-        variant="secondary"
-      />
-    </div>
+  <section class="donate-methods__method" id="pay-invoice" aria-labelledby="donate-payment">
+    <h2 id="donate-payment">Pay an invoice or event fee</h2>
+    <p>Already arranged an amount with the House? Use the payment form.</p>
+    <ActionPanel id="pay-invoice" />
   </section>
+
+  <section class="donate-methods__method" id="sponsor-shabbat" aria-labelledby="donate-sponsor">
+    <h2 id="donate-sponsor">Sponsor a Shabbat or kiddush</h2>
+    <p>Dedicate a student Shabbat dinner or a community kiddush in someone’s honor.</p>
+    <ActionPanel id="sponsor-shabbat" />
+    <ActionPanel id="sponsor-kiddush" />
+  </section>
+
+  <section class="donate-methods__method" id="other-ways" aria-labelledby="donate-other">
+    <h2 id="donate-other">Other ways to give</h2>
+    <ul class="donate-other">
+      <li>
+        <a href="#life-and-legacy">Life &amp; Legacy</a>
+        — planned giving for the next generation.
+      </li>
+      <li>
+        <a id="life-and-legacy"></a>
+        <ActionPanel id="life-and-legacy" />
+      </li>
+      <li id="car">
+        <ActionPanel id="donate-car" heading="Donate a car" />
+      </li>
+      <li id="miles">
+        <ActionPanel id="donate-miles" heading="Donate airline miles" />
+      </li>
+      <li id="charity-box">
+        <ActionPanel id="charity-box" heading="Request a charity box" />
+      </li>
+      <li id="wishlist">
+        <p>
+          Wish list items help stock the House kitchen and student programs.
+          <a href={withBase('/contact')}>Contact us</a> for the current list.
+        </p>
+      </li>
+      <li id="membership">
+        <ActionPanel
+          id="membership-inquiry"
+          heading="Congregation membership"
+          blurb="Membership is for the congregation community. It is separate from Chai Club monthly giving."
+        />
+      </li>
+    </ul>
+  </section>
+
+  <p class="donate-trust">
+    Since 1975 · 715 Hill Street · Questions about giving?
+    <a href="tel:+17349953276">734-995-3276</a>.
+    <!-- staff: add EIN once confirmed -->
+  </p>
 </div>
 
 <style>
   .donate-methods {
     display: grid;
-    gap: var(--space-xl);
+    gap: var(--space-lg);
     max-width: 44rem;
+  }
+
+  .donate-chooser__heading {
+    margin: 0 0 1rem;
+    font-size: clamp(1.35rem, 2vw, 1.7rem);
+  }
+
+  .donate-chooser__grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.65rem;
+  }
+
+  .donate-chooser__grid a {
+    display: grid;
+    gap: 0.15rem;
+    padding: 0.95rem 1rem;
+    border: 1px solid rgba(19, 33, 58, 0.12);
+    border-radius: var(--radius-card);
+    text-decoration: none;
+    color: inherit;
+    background: var(--color-surface);
+    min-height: 3rem;
+  }
+
+  .donate-chooser__grid a:hover {
+    border-color: var(--color-brass-text);
+  }
+
+  .donate-chooser__label {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 650;
+  }
+
+  .donate-chooser__desc {
+    color: var(--color-muted);
+    font-size: 0.95rem;
   }
 
   .donate-methods__method {
     padding-top: var(--space-lg);
-    border-top: 1px solid rgba(14, 15, 18, 0.08);
-  }
-
-  .donate-methods__method:first-child {
-    padding-top: 0;
-    border-top: 0;
-  }
-
-  .donate-methods__kicker {
-    margin: 0 0 0.35rem;
-    font-family: var(--font-ui);
-    font-size: 0.75rem;
-    font-weight: 650;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--color-accent);
+    border-top: 1px solid rgba(19, 33, 58, 0.08);
   }
 
   .donate-methods__method h2 {
@@ -108,14 +184,29 @@ const PAYMENT_HREF = 'https://www.jewmich.com/payment/';
     font-size: clamp(1.35rem, 2vw, 1.7rem);
   }
 
-  .donate-methods__method p {
+  .donate-methods__method > p {
     margin: 0 0 1rem;
     max-width: 40rem;
     color: var(--color-muted);
   }
 
-  .donate-methods__alt {
-    margin-top: 0.75rem !important;
-    font-size: 0.95rem;
+  .donate-other {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .donate-trust {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 0.98rem;
+  }
+
+  @media (min-width: 700px) {
+    .donate-chooser__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
 </style>

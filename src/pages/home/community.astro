@@ -1,13 +1,21 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Hero from '../../components/Hero.astro';
-import Prose from '../../components/Prose.astro';
+import Notice from '../../components/Notice.astro';
+import TaskList from '../../components/TaskList.astro';
+import EventList from '../../components/EventList.astro';
 import CtaLink from '../../components/CtaLink.astro';
+import { getCollection } from 'astro:content';
 import { loadPage } from '../../lib/content';
 import { SITE } from '../../lib/nav';
+import { withBase } from '../../lib/paths';
 
-const { entry, Content } = await loadPage('home', 'community');
-const { title, description, heroImage } = entry.data;
+const { entry } = await loadPage('home', 'community');
+const { title, description, hero, notice, tasks } = entry.data;
+
+const events = (await getCollection('events')).filter(
+  (e) => !e.data.draft && (e.data.audience === 'community' || e.data.audience === 'both'),
+);
 ---
 
 <BaseLayout
@@ -17,137 +25,118 @@ const { title, description, heroImage } = entry.data;
   canonicalPath="/home/community"
 >
   <Hero
-    brand={SITE.communityBrand}
-    headline={title}
-    sentence="Services, holidays, and Jewish life for families and neighbors across Ann Arbor."
-    imageSrc={heroImage ?? '/images/hero-community.svg'}
-    imageAlt="Community gathering placeholder — replace with real Chabad Ann Arbor photos"
     tone="community"
+    label={hero?.label}
+    headline={hero?.headline ?? title}
+    sentence={hero?.sentence ?? description}
+    imageSrc={hero?.image}
+    imageAlt={hero?.imageAlt}
     ctas={[
       {
-        href: '/visit',
-        label: 'Plan a visit',
+        href: hero?.primaryCta?.href ?? '/visit',
+        label: hero?.primaryCta?.label ?? 'Plan your visit',
         variant: 'primary',
-        external: false,
       },
       {
-        href: '/community/services',
-        label: 'Services',
+        href: hero?.secondaryCta?.href ?? '/community/services',
+        label: hero?.secondaryCta?.label ?? 'Service times',
         variant: 'secondary',
-        external: false,
       },
     ]}
   />
 
+  <Notice notice={notice} />
+
   <section class="section" data-reveal>
     <div class="container">
-      <h2 class="section-heading">Visit &amp; services</h2>
+      <h2 class="section-heading">Find your place</h2>
+      <p class="section-lede">Five ways into community life at the House.</p>
+      {tasks && <TaskList tasks={tasks} />}
+    </div>
+  </section>
+
+  <section class="section section--sand" data-reveal>
+    <div class="container">
+      <h2 class="section-heading">What's on</h2>
+      <p class="section-lede">Current community sign-ups and seasonal programs.</p>
+      <EventList events={events} />
+      <div class="cta-row" style="margin-top: 1.25rem;">
+        <CtaLink href="/events" label="All events" variant="secondary" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section" data-reveal>
+    <div class="container">
+      <h2 class="section-heading">Who we are</h2>
       <p class="section-lede">
-        Pray, celebrate, and learn with a community that feels like family —
-        right at 715 Hill Street.
+        Since {SITE.since}, Chabad House of Ann Arbor has served students and
+        local residents together — services, meals, learning, and a listening ear.
       </p>
-      <div class="home-block">
-        <Prose>
-          <Content />
-        </Prose>
-        <div class="cta-row home-block__actions">
-          <CtaLink href="/visit" label="Visit" variant="primary" />
-          <CtaLink href="/community/services" label="Services" variant="secondary" />
+      <p>
+        <!-- staff: add rabbi and rebbetzin names and photos -->
+        <a href={withBase('/about')}>About the House</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--sand" data-reveal>
+    <div class="container">
+      <h2 class="section-heading">Belong &amp; support</h2>
+      <p class="section-lede">
+        Three clear options — membership, monthly giving, and one-time gifts are
+        different paths.
+      </p>
+      <ul class="belong">
+        <li>
+          <h3>Membership</h3>
+          <p>For the congregation community.</p>
           <CtaLink
-            href="/community/high-holidays"
-            label="Holidays"
+            href="https://www.jewmich.com/membership/"
+            label="Membership"
             variant="secondary"
+            sameTab
           />
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section section--youth" data-reveal>
-    <div class="container youth-block">
-      <div>
-        <h2 class="section-heading">Youth</h2>
-        <p class="section-lede">
-          Chabad Hebrew School and programs for kids and teens — a warm path
-          into Jewish life.
-        </p>
-      </div>
-      <CtaLink href="/youth" label="Explore youth / CHS" variant="secondary" />
-    </div>
-  </section>
-
-  <section class="section section--give" data-reveal>
-    <div class="container give-strip">
-      <div>
-        <h2 class="section-heading">Give</h2>
-        <p class="section-lede give-strip__lede">
-          Your support sustains services, youth, and a house open to Ann Arbor.
-        </p>
-      </div>
-      <div class="cta-row">
-        <CtaLink href="/donate" label="Donate" variant="primary" />
-        <CtaLink href="/membership" label="Membership" variant="secondary" />
-      </div>
+        </li>
+        <li>
+          <h3>Chai Club</h3>
+          <p>Monthly support — separate from membership.</p>
+          <CtaLink href="/donate#chai-club" label="Chai Club" variant="secondary" />
+        </li>
+        <li>
+          <h3>Donate</h3>
+          <p>One-time gifts that keep programs running.</p>
+          <CtaLink href="/donate" label="Donate" variant="primary" />
+        </li>
+      </ul>
     </div>
   </section>
 </BaseLayout>
 
 <style>
-  .home-block {
-    display: grid;
-    gap: var(--space-lg);
-  }
-
-  .section--youth {
-    background: var(--color-elevated);
-    border-block: 1px solid rgba(14, 15, 18, 0.06);
-  }
-
-  .youth-block {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1.25rem 2rem;
-  }
-
-  .youth-block .section-lede {
-    margin-bottom: 0;
-  }
-
-  .section--give {
-    padding-block: var(--space-lg);
-  }
-
-  .give-strip {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem 2rem;
-    padding: 1.5rem 0;
-    border-top: 1px solid rgba(14, 15, 18, 0.08);
-  }
-
-  .give-strip .section-heading {
-    margin-bottom: 0.35rem;
-    font-size: clamp(1.35rem, 2vw, 1.7rem);
-  }
-
-  .give-strip__lede {
+  .belong {
+    list-style: none;
     margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1.25rem;
+    max-width: 48rem;
+  }
+
+  .belong h3 {
+    margin: 0 0 0.35rem;
+    font-size: 1.25rem;
+  }
+
+  .belong p {
+    margin: 0 0 0.75rem;
+    color: var(--color-muted);
   }
 
   @media (min-width: 800px) {
-    .home-block {
-      grid-template-columns: 1.5fr auto;
-      align-items: start;
-    }
-
-    .home-block__actions {
-      flex-direction: column;
-      align-items: stretch;
-      padding-top: 0.25rem;
+    .belong {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.5rem;
     }
   }
 </style>

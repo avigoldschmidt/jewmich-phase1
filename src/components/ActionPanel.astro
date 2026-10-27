@@ -1,0 +1,74 @@
+---
+import CtaLink from './CtaLink.astro';
+import EmbedFrame from './EmbedFrame.astro';
+import { getAction, type ActionId } from '../data/actions';
+
+interface Props {
+  id: ActionId | string;
+  heading?: string;
+  /** Override the default one-line note */
+  blurb?: string;
+  class?: string;
+}
+
+const { id, heading, blurb, class: className } = Astro.props;
+const action = getAction(id);
+const note = blurb ?? action.note;
+---
+
+<section class:list={['action-panel', className]} aria-label={heading ?? action.label}>
+  {
+    heading && (
+      <h2 class="action-panel__heading">{heading}</h2>
+    )
+  }
+  {
+    note && (
+      <p class="action-panel__note">{note}</p>
+    )
+  }
+  {
+    action.kind === 'embed' && action.src ? (
+      <EmbedFrame
+        src={action.src}
+        title={action.title ?? action.label}
+        height={action.height}
+      />
+    ) : action.kind === 'link' && action.href ? (
+      <div class="cta-row">
+        <CtaLink
+          href={action.href}
+          label={action.label}
+          variant="primary"
+          sameTab
+        />
+      </div>
+    ) : (
+      <p class="action-panel__soon">This action will be available soon.</p>
+    )
+  }
+</section>
+
+<style>
+  .action-panel {
+    display: grid;
+    gap: 0.75rem;
+    margin: 1.5rem 0;
+  }
+
+  .action-panel__heading {
+    margin: 0;
+    font-size: clamp(1.25rem, 2vw, 1.55rem);
+  }
+
+  .action-panel__note {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 0.98rem;
+  }
+
+  .action-panel__soon {
+    margin: 0;
+    color: var(--color-muted);
+  }
+</style>

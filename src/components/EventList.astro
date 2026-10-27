@@ -1,0 +1,105 @@
+---
+import { withBase } from '../lib/paths';
+import type { CollectionEntry } from 'astro:content';
+
+type EventEntry = CollectionEntry<'events'>;
+
+interface Props {
+  events: EventEntry[];
+  emptyMessage?: string;
+  class?: string;
+}
+
+const { events, emptyMessage = 'Shabbat dinner every Friday of the semester. Check back for more.', class: className } =
+  Astro.props;
+
+const now = Date.now();
+const upcoming = events
+  .filter((e) => {
+    const end = Date.parse(e.data.expires);
+    return !Number.isNaN(end) && end >= now;
+  })
+  .sort((a, b) => Date.parse(a.data.expires) - Date.parse(b.data.expires));
+---
+
+{
+  upcoming.length === 0 ? (
+    <p class:list={['event-list__empty', className]}>{emptyMessage}</p>
+  ) : (
+    <ul class:list={['event-list', className]}>
+      {upcoming.map((event) => {
+        const href = /^https?:\/\//i.test(event.data.href)
+          ? event.data.href
+          : withBase(event.data.href);
+        return (
+          <li class="event-list__row">
+            <a href={href}>
+              <span class="event-list__when">{event.data.when}</span>
+              <span class="event-list__title">{event.data.title}</span>
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  )
+}
+
+<style>
+  .event-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-width: 42rem;
+  }
+
+  .event-list__row + .event-list__row {
+    border-top: 1px solid rgba(19, 33, 58, 0.1);
+  }
+
+  .event-list__row a {
+    display: grid;
+    gap: 0.2rem;
+    padding: 1rem 0;
+    text-decoration: none;
+    color: inherit;
+    min-height: 3rem;
+  }
+
+  .event-list__row a:hover .event-list__title {
+    color: var(--color-brass-text);
+  }
+
+  .event-list__when {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--color-muted);
+  }
+
+  .event-list__title {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 650;
+    transition: color 180ms var(--ease);
+  }
+
+  .event-list__empty {
+    margin: 0;
+    color: var(--color-muted);
+    max-width: 36rem;
+  }
+</style>
+
+<script>
+  // Hide items that expire between rebuilds (client soft filter).
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  void reduce;
+  const now = Date.now();
+  document.querySelectorAll('[data-expires]').forEach((el) => {
+    const raw = el.getAttribute('data-expires');
+    if (!raw) return;
+    const end = Date.parse(raw);
+    if (!Number.isNaN(end) && end < now) {
+      (el as HTMLElement).hidden = true;
+    }
+  });
+</script>

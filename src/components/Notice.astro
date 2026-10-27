@@ -1,0 +1,83 @@
+---
+import { withBase } from '../lib/paths';
+
+export type NoticeData = {
+  text: string;
+  href?: string;
+  expires?: string;
+};
+
+interface Props {
+  notice?: NoticeData | null;
+  class?: string;
+}
+
+const { notice, class: className } = Astro.props;
+
+function isActive(n: NoticeData | null | undefined): n is NoticeData {
+  if (!n?.text) return false;
+  if (!n.expires) return true;
+  const end = Date.parse(n.expires);
+  if (Number.isNaN(end)) return true;
+  return Date.now() <= end;
+}
+
+const active = isActive(notice);
+const href = notice?.href
+  ? /^https?:\/\//i.test(notice.href)
+    ? notice.href
+    : withBase(notice.href)
+  : undefined;
+---
+
+{
+  active && (
+    <aside class:list={['notice', className]} data-reveal>
+      <div class="container">
+        {href ? (
+          <a class="notice__link" href={href}>
+            <span class="notice__text">{notice.text}</span>
+            <span class="notice__arrow" aria-hidden="true">
+              →
+            </span>
+          </a>
+        ) : (
+          <p class="notice__text">{notice.text}</p>
+        )}
+      </div>
+    </aside>
+  )
+}
+
+<style>
+  .notice {
+    background: var(--color-sand);
+    border-block: 1px solid rgba(19, 33, 58, 0.08);
+    padding: 0.95rem 0;
+  }
+
+  .notice__link {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.45rem;
+    text-decoration: none;
+    color: var(--color-ink);
+    font-weight: 600;
+    min-height: 2.75rem;
+    align-items: center;
+  }
+
+  .notice__link:hover {
+    color: var(--color-brass-text);
+  }
+
+  .notice__text {
+    margin: 0;
+    font-size: 1.02rem;
+  }
+
+  .notice__arrow {
+    color: var(--color-brass-text);
+  }
+</style>

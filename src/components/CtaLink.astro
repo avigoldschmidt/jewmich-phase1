@@ -4,8 +4,10 @@ import { withBase } from '../lib/paths';
 interface Props {
   href: string;
   label?: string;
-  variant?: 'primary' | 'secondary' | 'maize';
+  variant?: 'primary' | 'secondary' | 'text';
   external?: boolean;
+  /** Open in the same tab (WordPress forms, RSVPs). Default: same tab for all. */
+  sameTab?: boolean;
   class?: string;
 }
 
@@ -14,18 +16,20 @@ const {
   label,
   variant = 'primary',
   external,
+  sameTab = true,
   class: className,
 } = Astro.props;
 
 const isExternal =
   external ?? (/^https?:\/\//.test(href) || href.startsWith('mailto:'));
 const resolvedHref = isExternal ? href : withBase(href);
+const openNewTab = isExternal && !sameTab;
 ---
 
 <a
   class:list={['cta-link', `cta-link--${variant}`, className]}
   href={resolvedHref}
-  {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+  {...(openNewTab ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
 >
   <slot>{label}</slot>
 </a>
@@ -58,30 +62,32 @@ const resolvedHref = isExternal ? href : withBase(href);
   }
 
   .cta-link--primary:hover {
-    background: #1c1e24;
+    background: var(--color-night);
     color: #fff;
   }
 
   .cta-link--secondary {
     background: transparent;
     color: var(--color-ink);
-    border-color: rgba(14, 15, 18, 0.22);
+    border-color: rgba(19, 33, 58, 0.22);
   }
 
   .cta-link--secondary:hover {
-    border-color: var(--color-accent);
+    border-color: var(--color-brass-text);
     color: var(--color-ink);
   }
 
-  /* Maize kept as a rare student cue — hairline border, not a full-page wash */
-  .cta-link--maize {
-    background: var(--color-ink);
-    color: var(--color-page);
-    box-shadow: inset 0 -2px 0 0 var(--color-maize);
+  .cta-link--text {
+    background: transparent;
+    color: var(--color-brass-text);
+    padding-inline: 0.15rem;
+    min-height: 2.75rem;
+    border: 0;
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
   }
 
-  .cta-link--maize:hover {
-    background: #1c1e24;
-    color: #fff;
+  .cta-link--text:hover {
+    color: var(--color-ink);
   }
 </style>

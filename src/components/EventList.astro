@@ -49,17 +49,17 @@ const upcoming = events
     list-style: none;
     margin: 0;
     padding: 0;
-    max-width: 42rem;
+    max-width: 38rem;
   }
 
   .event-list__row + .event-list__row {
-    border-top: 1px solid rgba(10, 22, 40, 0.1);
+    border-top: 1px solid var(--line);
   }
 
   .event-list__row a {
     display: grid;
-    gap: 0.2rem;
-    padding: 1rem 0;
+    gap: 0.15rem;
+    padding: 0.9rem 0;
     text-decoration: none;
     color: inherit;
     min-height: 3rem;
@@ -71,29 +71,30 @@ const upcoming = events
 
   .event-list__when {
     font-family: var(--font-ui);
-    font-size: 0.88rem;
-    font-weight: 600;
+    font-size: 0.82rem;
+    font-weight: 650;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
     color: var(--color-muted);
   }
 
   .event-list__title {
     font-family: var(--font-display);
-    font-size: 1.2rem;
-    font-weight: 650;
-    transition: color 180ms var(--ease);
+    font-size: 1.12rem;
+    font-weight: 600;
+    letter-spacing: -0.012em;
+    transition: color 160ms var(--ease);
   }
 
   .event-list__empty {
     margin: 0;
     color: var(--color-muted);
-    max-width: 36rem;
+    max-width: 34rem;
+    font-family: var(--font-ui);
   }
 </style>
 
 <script>
-  // Hide items that expire between rebuilds (client soft filter).
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  void reduce;
   const now = Date.now();
   document.querySelectorAll('[data-expires]').forEach((el) => {
     const raw = el.getAttribute('data-expires');

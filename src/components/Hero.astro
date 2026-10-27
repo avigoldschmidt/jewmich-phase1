@@ -41,8 +41,8 @@ const resolvedImage = imageSrc ? withBase(imageSrc) : undefined;
           class="hero__photo"
           src={resolvedImage}
           alt=""
-          width="1600"
-          height="1000"
+          width="1920"
+          height="1080"
           decoding="async"
           fetchpriority="high"
         />
@@ -67,7 +67,7 @@ const resolvedImage = imageSrc ? withBase(imageSrc) : undefined;
               variant={cta.variant ?? (i === 0 ? 'primary' : 'secondary')}
               external={cta.external}
               sameTab={cta.sameTab ?? true}
-              class="hero__cta"
+              class={i === 0 ? 'cta-link--on-photo' : 'cta-link--on-photo-secondary'}
             />
           ))}
         </div>
@@ -81,7 +81,7 @@ const resolvedImage = imageSrc ? withBase(imageSrc) : undefined;
   .hero {
     position: relative;
     isolation: isolate;
-    min-height: min(78vh, 44rem);
+    min-height: min(72vh, 40rem);
     display: grid;
     align-items: end;
     color: var(--color-on-photo);
@@ -99,142 +99,109 @@ const resolvedImage = imageSrc ? withBase(imageSrc) : undefined;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 28%;
-    animation: hero-settle 1.4s var(--ease) both;
+    object-position: center 40%;
+    animation: hero-settle 1.25s var(--ease) both;
   }
 
   .hero--students .hero__photo {
-    object-position: 58% 22%;
+    object-position: center 42%;
   }
 
   .hero--community .hero__photo {
-    object-position: 45% 35%;
+    object-position: center 38%;
   }
 
   .hero__fallback {
-    background:
-      radial-gradient(ellipse 70% 55% at 70% 30%, rgba(26, 95, 138, 0.45), transparent 60%),
-      linear-gradient(160deg, #0e2a45 0%, #06101c 55%, #0a1a2e 100%);
+    background: linear-gradient(155deg, #12324d 0%, #06101c 70%);
   }
 
-  .hero--students .hero__fallback {
-    background:
-      radial-gradient(ellipse 55% 45% at 85% 20%, rgba(255, 203, 5, 0.18), transparent 55%),
-      linear-gradient(160deg, #0e2a45 0%, #06101c 55%, #0a1a2e 100%);
-  }
-
+  /* Lighter veil — photo should read */
   .hero__veil {
     position: absolute;
     inset: 0;
     background:
       linear-gradient(
-        100deg,
-        rgba(6, 16, 28, 0.82) 0%,
-        rgba(6, 16, 28, 0.58) 42%,
-        rgba(6, 16, 28, 0.22) 72%,
-        rgba(6, 16, 28, 0.28) 100%
+        95deg,
+        rgba(6, 16, 28, 0.72) 0%,
+        rgba(6, 16, 28, 0.48) 36%,
+        rgba(6, 16, 28, 0.18) 68%,
+        rgba(6, 16, 28, 0.22) 100%
       ),
-      linear-gradient(to top, rgba(6, 16, 28, 0.55) 0%, transparent 42%);
+      linear-gradient(to top, rgba(6, 16, 28, 0.42) 0%, transparent 38%);
   }
 
   .hero--community .hero__veil {
     background:
       linear-gradient(
-        100deg,
-        rgba(6, 16, 28, 0.84) 0%,
-        rgba(6, 16, 28, 0.62) 44%,
-        rgba(6, 16, 28, 0.28) 74%,
-        rgba(6, 16, 28, 0.34) 100%
+        95deg,
+        rgba(6, 16, 28, 0.74) 0%,
+        rgba(6, 16, 28, 0.5) 38%,
+        rgba(6, 16, 28, 0.2) 70%,
+        rgba(6, 16, 28, 0.26) 100%
       ),
-      linear-gradient(to top, rgba(6, 16, 28, 0.5) 0%, transparent 45%);
+      linear-gradient(to top, rgba(6, 16, 28, 0.4) 0%, transparent 40%);
   }
 
   .hero__content {
     position: relative;
     z-index: 1;
-    max-width: 40rem;
-    padding-block: clamp(4.5rem, 12vh, 7rem) clamp(2.75rem, 7vh, 4.5rem);
-    animation: fade-up 750ms var(--ease) both;
+    max-width: 36rem;
+    padding-block: clamp(3.5rem, 10vh, 5.5rem) clamp(2.25rem, 6vh, 3.5rem);
+    animation: fade-up 700ms var(--ease) both;
   }
 
+  /* Brand: elegant signal, not shouting */
   .hero__brand {
-    margin: 0 0 0.85rem;
+    margin: 0 0 0.7rem;
     font-family: var(--font-display);
-    font-size: clamp(2rem, 5.5vw, 3.35rem);
-    font-weight: 650;
+    font-size: clamp(1.65rem, 3.6vw, 2.35rem);
+    font-weight: 600;
     font-optical-sizing: auto;
-    letter-spacing: -0.035em;
-    line-height: 1;
+    letter-spacing: -0.028em;
+    line-height: 1.05;
     color: var(--color-on-photo);
   }
 
   .hero--students .hero__brand::after {
     content: '';
     display: block;
-    width: 2.75rem;
-    height: 3px;
+    width: 2rem;
+    height: 2px;
     margin-top: 0.55rem;
     background: var(--color-maize);
   }
 
+  /* Headline: clear but subordinate to brand */
   .hero__headline {
-    margin: 0 0 0.85rem;
-    font-size: clamp(1.45rem, 2.8vw, 2rem);
-    font-weight: 550;
-    letter-spacing: -0.02em;
-    line-height: 1.2;
-    color: rgba(255, 255, 255, 0.94);
-    max-width: 28rem;
+    margin: 0 0 0.7rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.2rem, 2.2vw, 1.55rem);
+    font-weight: 500;
+    letter-spacing: -0.012em;
+    line-height: 1.28;
+    color: rgba(255, 255, 255, 0.95);
+    max-width: 26rem;
   }
 
   .hero__sentence {
-    margin: 0 0 1.6rem;
-    max-width: 30rem;
-    font-family: var(--font-body);
-    font-size: 1.08rem;
-    line-height: 1.55;
-    color: rgba(255, 255, 255, 0.82);
-  }
-
-  .hero__ctas :global(.cta-link--primary) {
-    background: var(--color-on-photo);
-    color: var(--color-ink);
-  }
-
-  .hero__ctas :global(.cta-link--primary:hover) {
-    background: var(--color-maize);
-    color: var(--color-ink);
-  }
-
-  .hero--community .hero__ctas :global(.cta-link--primary:hover) {
-    background: #e8eef4;
-    color: var(--color-ink);
-  }
-
-  .hero__ctas :global(.cta-link--secondary) {
-    background: transparent;
-    color: var(--color-on-photo);
-    border-color: rgba(255, 255, 255, 0.45);
-  }
-
-  .hero__ctas :global(.cta-link--secondary:hover) {
-    border-color: #fff;
-    color: #fff;
-    background: rgba(255, 255, 255, 0.08);
+    margin: 0 0 1.35rem;
+    max-width: 28rem;
+    font-family: var(--font-ui);
+    font-size: 1rem;
+    font-weight: 450;
+    line-height: 1.5;
+    letter-spacing: 0.005em;
+    color: rgba(255, 255, 255, 0.86);
   }
 
   @media (min-width: 900px) {
     .hero {
-      min-height: min(82vh, 48rem);
+      min-height: min(76vh, 42rem);
       align-items: center;
     }
 
     .hero__content {
-      padding-block: clamp(5rem, 14vh, 8rem);
-    }
-
-    .hero__photo {
-      object-position: center 30%;
+      padding-block: clamp(4rem, 11vh, 6rem);
     }
   }
 </style>

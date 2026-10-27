@@ -66,25 +66,29 @@ const { title, description, audience, registration, actions = [], canonicalPath 
 
 <style>
   .content-page__header {
-    margin-bottom: var(--space-lg);
-    max-width: 42rem;
+    margin-bottom: var(--space-8);
+    max-width: var(--prose-width);
   }
 
   .content-page__title {
-    margin: 0 0 0.55rem;
-    font-size: clamp(2rem, 4vw, 2.7rem);
+    margin: 0 0 0.5rem;
+    font-size: clamp(1.85rem, 3.5vw, 2.45rem);
+    letter-spacing: -0.02em;
   }
 
   .content-page__desc {
-    margin: 0 0 1.1rem;
+    margin: 0 0 1rem;
     color: var(--color-muted);
-    font-size: 1.08rem;
+    font-size: 1.05rem;
+    line-height: 1.55;
+    max-width: 36rem;
   }
 
   .content-page__form-note {
     margin: 0;
     width: 100%;
     color: var(--color-muted);
-    font-size: 0.92rem;
+    font-family: var(--font-ui);
+    font-size: 0.88rem;
   }
 </style>

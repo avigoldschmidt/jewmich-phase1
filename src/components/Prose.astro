@@ -12,8 +12,10 @@ const { class: className } = Astro.props;
 
 <style>
   .prose {
-    max-width: 42rem;
+    max-width: var(--prose-width);
     color: var(--color-ink);
+    font-size: 1.05rem;
+    line-height: 1.62;
   }
 
   .prose :global(> :first-child) {
@@ -26,39 +28,40 @@ const { class: className } = Astro.props;
 
   .prose :global(h2),
   .prose :global(h3) {
-    margin: 1.75rem 0 0.65rem;
+    margin: 1.55rem 0 0.55rem;
+    letter-spacing: -0.014em;
   }
 
   .prose :global(p),
   .prose :global(ul),
   .prose :global(ol) {
-    margin: 0 0 1rem;
+    margin: 0 0 0.9rem;
   }
 
   .prose :global(ul),
   .prose :global(ol) {
-    padding-left: 1.2rem;
+    padding-left: 1.15rem;
   }
 
   .prose :global(li) {
-    margin-bottom: 0.35rem;
+    margin-bottom: 0.3rem;
   }
 
   .prose :global(a) {
     color: var(--color-accent-text);
-    text-decoration-color: rgba(26, 95, 138, 0.45);
+    text-decoration-color: rgba(26, 95, 138, 0.4);
   }
 
   .prose :global(blockquote) {
-    margin: 1.25rem 0;
-    padding: 0.2rem 0 0.2rem 1rem;
-    border-left: 3px solid var(--color-accent);
+    margin: 1.15rem 0;
+    padding: 0.15rem 0 0.15rem 0.9rem;
+    border-left: 2px solid var(--color-accent);
     color: var(--color-muted);
   }
 
   .prose :global(hr) {
     border: 0;
-    border-top: 1px solid rgba(14, 15, 18, 0.1);
-    margin: 1.75rem 0;
+    border-top: 1px solid var(--line);
+    margin: 1.5rem 0;
   }
 </style>

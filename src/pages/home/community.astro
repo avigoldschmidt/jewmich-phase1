@@ -30,7 +30,7 @@ const events = (await getCollection('events')).filter(
     headline={hero?.headline ?? title}
     sentence={hero?.sentence ?? description}
     imageSrc={hero?.image ?? '/images/heroes/community-wide.jpg'}
-    imageAlt={hero?.imageAlt ?? 'Community life at Chabad House of Ann Arbor'}
+    imageAlt={hero?.imageAlt ?? 'Chabad House of Ann Arbor at 715 Hill Street'}
     ctas={[
       {
         href: hero?.primaryCta?.href ?? '/visit',
@@ -119,24 +119,28 @@ const events = (await getCollection('events')).filter(
     margin: 0;
     padding: 0;
     display: grid;
-    gap: 1.25rem;
-    max-width: 48rem;
+    gap: var(--space-6);
+    max-width: 46rem;
   }
 
   .belong h3 {
-    margin: 0 0 0.35rem;
-    font-size: 1.25rem;
+    margin: 0 0 0.3rem;
+    font-size: 1.15rem;
+    letter-spacing: -0.012em;
   }
 
   .belong p {
-    margin: 0 0 0.75rem;
+    margin: 0 0 0.7rem;
     color: var(--color-muted);
+    font-family: var(--font-ui);
+    font-size: 0.95rem;
+    line-height: 1.45;
   }
 
   @media (min-width: 800px) {
     .belong {
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1.5rem;
+      gap: var(--space-6) var(--space-8);
     }
   }
 </style>

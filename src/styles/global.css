@@ -8,12 +8,14 @@
   --surface: #ffffff;
   --mist: #e8eef5;
   --ink: #0a1628;
-  --muted: #4f5f70;
+  --muted: #546575;
   --lake: #1a5f8a;
   --lake-deep: #0e4266;
   --night: #06101c;
   --maize: #ffcb05;
   --on-photo: #ffffff;
+  --line: rgba(10, 22, 40, 0.1);
+  --line-strong: rgba(10, 22, 40, 0.16);
 
   --color-page: var(--paper);
   --color-elevated: var(--surface);
@@ -36,18 +38,30 @@
   --font-body: 'Source Serif 4 Variable', 'Source Serif 4', Georgia, serif;
   --font-ui: 'Source Sans 3 Variable', 'Source Sans 3', 'Segoe UI', sans-serif;
 
-  --radius: 4px;
-  --radius-card: 4px;
+  /* Unified control system */
+  --radius: 3px;
+  --radius-card: 3px;
+  --control-height: 48px;
   --space-unit: 4px;
-  --space-xs: 0.35rem;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-xs: 0.5rem;
   --space-sm: 0.75rem;
   --space-md: 1.25rem;
   --space-lg: 2rem;
-  --space-xl: clamp(3rem, 8vw, 6.5rem);
-  --space-2xl: 5.5rem;
-  --max-width: 72rem;
-  --prose-width: 42rem;
-  --header-height: 4.1rem;
+  --space-xl: clamp(2.75rem, 6vw, 4.5rem);
+  --space-2xl: 4.5rem;
+  --max-width: 70rem;
+  --prose-width: 40rem;
+  --header-height: 3.75rem;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -68,7 +82,7 @@ body {
   background: var(--color-page);
   font-family: var(--font-body);
   font-size: 1.0625rem;
-  line-height: 1.65;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -99,17 +113,17 @@ h4 {
   font-family: var(--font-display);
   font-weight: 600;
   font-optical-sizing: auto;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+  line-height: 1.18;
+  letter-spacing: -0.018em;
   color: var(--color-ink);
 }
 
 h1 {
-  font-size: clamp(2.35rem, 5vw, 3.75rem);
+  font-size: clamp(2rem, 4vw, 2.85rem);
 }
 
 h2 {
-  font-size: clamp(1.65rem, 3vw, 2.35rem);
+  font-size: clamp(1.45rem, 2.4vw, 1.95rem);
 }
 
 p {
@@ -157,22 +171,24 @@ p {
 }
 
 .section-heading {
-  margin: 0 0 var(--space-sm);
-  font-size: clamp(1.65rem, 2.8vw, 2.25rem);
+  margin: 0 0 var(--space-2);
+  font-size: clamp(1.45rem, 2.4vw, 1.95rem);
+  letter-spacing: -0.016em;
 }
 
 .section-lede {
-  margin: 0 0 var(--space-lg);
-  max-width: 38rem;
+  margin: 0 0 var(--space-8);
+  max-width: 34rem;
   color: var(--color-muted);
-  font-size: 1.05rem;
+  font-size: 1.02rem;
+  line-height: 1.55;
   font-family: var(--font-body);
 }
 
 .cta-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem 1rem;
+  gap: var(--space-3) var(--space-4);
   align-items: center;
 }
 
@@ -180,7 +196,7 @@ p {
 @keyframes fade-up {
   from {
     opacity: 0;
-    transform: translateY(0.9rem);
+    transform: translateY(0.65rem);
   }
   to {
     opacity: 1;
@@ -191,7 +207,7 @@ p {
 /* Motion 2: gentle hero photo settle */
 @keyframes hero-settle {
   from {
-    transform: scale(1.06);
+    transform: scale(1.035);
   }
   to {
     transform: scale(1);
@@ -201,10 +217,10 @@ p {
 /* Motion 3: soft section reveal on scroll */
 [data-reveal] {
   opacity: 0;
-  transform: translateY(1rem);
+  transform: translateY(0.75rem);
   transition:
-    opacity 650ms var(--ease),
-    transform 650ms var(--ease);
+    opacity 560ms var(--ease),
+    transform 560ms var(--ease);
 }
 
 [data-reveal].is-visible {

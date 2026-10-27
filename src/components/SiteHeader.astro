@@ -26,11 +26,11 @@ const menuId = 'site-primary-menu';
   <div class="container top-strip__inner">
     <AudienceSwitcher audience={audience} />
     <p class="top-strip__meta">
-      <span>{SITE.addressShort}</span>
-      <span aria-hidden="true">·</span>
+      <span class="top-strip__addr">{SITE.addressShort}</span>
+      <span class="top-strip__sep" aria-hidden="true">·</span>
       <a href={`tel:${SITE.phoneTel}`}>{SITE.phoneDisplay}</a>
-      <span aria-hidden="true">·</span>
-      <a href={withBase('/visit')}>Find us</a>
+      <span class="top-strip__sep top-strip__sep--find" aria-hidden="true">·</span>
+      <a class="top-strip__find" href={withBase('/visit')}>Find us</a>
     </p>
   </div>
 </div>
@@ -39,15 +39,15 @@ const menuId = 'site-primary-menu';
   <div class="site-header__inner container">
     <a class="site-header__brand" href={homeHref}>
       <span class="site-header__mark" aria-hidden="true">
-        <svg viewBox="0 0 32 40" width="24" height="30" fill="none">
+        <svg viewBox="0 0 32 40" width="22" height="28" fill="none">
           <path
             d="M16 2c2.8 5.2 9 9.4 9 17.2C25 27 21 34 16 38c-5-4-9-11-9-18.8C7 11.4 13.2 7.2 16 2Z"
             fill={isStudent ? '#1A5F8A' : '#0E4266'}
           ></path>
           <path
             d="M16 8c1.5 3.1 5 5.5 5 10.1 0 5.3-2.2 9.3-5 11.9-2.8-2.6-5-6.6-5-11.9 0-4.6 3.5-7 5-10.1Z"
-            fill="#F2F5F8"
-            opacity="0.4"
+            fill="#F6F8FB"
+            opacity="0.38"
           ></path>
         </svg>
       </span>
@@ -72,7 +72,9 @@ const menuId = 'site-primary-menu';
       >
         {mobilePrimary.label}
       </a>
-      <a class="site-header__search" href={withBase('/search')}>Search</a>
+      <a class="site-header__search" href={withBase('/search')} aria-label="Search">
+        <span class="site-header__search-label">Search</span>
+      </a>
       <a class="site-header__donate" href={withBase('/donate')}>Donate</a>
       <button
         class="site-header__menu-btn"
@@ -99,71 +101,90 @@ const menuId = 'site-primary-menu';
 </script>
 
 <style>
+  /* Quieter utility strip — less “stacked template” with hero */
   .top-strip {
-    background: var(--color-ink);
-    color: rgba(255, 255, 255, 0.78);
+    background: #0f1c2e;
+    color: rgba(255, 255, 255, 0.7);
     font-family: var(--font-ui);
-    font-size: 0.84rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.01em;
   }
 
   .top-strip--students {
-    box-shadow: inset 0 3px 0 var(--color-maize);
+    box-shadow: inset 0 2px 0 var(--color-maize);
   }
 
   .top-strip__inner {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
     justify-content: space-between;
-    gap: 0.55rem 1rem;
-    padding-block: 0.4rem;
+    gap: 0.5rem 1rem;
+    padding-block: 0.3rem;
+    min-height: 2rem;
   }
 
   .top-strip__meta {
     margin: 0;
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.35rem 0.5rem;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 0.3rem 0.4rem;
     font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
   }
 
   .top-strip__meta a {
-    color: #fff;
+    color: rgba(255, 255, 255, 0.92);
     text-decoration: none;
     font-weight: 600;
   }
 
   .top-strip__meta a:hover {
-    color: var(--color-maize);
+    color: #fff;
+  }
+
+  .top-strip__sep {
+    opacity: 0.45;
+  }
+
+  @media (max-width: 640px) {
+    .top-strip__addr,
+    .top-strip__sep--find,
+    .top-strip__find {
+      display: none;
+    }
   }
 
   .site-header {
     position: sticky;
     top: 0;
     z-index: 40;
-    background: rgba(242, 245, 248, 0.92);
+    background: rgba(246, 248, 251, 0.94);
     color: var(--color-ink);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(10, 22, 40, 0.08);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
   }
 
   .site-header__inner {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
-    gap: 0.65rem 1rem;
+    gap: 0.5rem 0.75rem;
     min-height: var(--header-height);
-    padding-block: 0.55rem;
+    padding-block: 0.4rem;
   }
 
   .site-header__brand {
     display: inline-flex;
     align-items: center;
-    gap: 0.6rem;
+    gap: 0.5rem;
     color: inherit;
     text-decoration: none;
     min-width: 0;
     margin-right: auto;
+    flex: 0 1 auto;
   }
 
   .site-header__brand:hover {
@@ -180,19 +201,19 @@ const menuId = 'site-primary-menu';
     display: flex;
     flex-direction: column;
     min-width: 0;
-    line-height: 1.15;
+    line-height: 1.12;
   }
 
   .site-header__brand-name {
     font-family: var(--font-display);
-    font-size: 1.2rem;
-    font-weight: 650;
+    font-size: 1.12rem;
+    font-weight: 600;
     letter-spacing: -0.02em;
   }
 
   .site-header__house {
     font-family: var(--font-ui);
-    font-size: 0.68rem;
+    font-size: 0.65rem;
     color: var(--color-muted);
     white-space: nowrap;
     overflow: hidden;
@@ -202,10 +223,12 @@ const menuId = 'site-primary-menu';
   .site-header__nav {
     display: none;
     flex-wrap: wrap;
-    gap: 0.35rem 1rem;
+    gap: 0.15rem 1.05rem;
     align-items: center;
     width: 100%;
     order: 5;
+    padding-top: 0.35rem;
+    border-top: 1px solid var(--line);
   }
 
   .site-header__nav.is-open {
@@ -217,9 +240,9 @@ const menuId = 'site-primary-menu';
     color: var(--color-muted);
     text-decoration: none;
     font-family: var(--font-ui);
-    font-size: 0.95rem;
+    font-size: 0.92rem;
     font-weight: 600;
-    padding: 0.35rem 0;
+    padding: 0.45rem 0;
     min-height: 2.75rem;
     display: inline-flex;
     align-items: center;
@@ -230,12 +253,12 @@ const menuId = 'site-primary-menu';
     position: absolute;
     left: 0;
     right: 0;
-    bottom: 0.2rem;
-    height: 2px;
+    bottom: 0.35rem;
+    height: 1.5px;
     background: var(--color-accent);
     transform: scaleX(0);
     transform-origin: left;
-    transition: transform 220ms var(--ease);
+    transition: transform 200ms var(--ease);
   }
 
   .site-header__nav a:hover,
@@ -251,7 +274,8 @@ const menuId = 'site-primary-menu';
   .site-header__actions {
     display: flex;
     align-items: center;
-    gap: 0.55rem 0.75rem;
+    gap: 0.35rem;
+    flex: 0 0 auto;
   }
 
   .site-header__mobile-primary,
@@ -259,20 +283,24 @@ const menuId = 'site-primary-menu';
   .site-header__donate,
   .site-header__menu-btn {
     font-family: var(--font-ui);
-    font-size: 0.92rem;
+    font-size: 0.88rem;
     font-weight: 650;
     text-decoration: none;
-    min-height: 2.75rem;
+    height: 2.5rem;
+    min-height: 2.5rem;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
   }
 
   .site-header__mobile-primary {
     color: var(--color-ink);
+    padding-inline: 0.35rem;
   }
 
   .site-header__search {
     color: var(--color-muted);
+    padding-inline: 0.35rem;
   }
 
   .site-header__search:hover {
@@ -282,28 +310,54 @@ const menuId = 'site-primary-menu';
   .site-header__donate {
     background: var(--color-ink);
     color: var(--color-on-photo) !important;
-    padding: 0.45rem 0.9rem;
+    padding: 0 0.85rem;
     border-radius: var(--radius);
+    height: 2.5rem;
   }
 
   .site-header__donate:hover {
-    background: var(--color-accent-text);
+    background: var(--color-lake-deep);
     color: #fff !important;
   }
 
   .site-header__menu-btn {
     appearance: none;
-    border: 1px solid rgba(10, 22, 40, 0.2);
+    border: 1px solid var(--line-strong);
     background: transparent;
     color: var(--color-ink);
     border-radius: var(--radius);
-    padding: 0.4rem 0.75rem;
+    padding: 0 0.7rem;
     cursor: pointer;
+  }
+
+  /* Mobile: reduce chrome clutter — hide Search label link, keep Donate + Menu */
+  @media (max-width: 520px) {
+    .site-header__search {
+      display: none;
+    }
+
+    .site-header__mobile-primary {
+      display: none;
+    }
+
+    .site-header__brand-name {
+      font-size: 1.05rem;
+    }
+
+    .site-header__house {
+      max-width: 9.5rem;
+    }
+  }
+
+  @media (min-width: 521px) and (max-width: 979px) {
+    .site-header__search-label {
+      /* keep Search visible on mid widths */
+    }
   }
 
   @media (min-width: 980px) {
     .site-header__inner {
-      flex-wrap: nowrap;
+      gap: 1rem 1.25rem;
     }
 
     .site-header__nav {
@@ -312,6 +366,8 @@ const menuId = 'site-primary-menu';
       order: 0;
       flex: 1;
       justify-content: center;
+      padding-top: 0;
+      border-top: 0;
     }
 
     .site-header__mobile-primary,
@@ -320,7 +376,23 @@ const menuId = 'site-primary-menu';
     }
 
     .site-header__brand-name {
-      font-size: 1.35rem;
+      font-size: 1.22rem;
+    }
+
+    .site-header__actions {
+      gap: 0.65rem;
+    }
+
+    .site-header__donate {
+      height: var(--control-height);
+      min-height: var(--control-height);
+      padding: 0 1.1rem;
+      font-size: 0.95rem;
+    }
+
+    .site-header__search {
+      height: var(--control-height);
+      min-height: var(--control-height);
     }
   }
 </style>

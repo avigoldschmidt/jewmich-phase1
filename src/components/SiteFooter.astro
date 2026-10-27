@@ -75,11 +75,11 @@ const { audience } = Astro.props;
   .site-footer {
     margin-top: var(--space-2xl);
     background: var(--color-night);
-    color: rgba(242, 245, 248, 0.78);
+    color: rgba(246, 248, 251, 0.72);
   }
 
   .site-footer a {
-    color: rgba(242, 245, 248, 0.9);
+    color: rgba(246, 248, 251, 0.88);
     text-decoration: none;
   }
 
@@ -89,15 +89,16 @@ const { audience } = Astro.props;
 
   .site-footer__inner {
     display: grid;
-    gap: var(--space-lg);
-    padding: var(--space-xl) 0 var(--space-lg);
+    gap: var(--space-10);
+    padding: var(--space-xl) 0 var(--space-8);
   }
 
   .site-footer__name {
-    margin: 0 0 0.5rem;
+    margin: 0 0 0.55rem;
     font-family: var(--font-display);
-    font-size: 1.35rem;
-    font-weight: 650;
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
     color: #fff;
   }
 
@@ -105,20 +106,21 @@ const { audience } = Astro.props;
   .site-footer__phone,
   .site-footer__since,
   .site-footer__ein {
-    margin: 0 0 0.55rem;
-    line-height: 1.55;
-    color: rgba(242, 245, 248, 0.65);
+    margin: 0 0 0.45rem;
+    line-height: 1.5;
+    color: rgba(246, 248, 251, 0.62);
     font-family: var(--font-ui);
+    font-size: 0.95rem;
   }
 
   .site-footer__domains {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.45rem;
+    gap: 0.4rem;
     font-family: var(--font-ui);
-    font-size: 0.92rem;
-    font-weight: 560;
-    margin-bottom: 0.85rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 0.85rem 0;
   }
 
   .site-footer__groups {
@@ -132,13 +134,13 @@ const { audience } = Astro.props;
   }
 
   .site-footer__group-heading {
-    margin: 0 0 0.65rem;
+    margin: 0 0 0.55rem;
     font-family: var(--font-ui);
-    font-size: 0.78rem;
+    font-size: 0.72rem;
     font-weight: 700;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: rgba(242, 245, 248, 0.5);
+    color: rgba(246, 248, 251, 0.45);
   }
 
   .site-footer__group ul {
@@ -146,16 +148,17 @@ const { audience } = Astro.props;
     margin: 0;
     padding: 0;
     display: grid;
-    gap: 0.45rem;
+    gap: 0.4rem;
     font-family: var(--font-ui);
+    font-size: 0.95rem;
   }
 
   .site-footer__bar {
-    border-top: 1px solid rgba(242, 245, 248, 0.1);
-    padding: 0.85rem 0 1.1rem;
-    font-size: 0.88rem;
+    border-top: 1px solid rgba(246, 248, 251, 0.08);
+    padding: 0.75rem 0 1rem;
+    font-size: 0.84rem;
     font-family: var(--font-ui);
-    color: rgba(242, 245, 248, 0.42);
+    color: rgba(246, 248, 251, 0.4);
   }
 
   .site-footer__bar p {
@@ -164,7 +167,7 @@ const { audience } = Astro.props;
 
   @media (min-width: 800px) {
     .site-footer__inner {
-      grid-template-columns: 1.1fr 1.4fr;
+      grid-template-columns: 1.05fr 1.45fr;
       gap: 2rem;
     }
 

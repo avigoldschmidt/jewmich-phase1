@@ -130,13 +130,14 @@ import { withBase } from '../lib/paths';
 <style>
   .donate-methods {
     display: grid;
-    gap: var(--space-lg);
-    max-width: 44rem;
+    gap: var(--space-10);
+    max-width: 40rem;
   }
 
   .donate-chooser__heading {
-    margin: 0 0 1rem;
-    font-size: clamp(1.35rem, 2vw, 1.7rem);
+    margin: 0 0 var(--space-5);
+    font-size: clamp(1.3rem, 2vw, 1.55rem);
+    letter-spacing: -0.015em;
   }
 
   .donate-chooser__grid {
@@ -144,52 +145,60 @@ import { withBase } from '../lib/paths';
     margin: 0;
     padding: 0;
     display: grid;
-    gap: 0.65rem;
+    gap: 0;
   }
 
   .donate-chooser__grid a {
     display: grid;
     gap: 0.15rem;
-    padding: 0.95rem 1rem;
+    padding: 0.95rem 0;
     border: 0;
-    border-bottom: 1px solid rgba(10, 22, 40, 0.12);
+    border-bottom: 1px solid var(--line);
     border-radius: 0;
     text-decoration: none;
     color: inherit;
     background: transparent;
-    padding-inline: 0;
-    min-height: 3rem;
+    min-height: var(--control-height);
+    transition: padding-left 160ms var(--ease);
   }
 
   .donate-chooser__grid a:hover {
-    border-color: var(--color-accent);
+    padding-left: 0.25rem;
+  }
+
+  .donate-chooser__grid a:hover .donate-chooser__label {
+    color: var(--color-accent-text);
   }
 
   .donate-chooser__label {
     font-family: var(--font-display);
-    font-size: 1.15rem;
-    font-weight: 650;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: -0.012em;
+    transition: color 160ms var(--ease);
   }
 
   .donate-chooser__desc {
     color: var(--color-muted);
-    font-size: 0.95rem;
+    font-family: var(--font-ui);
+    font-size: 0.92rem;
   }
 
   .donate-methods__method {
-    padding-top: var(--space-lg);
-    border-top: 1px solid rgba(10, 22, 40, 0.08);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--line);
   }
 
   .donate-methods__method h2 {
-    margin: 0 0 0.45rem;
-    font-size: clamp(1.35rem, 2vw, 1.7rem);
+    margin: 0 0 0.4rem;
+    font-size: clamp(1.3rem, 2vw, 1.55rem);
   }
 
   .donate-methods__method > p {
     margin: 0 0 1rem;
-    max-width: 40rem;
+    max-width: 38rem;
     color: var(--color-muted);
+    font-size: 1.02rem;
   }
 
   .donate-other {
@@ -203,12 +212,24 @@ import { withBase } from '../lib/paths';
   .donate-trust {
     margin: 0;
     color: var(--color-muted);
-    font-size: 0.98rem;
+    font-family: var(--font-ui);
+    font-size: 0.92rem;
   }
 
   @media (min-width: 700px) {
     .donate-chooser__grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: var(--space-8);
+    }
+
+    .donate-chooser__grid li:nth-child(odd) a {
+      padding-right: var(--space-4);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .donate-chooser__grid a:hover {
+      padding-left: 0;
     }
   }
 </style>

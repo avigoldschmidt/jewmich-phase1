@@ -37,20 +37,25 @@ const { tasks, class: className } = Astro.props;
     list-style: none;
     margin: 0;
     padding: 0;
-    max-width: 42rem;
+    max-width: 38rem;
   }
 
   .task-list__row + .task-list__row {
-    border-top: 1px solid rgba(10, 22, 40, 0.1);
+    border-top: 1px solid var(--line);
   }
 
   .task-list__row a {
     display: grid;
-    gap: 0.25rem;
-    padding: 1.15rem 0;
+    gap: 0.2rem;
+    padding: 1rem 0;
     text-decoration: none;
     color: inherit;
     min-height: 3rem;
+    transition: padding-left 180ms var(--ease);
+  }
+
+  .task-list__row a:hover {
+    padding-left: 0.25rem;
   }
 
   .task-list__row a:hover .task-list__label {
@@ -59,13 +64,22 @@ const { tasks, class: className } = Astro.props;
 
   .task-list__label {
     font-family: var(--font-display);
-    font-size: 1.35rem;
-    font-weight: 650;
-    transition: color 180ms var(--ease);
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    transition: color 160ms var(--ease);
   }
 
   .task-list__desc {
     color: var(--color-muted);
-    font-size: 1rem;
+    font-family: var(--font-ui);
+    font-size: 0.95rem;
+    line-height: 1.45;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .task-list__row a:hover {
+      padding-left: 0;
+    }
   }
 </style>

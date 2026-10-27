@@ -52,20 +52,20 @@ const href = notice?.href
 <style>
   .notice {
     background: var(--color-mist);
-    border-block: 1px solid rgba(10, 22, 40, 0.08);
-    padding: 0.95rem 0;
+    border-block: 1px solid var(--line);
+    padding: 0.8rem 0;
   }
 
   .notice__link {
     display: inline-flex;
     flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0.45rem;
+    gap: 0.4rem;
     text-decoration: none;
     color: var(--color-ink);
-    font-weight: 600;
+    font-weight: 650;
     font-family: var(--font-ui);
-    min-height: 2.75rem;
+    font-size: 0.98rem;
+    min-height: 2.5rem;
     align-items: center;
   }
 
@@ -75,10 +75,20 @@ const href = notice?.href
 
   .notice__text {
     margin: 0;
-    font-size: 1.02rem;
   }
 
   .notice__arrow {
     color: var(--color-accent);
+    transition: transform 160ms var(--ease);
+  }
+
+  .notice__link:hover .notice__arrow {
+    transform: translateX(2px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .notice__link:hover .notice__arrow {
+      transform: none;
+    }
   }
 </style>

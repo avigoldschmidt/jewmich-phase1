@@ -30,7 +30,7 @@ const events = (await getCollection('events')).filter(
     headline={hero?.headline ?? title}
     sentence={hero?.sentence ?? description}
     imageSrc={hero?.image ?? '/images/heroes/students.jpg'}
-    imageAlt={hero?.imageAlt ?? 'University of Michigan students on a JewMich trip'}
+    imageAlt={hero?.imageAlt ?? 'Students at Chabad House of Ann Arbor'}
     ctas={[
       {
         href: hero?.primaryCta?.href ?? 'https://www.jewmich.com/shabbat/',

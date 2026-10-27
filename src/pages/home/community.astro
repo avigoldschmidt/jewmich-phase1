@@ -30,7 +30,7 @@ const events = (await getCollection('events')).filter(
     headline={hero?.headline ?? title}
     sentence={hero?.sentence ?? description}
     imageSrc={hero?.image ?? '/images/heroes/community-wide.jpg'}
-    imageAlt={hero?.imageAlt ?? 'Community gathering at Chabad House of Ann Arbor'}
+    imageAlt={hero?.imageAlt ?? 'Community life at Chabad House of Ann Arbor'}
     ctas={[
       {
         href: hero?.primaryCta?.href ?? '/visit',

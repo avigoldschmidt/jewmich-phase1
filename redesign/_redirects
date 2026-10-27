@@ -1,0 +1,161 @@
+# Path redirects (Netlify + Cloudflare Pages)
+# Generated from content-migration-map.md
+# Do NOT 301 active WordPress form processors or live form POST targets.
+
+# Audience homes
+/studentcenter/   /home/students   301
+/studentcenter    /home/students   301
+/cong/            /home/community  301
+/cong             /home/community  301
+
+# Students
+/highholiday/     /students/holidays  301
+/highholiday      /students/holidays  301
+/highholidays/    /students/holidays  301
+/highholidays     /students/holidays  301
+/passover/        /students/holidays  301
+/passover         /students/holidays  301
+/megachallah/     /students/holidays  301
+/megachallah      /students/holidays  301
+/latkefest/       /students/holidays  301
+/latkefest        /students/holidays  301
+/sinaischolars/   /students/learn  301
+/sinaischolars    /students/learn  301
+/yourisrael/      /students/learn  301
+/yourisrael       /students/learn  301
+/studycenter/     /students/learn  301
+/studycenter      /students/learn  301
+/birthright/      /students/trips  301
+/birthright       /students/trips  301
+/birthrightold/   /students/trips  301
+/birthrightold    /students/trips  301
+/birthrightmay25/ /students/trips  301
+/birthrightmay25  /students/trips  301
+/brazil/          /students/trips  301
+/brazil           /students/trips  301
+/brazildep/       /students/trips  301
+/brazildep        /students/trips  301
+/brazilinfo/      /students/trips  301
+/brazilinfo       /students/trips  301
+/soup/            /students/parents  301
+/soup             /students/parents  301
+/mythandfact/     /myth-and-fact  301
+/mythandfact      /myth-and-fact  301
+
+# Community
+/chometz/         /community/holidays  301
+/chometz          /community/holidays  301
+/chometzcc/       /community/holidays  301
+/chometzcc        /community/holidays  301
+/lulavset/        /community/holidays  301
+/lulavset         /community/holidays  301
+/passovercom/     /community/holidays  301
+/passovercom      /community/holidays  301
+/jli/             /community/learn  301
+/jli              /community/learn  301
+/jwc/             /community/learn  301
+/jwc              /community/learn  301
+/culinary/        /community/learn  301
+/culinary         /community/learn  301
+/happiness/       /community/learn  301
+/happiness        /community/learn  301
+/mikvah/          /community/jewish-life  301
+/mikvah           /community/jewish-life  301
+/mezuzah/         /community/jewish-life  301
+/mezuzah          /community/jewish-life  301
+/kosher/          /community/jewish-life  301
+/kosher           /community/jewish-life  301
+/ask/             /community/jewish-life  301
+/ask              /community/jewish-life  301
+/judiacstore/     /community/jewish-life  301
+/judiacstore      /community/jewish-life  301
+
+# Youth
+/chs/             /youth  301
+/chs              /youth  301
+/camp/            /youth  301
+/camp             /youth  301
+
+# Shared / donate / visit
+/donate/          /donate  301
+/donation/        /donate  301
+/donation         /donate  301
+/donatewithzeffy/ /donate  301
+/donatewithzeffy  /donate  301
+/paypal/          /donate  301
+/paypal           /donate  301
+/chaiclub/        /donate  301
+/chaiclub         /donate  301
+/wishlist/        /donate  301
+/wishlist         /donate  301
+/kiddush/         /donate  301
+/kiddush          /donate  301
+/kiddushmain/     /donate  301
+/kiddushmain      /donate  301
+/kiddushreserve/  /donate  301
+/kiddushreserve   /donate  301
+/donatemiles/     /donate  301
+/donatemiles      /donate  301
+/donateyourcar/   /donate  301
+/donateyourcar    /donate  301
+/sponsorshabbat/  /donate  301
+/sponsorshabbat   /donate  301
+/lifeandlegacy/   /donate  301
+/lifeandlegacy    /donate  301
+/events/          /events  301
+/event-register-via-zeffy/ /events  301
+/event-register-via-zeffy  /events  301
+/earlymoveinpayment/ /events  301
+/earlymoveinpayment  /events  301
+/map/             /visit  301
+/map              /visit  301
+/visitingliving/  /visit  301
+/visitingliving   /visit  301
+/visiting&living  /visit  301
+/visiting&living/ /visit  301
+/aboutus/         /about  301
+/aboutus          /about  301
+/candlelighting/  /candle-lighting  301
+/candlelighting   /candle-lighting  301
+/virtual/         /virtual  301
+/signup2/         /newsletter  301
+/signup2          /newsletter  301
+
+# Retire → nearest useful page (staff sign-off)
+/login/           /home/students  301
+/login            /home/students  301
+/logout/          /home/students  301
+/logout           /home/students  301
+/myaccount/       /home/students  301
+/myaccount        /home/students  301
+/my-account/      /home/students  301
+/my-account       /home/students  301
+/forgotpassword/  /home/students  301
+/forgotpassword   /home/students  301
+/resetpassword/   /home/students  301
+/resetpassword    /home/students  301
+/shop/            /community/jewish-life  301
+/shop             /community/jewish-life  301
+/success/         /home/students  301
+/success          /home/students  301
+/success_birthright/ /students/trips  301
+/success_birthright  /students/trips  301
+/success_highholiday/ /students/holidays  301
+/success_highholiday  /students/holidays  301
+/success_shabbat/ /students/shabbat  301
+/success_shabbat  /students/shabbat  301
+/successredirect/ /home/students  301
+/successredirect  /home/students  301
+
+# Host-aware homepage rewrites (Netlify; Cloudflare uses functions/_middleware.js)
+https://jewmich.com/              /home/students   200!
+https://www.jewmich.com/          /home/students   200!
+https://chabadannarbor.com/       /home/community  200!
+https://www.chabadannarbor.com/   /home/community  200!
+
+# NEVER redirect (documented; listed so editors do not add them):
+# /shabbat/ /highholidayregister/ /highholidayregistercom/ /sukkot/
+# /signup/ /remove/ /payment/ /visitingform/ /contact/ (form POST)
+# /form-process-* /charitybox/ /donatemiles/ (if still processing — prefer keep WP)
+# Note: some public form paths also have content homes; CTAs link to jewmich.com
+# until DNS cutover strategy is confirmed. Do not 301 those form URLs.

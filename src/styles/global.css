@@ -216,18 +216,28 @@ p {
   }
 }
 
-/* Motion 3: soft section reveal on scroll */
+/* Motion 3: soft section reveal — content stays readable by default */
 [data-reveal] {
-  opacity: 0;
-  transform: translateY(0.75rem);
-  transition:
-    opacity 560ms var(--ease),
-    transform 560ms var(--ease);
+  opacity: 1;
+  transform: none;
 }
 
-[data-reveal].is-visible {
-  opacity: 1;
-  transform: translateY(0);
+@media (prefers-reduced-motion: no-preference) {
+  html.js-motion [data-reveal]:not(.is-visible) {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+
+  html.js-motion [data-reveal] {
+    transition:
+      opacity 560ms var(--ease),
+      transform 560ms var(--ease);
+  }
+
+  html.js-motion [data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -238,10 +248,5 @@ p {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
-  }
-
-  [data-reveal] {
-    opacity: 1;
-    transform: none;
   }
 }

@@ -4,24 +4,26 @@
 
 :root {
   /* Cool campus nonprofit — not cream / brass */
-  --paper: #f6f8fb;
+  --paper: #f4f7fb;
   --surface: #ffffff;
-  --mist: #e8eef5;
+  --mist: #e4ebf4;
   --ink: #0a1628;
-  --muted: #546575;
+  --ink-soft: #334556;
+  --muted: #445566;
   --lake: #1a5f8a;
   --lake-deep: #0e4266;
   --night: #06101c;
   --maize: #ffcb05;
   --on-photo: #ffffff;
-  --line: rgba(10, 22, 40, 0.1);
-  --line-strong: rgba(10, 22, 40, 0.16);
+  --line: rgba(10, 22, 40, 0.12);
+  --line-strong: rgba(10, 22, 40, 0.18);
 
   --color-page: var(--paper);
   --color-elevated: var(--surface);
   --color-sand: var(--mist);
   --color-mist: var(--mist);
   --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
   --color-muted: var(--muted);
   --color-accent: var(--lake);
   --color-accent-text: var(--lake-deep);
@@ -181,8 +183,8 @@ p {
 .section-lede {
   margin: 0 0 var(--space-8);
   max-width: 34rem;
-  color: var(--color-muted);
-  font-size: 1.02rem;
+  color: var(--color-ink-soft);
+  font-size: 1.05rem;
   line-height: 1.55;
   font-family: var(--font-body);
 }

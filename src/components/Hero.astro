@@ -115,31 +115,31 @@ const resolvedImage = imageSrc ? withBase(imageSrc) : undefined;
     background: linear-gradient(155deg, #12324d 0%, #06101c 70%);
   }
 
-  /* Soft left scrim — keep photo readable */
+  /* Left + bottom scrim — text readable on busy photos, photo still visible */
   .hero__veil {
     position: absolute;
     inset: 0;
     background:
       linear-gradient(
         92deg,
-        rgba(6, 16, 28, 0.66) 0%,
-        rgba(6, 16, 28, 0.4) 34%,
-        rgba(6, 16, 28, 0.12) 64%,
-        rgba(6, 16, 28, 0.16) 100%
+        rgba(6, 16, 28, 0.78) 0%,
+        rgba(6, 16, 28, 0.52) 32%,
+        rgba(6, 16, 28, 0.18) 58%,
+        rgba(6, 16, 28, 0.22) 100%
       ),
-      linear-gradient(to top, rgba(6, 16, 28, 0.34) 0%, transparent 36%);
+      linear-gradient(to top, rgba(6, 16, 28, 0.42) 0%, transparent 42%);
   }
 
   .hero--community .hero__veil {
     background:
       linear-gradient(
         92deg,
-        rgba(6, 16, 28, 0.68) 0%,
-        rgba(6, 16, 28, 0.42) 36%,
-        rgba(6, 16, 28, 0.14) 66%,
-        rgba(6, 16, 28, 0.2) 100%
+        rgba(6, 16, 28, 0.8) 0%,
+        rgba(6, 16, 28, 0.54) 34%,
+        rgba(6, 16, 28, 0.2) 60%,
+        rgba(6, 16, 28, 0.26) 100%
       ),
-      linear-gradient(to top, rgba(6, 16, 28, 0.32) 0%, transparent 38%);
+      linear-gradient(to top, rgba(6, 16, 28, 0.4) 0%, transparent 44%);
   }
 
   .hero__content {
@@ -191,7 +191,13 @@ const resolvedImage = imageSrc ? withBase(imageSrc) : undefined;
     font-weight: 400;
     line-height: 1.5;
     letter-spacing: 0.01em;
-    color: rgba(255, 255, 255, 0.84);
+    color: rgba(255, 255, 255, 0.92);
+    text-shadow: 0 1px 2px rgba(6, 16, 28, 0.35);
+  }
+
+  .hero__brand,
+  .hero__headline {
+    text-shadow: 0 1px 2px rgba(6, 16, 28, 0.28);
   }
 
   @media (min-width: 900px) {

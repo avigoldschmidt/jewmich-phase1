@@ -47,50 +47,146 @@ const events = (await getCollection('events')).filter(
 
   <Notice notice={notice} />
 
-  <section class="section" data-reveal>
-    <div class="container">
-      <h2 class="section-heading">Find your place</h2>
-      <p class="section-lede">Five ways into community life at the House.</p>
-      {tasks && <TaskList tasks={tasks} />}
+  <section class="section paths" data-reveal>
+    <div class="container paths__grid">
+      <div class="paths__intro">
+        <p class="paths__eyebrow">Congregation life</p>
+        <h2 class="section-heading">Find your place</h2>
+        <p class="section-lede">
+          Five ways into community life at the House — services, holidays,
+          learning, youth, and camp — the same doors as the live Congregation
+          Chabad pages, in one place.
+        </p>
+      </div>
+      <div class="paths__list">
+        {tasks && <TaskList tasks={tasks} />}
+      </div>
     </div>
   </section>
 
-  <section class="section section--mist" data-reveal>
+  <section class="section section--mist pillars" data-reveal>
     <div class="container">
-      <h2 class="section-heading">What's on</h2>
-      <p class="section-lede">Current community sign-ups and seasonal programs.</p>
-      <EventList events={events} />
-      <div class="cta-row" style="margin-top: 1.25rem;">
-        <CtaLink href="/events" label="All events" variant="secondary" />
+      <h2 class="section-heading">Pray, learn, raise a family</h2>
+      <p class="section-lede">
+        From the Congregation Chabad home: services and meals, adult education,
+        and youth programs under one roof at 715 Hill.
+      </p>
+      <div class="pillars__grid">
+        <article class="pillar">
+          <h3>Services &amp; Shabbat</h3>
+          <p>
+            Shabbat and holiday prayer, Kiddush luncheons, and a listening ear —
+            confirm current times with the House until we publish a staff-approved
+            schedule.
+          </p>
+          <div class="cta-row">
+            <CtaLink href="/community/services" label="Services" variant="primary" />
+            <CtaLink href="/candle-lighting" label="Candle lighting" variant="text" />
+          </div>
+        </article>
+        <article class="pillar">
+          <h3>Adult learning</h3>
+          <p>
+            JLI courses, Jewish Women’s Circle, culinary workshops, and seasonal
+            classes — study at a pace that fits Ann Arbor life.
+          </p>
+          <div class="cta-row">
+            <CtaLink href="/community/learn" label="Classes & circles" variant="secondary" />
+            <CtaLink href="/community/jewish-life" label="Jewish life resources" variant="text" />
+          </div>
+        </article>
+        <article class="pillar">
+          <h3>Youth &amp; camp</h3>
+          <p>
+            Chabad Hebrew School and Camp Gan Israel — Jewish education and summer
+            fun for kids in the greater Ann Arbor community.
+          </p>
+          <div class="cta-row">
+            <CtaLink href="/youth" label="Hebrew School & camp" variant="secondary" />
+            <CtaLink href="/community/holidays" label="Holiday programs" variant="text" />
+          </div>
+        </article>
       </div>
     </div>
   </section>
 
   <section class="section" data-reveal>
-    <div class="container">
-      <h2 class="section-heading">Who we are</h2>
-      <p class="section-lede">
-        Since {SITE.since}, Chabad House of Ann Arbor has served students and
-        local residents together — services, meals, learning, and a listening ear.
-      </p>
-      <p>
-        <!-- staff: add rabbi and rebbetzin names and photos -->
-        <a href={withBase('/about')}>About the House</a>
-      </p>
+    <div class="container split">
+      <div class="split__copy">
+        <h2 class="section-heading">What's on</h2>
+        <p class="section-lede">
+          Current community sign-ups and seasonal programs. For service times,
+          <a href={withBase('/contact')}>contact us</a> until staff confirm a
+          published schedule.
+        </p>
+        <EventList events={events} />
+        <div class="cta-row" style="margin-top: 1.25rem;">
+          <CtaLink href="/events" label="All events" variant="secondary" />
+          <CtaLink href="/community/services" label="Services" variant="text" />
+        </div>
+      </div>
+      <figure class="split__media">
+        <img
+          src={withBase('/images/heroes/community-dining.jpg')}
+          alt="A shared meal at Chabad House of Ann Arbor"
+          width="800"
+          height="600"
+          loading="lazy"
+        />
+      </figure>
     </div>
   </section>
 
   <section class="section section--mist" data-reveal>
+    <div class="container who-split">
+      <div class="who">
+        <h2 class="section-heading">Who we are</h2>
+        <p class="section-lede">
+          Since {SITE.since}, Chabad House of Ann Arbor has been a Jewish community
+          center in the truest sense — the nerve center of Jewish educational and
+          outreach activities here, serving students, local residents, and visitors
+          together at 715 Hill Street.
+        </p>
+        <p class="who__body">
+          Congregation life includes Shabbat and holiday services, communal meals, a
+          listening ear, study, Hebrew School, the mikvah, and adult learning —
+          alongside the student programs that share the same House. Programming
+          follows the Chabad-Lubavitch movement, with over 6,000 centers worldwide;
+          each local center is supported by the community it serves.
+        </p>
+        <p class="who__links">
+          {/* staff: add rabbi and rebbetzin names and photos */}
+          <a href={withBase('/about')}>About the House</a>
+          <span aria-hidden="true"> · </span>
+          <a href={withBase('/community/jewish-life')}>Jewish life resources</a>
+          <span aria-hidden="true"> · </span>
+          <a href={withBase('/visit')}>Map &amp; visit</a>
+        </p>
+      </div>
+      <figure class="who__media">
+        <img
+          src={withBase('/images/heroes/community.jpg')}
+          alt="Chabad House of Ann Arbor exterior"
+          width="800"
+          height="600"
+          loading="lazy"
+        />
+      </figure>
+    </div>
+  </section>
+
+  <section class="section" data-reveal>
     <div class="container">
       <h2 class="section-heading">Belong &amp; support</h2>
       <p class="section-lede">
         Three clear options — membership, monthly giving, and one-time gifts are
-        different paths.
+        different paths. Chai Club is monthly support; it is separate from
+        congregation membership.
       </p>
       <ul class="belong">
         <li>
           <h3>Membership</h3>
-          <p>For the congregation community.</p>
+          <p>For the congregation community at Chabad House.</p>
           <CtaLink
             href="https://www.jewmich.com/membership/"
             label="Membership"
@@ -100,12 +196,12 @@ const events = (await getCollection('events')).filter(
         </li>
         <li>
           <h3>Chai Club</h3>
-          <p>Monthly support — separate from membership.</p>
+          <p>Monthly support that helps keep programs and the open door going.</p>
           <CtaLink href="/donate#chai-club" label="Chai Club" variant="secondary" />
         </li>
         <li>
           <h3>Donate</h3>
-          <p>One-time gifts that keep programs running.</p>
+          <p>One-time gifts, kiddush sponsorships, Life &amp; Legacy, and more.</p>
           <CtaLink href="/donate" label="Donate" variant="primary" />
         </li>
       </ul>
@@ -114,6 +210,119 @@ const events = (await getCollection('events')).filter(
 </BaseLayout>
 
 <style>
+  .paths__eyebrow {
+    margin: 0 0 var(--space-2);
+    font-family: var(--font-ui);
+    font-size: 0.8rem;
+    font-weight: 650;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-lake-deep);
+  }
+
+  .paths__grid {
+    display: grid;
+    gap: var(--space-8);
+  }
+
+  .paths__intro .section-lede {
+    margin-bottom: 0;
+  }
+
+  @media (min-width: 900px) {
+    .paths__grid {
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+      gap: var(--space-12);
+      align-items: start;
+    }
+  }
+
+  .pillars__grid {
+    display: grid;
+    gap: var(--space-8);
+  }
+
+  .pillar h3 {
+    margin: 0 0 var(--space-2);
+    font-size: 1.2rem;
+    letter-spacing: -0.014em;
+  }
+
+  .pillar p {
+    margin: 0 0 var(--space-4);
+    color: var(--color-muted);
+    font-family: var(--font-ui);
+    font-size: 0.98rem;
+    line-height: 1.5;
+    max-width: 28rem;
+  }
+
+  @media (min-width: 800px) {
+    .pillars__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-8);
+    }
+  }
+
+  .split {
+    display: grid;
+    gap: var(--space-8);
+    align-items: center;
+  }
+
+  .split__media,
+  .who__media {
+    margin: 0;
+    overflow: hidden;
+    border-radius: var(--radius);
+  }
+
+  .split__media img,
+  .who__media img {
+    width: 100%;
+    height: 100%;
+    max-height: 22rem;
+    object-fit: cover;
+  }
+
+  @media (min-width: 900px) {
+    .split {
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: var(--space-12);
+    }
+  }
+
+  .who-split {
+    display: grid;
+    gap: var(--space-8);
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .who-split {
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: var(--space-12);
+    }
+  }
+
+  .who {
+    max-width: 42rem;
+  }
+
+  .who__body {
+    color: var(--color-muted);
+    font-family: var(--font-ui);
+    font-size: 0.98rem;
+    line-height: 1.55;
+    max-width: 40rem;
+  }
+
+  .who__links {
+    margin: var(--space-4) 0 0;
+    font-family: var(--font-ui);
+    font-size: 0.95rem;
+  }
+
   .belong {
     list-style: none;
     margin: 0;

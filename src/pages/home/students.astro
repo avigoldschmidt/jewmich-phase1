@@ -48,36 +48,109 @@ const events = (await getCollection('events')).filter(
 
   <Notice notice={notice} />
 
-  <section class="section" data-reveal>
-    <div class="container">
-      <h2 class="section-heading">Start here</h2>
-      <p class="section-lede">Four clear paths — pick one and go.</p>
-      {tasks && <TaskList tasks={tasks} />}
+  <section class="section paths" data-reveal>
+    <div class="container paths__grid">
+      <div class="paths__intro">
+        <p class="paths__eyebrow">Student Center</p>
+        <h2 class="section-heading">Start here</h2>
+        <p class="section-lede">
+          Four clear paths into student life at the House — the same doors as the
+          old Student Center, in one place.
+        </p>
+      </div>
+      <div class="paths__list">
+        {tasks && <TaskList tasks={tasks} />}
+      </div>
     </div>
   </section>
 
-  <section class="section section--mist" data-reveal>
+  <section class="section section--mist pillars" data-reveal>
     <div class="container">
-      <h2 class="section-heading">What's on</h2>
+      <h2 class="section-heading">Eat, learn, get practical help</h2>
       <p class="section-lede">
-        Current sign-ups. Shabbat dinner happens every Friday of the semester.
+        From the Student Center: gather at the table, explore Jewish learning, and
+        find campus resources.
       </p>
-      <EventList events={events} />
-      <div class="cta-row" style="margin-top: 1.25rem;">
-        <CtaLink href="/events" label="All events" variant="secondary" />
+      <div class="pillars__grid">
+        <article class="pillar">
+          <h3>Eat and gather</h3>
+          <p>
+            Join student Shabbat dinners, holiday meals, and a warm community that
+            feels personal and welcoming. Five courses. No charge. Come as you are.
+          </p>
+          <div class="cta-row">
+            <CtaLink href="/students/shabbat" label="Shabbat dinner" variant="primary" />
+            <CtaLink href="/candle-lighting" label="Candle lighting" variant="text" />
+          </div>
+        </article>
+        <article class="pillar">
+          <h3>Learn and explore</h3>
+          <p>
+            Jewish learning, thoughtful conversations, Israel programs, and
+            opportunities to grow at your own pace — Sinai Scholars, Study Center,
+            and more.
+          </p>
+          <div class="cta-row">
+            <CtaLink href="/students/learn" label="Sinai Scholars & classes" variant="secondary" />
+            <CtaLink href="/myth-and-fact" label="Myths & facts" variant="text" />
+          </div>
+        </article>
+        <article class="pillar">
+          <h3>Student resources</h3>
+          <p>
+            Need practical help, Jewish resources, or directions? Kosher listings,
+            mezuzot for dorms, and the map to 715 Hill.
+          </p>
+          <div class="cta-row">
+            <CtaLink href="/community/jewish-life#kosher" label="Kosher in Ann Arbor" variant="secondary" />
+            <CtaLink href="/visit" label="Map & visit" variant="text" />
+          </div>
+        </article>
       </div>
     </div>
   </section>
 
   <section class="section" data-reveal>
+    <div class="container split">
+      <div class="split__copy">
+        <h2 class="section-heading">What's on</h2>
+        <p class="section-lede">
+          Current sign-ups. Shabbat dinner happens every Friday of the semester —
+          reserve on the live form for this week’s times.
+        </p>
+        <EventList events={events} />
+        <div class="cta-row" style="margin-top: 1.25rem;">
+          <CtaLink href="/events" label="All events" variant="secondary" />
+        </div>
+      </div>
+      <figure class="split__media">
+        <img
+          src={withBase('/images/heroes/dining-challah.jpg')}
+          alt="Challah prepared for Shabbat at Chabad House"
+          width="800"
+          height="600"
+          loading="lazy"
+        />
+      </figure>
+    </div>
+  </section>
+
+  <section class="section section--mist" data-reveal>
     <div class="container who">
-      <h2 class="section-heading">Who we are</h2>
+      <h2 class="section-heading">What is Chabad?</h2>
       <p class="section-lede">
-        Since {SITE.since}. Every background welcome. A home away from home for
-        University of Michigan students at 715 Hill Street.
+        Chabad provides a family-style environment for Jewish students at the
+        University of Michigan. Students of every background and every level of
+        observance are welcome to stop by, relax, schmooze, and connect.
       </p>
       <p class="who__people">
-        <!-- staff: add rabbi and rebbetzin names and photos -->
+        Led by the Chabad Rabbi and Rebbetzin, students can join classes, community
+        service, Israel programs, personal guidance, a daily minyan shared with
+        Hillel, and traditional Shabbat and holiday experiences throughout the
+        school year. Since {SITE.since} at 715 Hill Street.
+      </p>
+      <p class="who__people">
+        {/* staff: add rabbi and rebbetzin names and photos */}
         Meet the House team when you visit — or
         <a href={withBase('/about')}>read about us</a>.
       </p>
@@ -91,11 +164,12 @@ const events = (await getCollection('events')).filter(
     </div>
   </section>
 
-  <section class="section section--mist" data-reveal>
+  <section class="section" data-reveal>
     <div class="container">
       <h2 class="section-heading">Parents &amp; families</h2>
       <p class="section-lede">
-        Visit for Shabbat, sponsor a dinner, or send a little care from home.
+        Visit for Shabbat, sponsor a dinner, send soup to a student who’s under the
+        weather, or support the open door from home.
       </p>
       <div class="cta-row">
         <CtaLink href="/students/parents" label="For parents" variant="primary" />
@@ -105,17 +179,19 @@ const events = (await getCollection('events')).filter(
           variant="secondary"
           sameTab
         />
+        <CtaLink href="/students/trips" label="Birthright & trips" variant="text" />
       </div>
     </div>
   </section>
 
-  <section class="section" data-reveal>
+  <section class="section section--mist" data-reveal>
     <div class="container give-band">
       <div>
         <h2 class="section-heading">Give</h2>
         <p class="section-lede">
-          Gifts fund Shabbat dinners, holidays, learning, and the open door at
-          715 Hill. <!-- staff: refine "how gifts are used" line -->
+          Gifts fund Shabbat dinners, holidays, learning, campus outreach, and the
+          open door at 715 Hill. Chabad is not centrally funded — local gifts stay
+          local.
         </p>
       </div>
       <div class="cta-row">
@@ -127,18 +203,104 @@ const events = (await getCollection('events')).filter(
 </BaseLayout>
 
 <style>
-  .who__people {
+  .paths__eyebrow {
+    margin: 0 0 var(--space-2);
+    font-family: var(--font-ui);
+    font-size: 0.8rem;
+    font-weight: 650;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-lake-deep);
+  }
+
+  .paths__grid {
+    display: grid;
+    gap: var(--space-8);
+  }
+
+  .paths__intro .section-lede {
+    margin-bottom: 0;
+    color: var(--color-ink-soft);
+  }
+
+  @media (min-width: 900px) {
+    .paths__grid {
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+      gap: var(--space-12);
+      align-items: start;
+    }
+  }
+
+  .pillars__grid {
+    display: grid;
+    gap: var(--space-8);
+  }
+
+  .pillar h3 {
+    margin: 0 0 var(--space-2);
+    font-size: 1.2rem;
+    letter-spacing: -0.014em;
+  }
+
+  .pillar p {
+    margin: 0 0 var(--space-4);
     color: var(--color-muted);
-    max-width: 34rem;
     font-family: var(--font-ui);
     font-size: 0.98rem;
+    line-height: 1.5;
+    max-width: 28rem;
+  }
+
+  @media (min-width: 800px) {
+    .pillars__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-8);
+    }
+  }
+
+  .split {
+    display: grid;
+    gap: var(--space-8);
+    align-items: center;
+  }
+
+  .split__media {
+    margin: 0;
+    overflow: hidden;
+    border-radius: var(--radius);
+  }
+
+  .split__media img {
+    width: 100%;
+    height: 100%;
+    max-height: 22rem;
+    object-fit: cover;
+  }
+
+  @media (min-width: 900px) {
+    .split {
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: var(--space-12);
+    }
+  }
+
+  .who {
+    max-width: 42rem;
+  }
+
+  .who__people {
+    color: var(--color-muted);
+    max-width: 40rem;
+    font-family: var(--font-ui);
+    font-size: 0.98rem;
+    line-height: 1.55;
   }
 
   .who__quote {
     margin: var(--space-6) 0 0;
     padding: 0 0 0 var(--space-4);
     border-left: 2px solid var(--color-maize);
-    max-width: 34rem;
+    max-width: 36rem;
   }
 
   .who__quote p {
@@ -162,8 +324,6 @@ const events = (await getCollection('events')).filter(
     align-items: flex-end;
     justify-content: space-between;
     gap: var(--space-5) var(--space-8);
-    padding-top: var(--space-2);
-    border-top: 1px solid var(--line);
   }
 
   .give-band .section-heading {

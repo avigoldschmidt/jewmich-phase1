@@ -78,10 +78,14 @@ const { title, description, audience, registration, actions = [], canonicalPath 
 
   .content-page__desc {
     margin: 0 0 1rem;
-    color: var(--color-muted);
+    color: var(--color-ink-soft);
     font-size: 1.05rem;
     line-height: 1.55;
     max-width: 36rem;
+  }
+
+  .content-page :global(.prose) {
+    max-width: var(--prose-width);
   }
 
   .content-page__form-note {

@@ -2,7 +2,9 @@
 import BaseLayout from './BaseLayout.astro';
 import Prose from '../components/Prose.astro';
 import CtaLink from '../components/CtaLink.astro';
+import ActionPanel from '../components/ActionPanel.astro';
 import type { Audience } from '../lib/nav';
+import type { ActionId } from '../data/actions';
 
 interface Registration {
   type: 'url' | 'embed';
@@ -15,10 +17,11 @@ interface Props {
   description: string;
   audience: Audience;
   registration?: Registration;
+  actions?: string[];
   canonicalPath?: string;
 }
 
-const { title, description, audience, registration, canonicalPath } =
+const { title, description, audience, registration, actions = [], canonicalPath } =
   Astro.props;
 ---
 
@@ -34,20 +37,28 @@ const { title, description, audience, registration, canonicalPath } =
         <h1 class="content-page__title">{title}</h1>
         <p class="content-page__desc">{description}</p>
         {
-          registration?.type === 'url' && (
+          actions.length > 0 ? (
+            <ActionPanel id={actions[0] as ActionId} />
+          ) : registration?.type === 'url' ? (
             <div class="cta-row">
               <CtaLink
                 href={registration.href}
                 label={registration.label ?? 'Register'}
                 variant="primary"
+                sameTab
               />
+              <p class="content-page__form-note">Opens our registration form</p>
             </div>
-          )
+          ) : null
         }
       </header>
       <Prose>
         <slot />
       </Prose>
+      {
+        actions.length > 1 &&
+          actions.slice(1).map((id) => <ActionPanel id={id as ActionId} />)
+      }
       <slot name="after" />
     </div>
   </section>
@@ -55,18 +66,33 @@ const { title, description, audience, registration, canonicalPath } =
 
 <style>
   .content-page__header {
-    margin-bottom: var(--space-lg);
-    max-width: 42rem;
+    margin-bottom: var(--space-8);
+    max-width: var(--prose-width);
   }
 
   .content-page__title {
-    margin: 0 0 0.55rem;
-    font-size: clamp(2rem, 4vw, 2.7rem);
+    margin: 0 0 0.5rem;
+    font-size: clamp(1.85rem, 3.5vw, 2.45rem);
+    letter-spacing: -0.02em;
   }
 
   .content-page__desc {
-    margin: 0 0 1.1rem;
+    margin: 0 0 1rem;
+    color: var(--color-ink-soft);
+    font-size: 1.05rem;
+    line-height: 1.55;
+    max-width: 36rem;
+  }
+
+  .content-page :global(.prose) {
+    max-width: var(--prose-width);
+  }
+
+  .content-page__form-note {
+    margin: 0;
+    width: 100%;
     color: var(--color-muted);
-    font-size: 1.08rem;
+    font-family: var(--font-ui);
+    font-size: 0.88rem;
   }
 </style>

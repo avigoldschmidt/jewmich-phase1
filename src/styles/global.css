@@ -3,20 +3,20 @@
 @import '@fontsource-variable/source-sans-3';
 
 :root {
-  /* Cool campus nonprofit — not cream / brass */
-  --paper: #f4f7fb;
+  /* Cool lake campus house — not cream/brass brochure, not dark-strip template */
+  --paper: #f2f6fa;
   --surface: #ffffff;
-  --mist: #e4ebf4;
-  --ink: #0a1628;
-  --ink-soft: #334556;
-  --muted: #445566;
-  --lake: #1a5f8a;
-  --lake-deep: #0e4266;
-  --night: #06101c;
+  --mist: #e2eaf3;
+  --ink: #081526;
+  --ink-soft: #2f4254;
+  --muted: #405264;
+  --lake: #176087;
+  --lake-deep: #0c3f62;
+  --night: #07111d;
   --maize: #ffcb05;
   --on-photo: #ffffff;
-  --line: rgba(10, 22, 40, 0.12);
-  --line-strong: rgba(10, 22, 40, 0.18);
+  --line: rgba(8, 21, 38, 0.11);
+  --line-strong: rgba(8, 21, 38, 0.18);
 
   --color-page: var(--paper);
   --color-elevated: var(--surface);
@@ -81,7 +81,10 @@ body {
   margin: 0;
   min-height: 100vh;
   color: var(--color-ink);
-  background: var(--color-page);
+  background:
+    radial-gradient(ellipse 70% 42% at 100% -10%, rgba(23, 96, 135, 0.07), transparent 55%),
+    radial-gradient(ellipse 50% 30% at 0% 100%, rgba(255, 203, 5, 0.05), transparent 50%),
+    var(--color-page);
   font-family: var(--font-body);
   font-size: 1.0625rem;
   line-height: 1.6;

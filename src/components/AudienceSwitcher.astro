@@ -6,9 +6,10 @@ import { withBase } from '../lib/paths';
 interface Props {
   audience: Audience;
   compact?: boolean;
+  tone?: 'dark' | 'light';
 }
 
-const { audience, compact = false } = Astro.props;
+const { audience, compact = false, tone = 'dark' } = Astro.props;
 const current =
   audience === 'community' || audience === 'youth' ? 'community' : 'students';
 ---
@@ -16,6 +17,7 @@ const current =
 <nav
   class:list={[
     'audience-switcher',
+    `audience-switcher--${tone}`,
     compact && 'audience-switcher--compact',
   ]}
   aria-label="Audience"
@@ -48,17 +50,50 @@ const current =
     align-items: stretch;
     gap: 0;
     padding: 1px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: var(--radius);
-    background: rgba(255, 255, 255, 0.04);
     font-family: var(--font-ui);
     font-size: 0.75rem;
     font-weight: 650;
     letter-spacing: 0.01em;
   }
 
-  .audience-switcher__link {
+  .audience-switcher--dark {
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .audience-switcher--dark .audience-switcher__link {
     color: rgba(255, 255, 255, 0.68);
+  }
+
+  .audience-switcher--dark .audience-switcher__link:hover {
+    color: #fff;
+  }
+
+  .audience-switcher--dark .audience-switcher__link.is-active {
+    background: rgba(255, 255, 255, 0.14);
+    color: #fff;
+  }
+
+  .audience-switcher--light {
+    border: 1px solid var(--line-strong);
+    background: var(--mist);
+  }
+
+  .audience-switcher--light .audience-switcher__link {
+    color: var(--color-muted);
+  }
+
+  .audience-switcher--light .audience-switcher__link:hover {
+    color: var(--color-ink);
+  }
+
+  .audience-switcher--light .audience-switcher__link.is-active {
+    background: var(--color-ink);
+    color: #fff;
+  }
+
+  .audience-switcher__link {
     text-decoration: none;
     padding: 0.22rem 0.55rem;
     border-radius: calc(var(--radius) - 1px);
@@ -67,17 +102,7 @@ const current =
     align-items: center;
   }
 
-  .audience-switcher__link:hover {
-    color: #fff;
-  }
-
-  .audience-switcher__link.is-active {
-    background: rgba(255, 255, 255, 0.14);
-    color: #fff;
-  }
-
   .audience-switcher--compact {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.18);
+    font-size: 0.72rem;
   }
 </style>

@@ -8,17 +8,17 @@ export type NavItem = {
 /** ≤5 primary links; Donate and Search are rendered separately in the header. */
 export const STUDENT_NAV: NavItem[] = [
   { label: 'Shabbat', href: '/students/shabbat' },
-  { label: 'Events', href: '/events' },
   { label: 'Holidays', href: '/students/holidays' },
   { label: 'Learn', href: '/students/learn' },
   { label: 'Visit', href: '/visit' },
+  { label: 'Events', href: '/events' },
 ];
 
 export const COMMUNITY_NAV: NavItem[] = [
   { label: 'Services', href: '/community/services' },
-  { label: 'Events', href: '/events' },
   { label: 'Holidays', href: '/community/holidays' },
   { label: 'Learn', href: '/community/learn' },
+  { label: 'Visit', href: '/visit' },
   { label: 'Jewish Life', href: '/community/jewish-life' },
 ];
 

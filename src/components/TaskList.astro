@@ -1,0 +1,100 @@
+---
+import { withBase } from '../lib/paths';
+
+export type Task = {
+  label: string;
+  description: string;
+  href: string;
+  external?: boolean;
+};
+
+interface Props {
+  tasks: Task[];
+  class?: string;
+}
+
+const { tasks, class: className } = Astro.props;
+---
+
+<ul class:list={['task-list', className]}>
+  {
+    tasks.map((task) => {
+      const href = task.external ? task.href : withBase(task.href);
+      return (
+        <li class="task-list__row">
+          <a href={href} {...(task.external ? {} : {})}>
+            <span class="task-list__label">{task.label}</span>
+            <span class="task-list__desc">{task.description}</span>
+          </a>
+        </li>
+      );
+    })
+  }
+</ul>
+
+<style>
+  .task-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-width: 38rem;
+  }
+
+  .task-list__row + .task-list__row {
+    border-top: 1px solid var(--line);
+  }
+
+  .task-list__row a {
+    display: grid;
+    gap: 0.15rem;
+    padding: 0.9rem 0;
+    text-decoration: none;
+    color: inherit;
+    min-height: 3rem;
+    transition: padding-left 180ms var(--ease);
+  }
+
+  .task-list__row a:hover {
+    padding-left: 0.3rem;
+  }
+
+  .task-list__row a:hover .task-list__label {
+    color: var(--color-lake-deep);
+  }
+
+  .task-list__label {
+    font-family: var(--font-display);
+    font-size: 1.28rem;
+    font-weight: 600;
+    letter-spacing: -0.018em;
+    color: var(--color-ink);
+    transition: color 160ms var(--ease);
+  }
+
+  .task-list__label::after {
+    content: ' →';
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 0.9em;
+    color: var(--color-lake);
+    opacity: 0;
+    transition: opacity 160ms var(--ease);
+  }
+
+  .task-list__row a:hover .task-list__label::after {
+    opacity: 1;
+  }
+
+  .task-list__desc {
+    color: var(--color-ink-soft);
+    font-family: var(--font-ui);
+    font-size: 0.95rem;
+    line-height: 1.45;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .task-list__row a:hover {
+      padding-left: 0;
+    }
+  }
+</style>

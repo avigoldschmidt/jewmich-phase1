@@ -70,12 +70,12 @@
 
 [[redirects]]
   from = "/highholidays"
-  to = "/events"
+  to = "/students/holidays"
   status = 301
 
 [[redirects]]
   from = "/highholidays/"
-  to = "/events"
+  to = "/students/holidays"
   status = 301
 
 [[redirects]]
@@ -86,6 +86,53 @@
 [[redirects]]
   from = "/aboutus/"
   to = "/about"
+  status = 301
+
+
+
+[[redirects]]
+  from = "/highholiday"
+  to = "/students/holidays"
+  status = 301
+
+[[redirects]]
+  from = "/highholiday/"
+  to = "/students/holidays"
+  status = 301
+
+[[redirects]]
+  from = "/map"
+  to = "/visit"
+  status = 301
+
+[[redirects]]
+  from = "/map/"
+  to = "/visit"
+  status = 301
+
+[[redirects]]
+  from = "/candlelighting"
+  to = "/candle-lighting"
+  status = 301
+
+[[redirects]]
+  from = "/candlelighting/"
+  to = "/candle-lighting"
+  status = 301
+
+[[redirects]]
+  from = "/mythandfact"
+  to = "/myth-and-fact"
+  status = 301
+
+[[redirects]]
+  from = "/mythandfact/"
+  to = "/myth-and-fact"
+  status = 301
+
+[[redirects]]
+  from = "/chs"
+  to = "/youth"
   status = 301
 
 [[headers]]

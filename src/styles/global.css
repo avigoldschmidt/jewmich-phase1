@@ -1,23 +1,69 @@
+@import '@fontsource-variable/fraunces';
+@import '@fontsource-variable/source-serif-4';
+@import '@fontsource-variable/source-sans-3';
+
 :root {
-  --color-page: #fbfbfa;
-  --color-elevated: #ffffff;
-  --color-ink: #0e0f12;
-  --color-muted: #5c5f66;
-  --color-accent: #c8962e;
-  --color-maize: #ffcb05;
-  --color-ink-muted: var(--color-muted);
-  --font-display: 'Newsreader', 'Palatino Linotype', Palatino, Georgia, serif;
-  --font-ui: 'Manrope', 'Segoe UI', sans-serif;
-  --font-body: var(--font-ui);
-  --radius: 4px;
-  --space-xs: 0.35rem;
+  /* Cool lake campus house — not cream/brass brochure, not dark-strip template */
+  --paper: #f2f6fa;
+  --surface: #ffffff;
+  --mist: #e2eaf3;
+  --ink: #081526;
+  --ink-soft: #2f4254;
+  --muted: #405264;
+  --lake: #176087;
+  --lake-deep: #0c3f62;
+  --night: #07111d;
+  --maize: #ffcb05;
+  --on-photo: #ffffff;
+  --line: rgba(8, 21, 38, 0.11);
+  --line-strong: rgba(8, 21, 38, 0.18);
+
+  --color-page: var(--paper);
+  --color-elevated: var(--surface);
+  --color-sand: var(--mist);
+  --color-mist: var(--mist);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-muted: var(--muted);
+  --color-accent: var(--lake);
+  --color-accent-text: var(--lake-deep);
+  --color-lake-deep: var(--lake-deep);
+  --color-brass: var(--lake);
+  --color-brass-text: var(--lake-deep);
+  --color-night: var(--night);
+  --color-maize: var(--maize);
+  --color-ink-muted: var(--muted);
+  --color-on-photo: var(--on-photo);
+
+  /* Fraunces display · Source Serif 4 reading · Source Sans 3 chrome */
+  --font-display: 'Fraunces Variable', 'Fraunces', Georgia, serif;
+  --font-body: 'Source Serif 4 Variable', 'Source Serif 4', Georgia, serif;
+  --font-ui: 'Source Sans 3 Variable', 'Source Sans 3', 'Segoe UI', sans-serif;
+
+  /* Unified control system */
+  --radius: 3px;
+  --radius-card: 3px;
+  --control-height: 48px;
+  --space-unit: 4px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-xs: 0.5rem;
   --space-sm: 0.75rem;
   --space-md: 1.25rem;
   --space-lg: 2rem;
-  --space-xl: 3.5rem;
-  --space-2xl: 5.5rem;
+  --space-xl: clamp(2.75rem, 6vw, 4.5rem);
+  --space-2xl: 4.5rem;
   --max-width: 70rem;
-  --header-height: 4.25rem;
+  --prose-width: 40rem;
+  --header-height: 3.75rem;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -35,10 +81,13 @@ body {
   margin: 0;
   min-height: 100vh;
   color: var(--color-ink);
-  background: var(--color-page);
+  background:
+    radial-gradient(ellipse 70% 42% at 100% -10%, rgba(23, 96, 135, 0.07), transparent 55%),
+    radial-gradient(ellipse 50% 30% at 0% 100%, rgba(255, 203, 5, 0.05), transparent 50%),
+    var(--color-page);
   font-family: var(--font-body);
   font-size: 1.0625rem;
-  line-height: 1.65;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -49,12 +98,17 @@ img {
 }
 
 a {
-  color: var(--color-ink);
+  color: var(--color-accent-text);
   text-underline-offset: 0.18em;
 }
 
 a:hover {
-  color: var(--color-accent);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
 }
 
 h1,
@@ -63,9 +117,18 @@ h3,
 h4 {
   font-family: var(--font-display);
   font-weight: 600;
-  line-height: 1.15;
-  letter-spacing: -0.015em;
+  font-optical-sizing: auto;
+  line-height: 1.18;
+  letter-spacing: -0.018em;
   color: var(--color-ink);
+}
+
+h1 {
+  font-size: clamp(2rem, 4vw, 2.85rem);
+}
+
+h2 {
+  font-size: clamp(1.45rem, 2.4vw, 1.95rem);
 }
 
 p {
@@ -103,44 +166,44 @@ p {
   padding: var(--space-xl) 0;
 }
 
+.section--sand,
+.section--mist {
+  background: var(--color-mist);
+}
+
 .section--tight {
   padding: var(--space-lg) 0;
 }
 
 .section-heading {
-  margin: 0 0 var(--space-sm);
-  font-size: clamp(1.75rem, 2.8vw, 2.35rem);
+  margin: 0 0 var(--space-2);
+  font-size: clamp(1.45rem, 2.4vw, 1.95rem);
+  letter-spacing: -0.016em;
+  color: var(--color-ink);
+  font-weight: 600;
 }
 
 .section-lede {
-  margin: 0 0 var(--space-lg);
-  max-width: 38rem;
-  color: var(--color-muted);
+  margin: 0 0 var(--space-8);
+  max-width: 34rem;
+  color: var(--color-ink-soft);
   font-size: 1.05rem;
+  line-height: 1.55;
+  font-family: var(--font-body);
 }
 
 .cta-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem 1rem;
+  gap: var(--space-3) var(--space-4);
   align-items: center;
 }
 
-.flag-note {
-  margin: var(--space-md) 0;
-  padding: 0.85rem 1rem;
-  border-left: 3px solid var(--color-accent);
-  background: var(--color-elevated);
-  color: var(--color-muted);
-  font-size: 0.98rem;
-  border-radius: 0 var(--radius) var(--radius) 0;
-}
-
-/* Motion 1: hero fade / slide-up */
+/* Motion 1: hero copy entrance */
 @keyframes fade-up {
   from {
     opacity: 0;
-    transform: translateY(0.85rem);
+    transform: translateY(0.65rem);
   }
   to {
     opacity: 1;
@@ -148,18 +211,38 @@ p {
   }
 }
 
-/* Motion 3: soft section reveal on scroll */
-[data-reveal] {
-  opacity: 0;
-  transform: translateY(1rem);
-  transition:
-    opacity 650ms var(--ease),
-    transform 650ms var(--ease);
+/* Motion 2: gentle hero photo settle */
+@keyframes hero-settle {
+  from {
+    transform: scale(1.035);
+  }
+  to {
+    transform: scale(1);
+  }
 }
 
-[data-reveal].is-visible {
+/* Motion 3: soft section reveal — content stays readable by default */
+[data-reveal] {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html.js-motion [data-reveal]:not(.is-visible) {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+
+  html.js-motion [data-reveal] {
+    transition:
+      opacity 560ms var(--ease),
+      transform 560ms var(--ease);
+  }
+
+  html.js-motion [data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -170,10 +253,5 @@ p {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
-  }
-
-  [data-reveal] {
-    opacity: 1;
-    transform: none;
   }
 }

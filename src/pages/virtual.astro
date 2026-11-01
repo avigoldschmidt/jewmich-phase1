@@ -1,0 +1,11 @@
+---
+import ContentPage from '../layouts/ContentPage.astro';
+import { loadPage } from '../lib/content';
+
+const { entry, Content } = await loadPage('shared', 'virtual');
+const { title, description, audience } = entry.data;
+---
+
+<ContentPage title={title} description={description} audience={audience} canonicalPath="/virtual">
+  <Content />
+</ContentPage>

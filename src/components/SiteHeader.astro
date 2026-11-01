@@ -24,8 +24,7 @@ const menuId = 'site-primary-menu';
 
 <header class:list={['site-header', isStudent ? 'site-header--students' : 'site-header--community']}>
   <div class="site-header__inner container">
-    <div class="site-header__lead">
-      <AudienceSwitcher audience={audience} tone="light" />
+    <div class="site-header__bar">
       <a class="site-header__brand" href={homeHref}>
         <span class="site-header__mark" aria-hidden="true">
           <svg viewBox="0 0 32 40" width="22" height="28" fill="none">
@@ -45,44 +44,83 @@ const menuId = 'site-primary-menu';
           <span class="site-header__house">{SITE.name}</span>
         </span>
       </a>
+
+      <div class="site-header__desktop-switcher">
+        <AudienceSwitcher audience={audience} tone="light" />
+      </div>
+
+      <nav class="site-header__nav site-header__nav--desktop" aria-label="Primary">
+        {
+          nav.map((item) => (
+            <a href={withBase(item.href)}>{item.label}</a>
+          ))
+        }
+      </nav>
+
+      <div class="site-header__actions">
+        <a class="site-header__donate" href={withBase('/donate')}>Donate</a>
+        <button
+          class="site-header__menu-btn"
+          type="button"
+          aria-expanded="false"
+          aria-controls={menuId}
+          data-menu-toggle
+        >
+          <span data-menu-label>Menu</span>
+        </button>
+      </div>
     </div>
 
-    <nav class="site-header__nav" aria-label="Primary" id={menuId}>
-      {
-        nav.map((item) => (
-          <a href={withBase(item.href)}>{item.label}</a>
-        ))
-      }
-    </nav>
+    <div class="site-header__mobile-switcher">
+      <AudienceSwitcher audience={audience} tone="light" />
+    </div>
 
-    <div class="site-header__actions">
+    <div class="site-header__panel" id={menuId} hidden>
       <a
-        class="site-header__mobile-primary"
+        class="site-header__panel-primary"
         href={withBase(mobilePrimary.href)}
       >
         {mobilePrimary.label}
       </a>
-      <a class="site-header__donate" href={withBase('/donate')}>Donate</a>
-      <button
-        class="site-header__menu-btn"
-        type="button"
-        aria-expanded="false"
-        aria-controls={menuId}
-        data-menu-toggle
-      >
-        Menu
-      </button>
+      <nav class="site-header__nav site-header__nav--mobile" aria-label="Primary">
+        {
+          nav
+            .filter((item) => item.href !== mobilePrimary.href)
+            .map((item) => (
+              <a href={withBase(item.href)}>{item.label}</a>
+            ))
+        }
+      </nav>
     </div>
   </div>
 </header>
 
 <script>
   const btn = document.querySelector('[data-menu-toggle]');
-  const nav = document.getElementById('site-primary-menu');
-  if (btn && nav) {
-    btn.addEventListener('click', () => {
-      const open = nav.classList.toggle('is-open');
+  const panel = document.getElementById('site-primary-menu');
+  const label = document.querySelector('[data-menu-label]');
+  if (btn && panel && label) {
+    const setOpen = (open) => {
+      panel.hidden = !open;
+      panel.classList.toggle('is-open', open);
       btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      label.textContent = open ? 'Close' : 'Menu';
+    };
+
+    btn.addEventListener('click', () => {
+      setOpen(panel.hidden);
+    });
+
+    panel.addEventListener('click', (event) => {
+      const target = event.target;
+      if (target instanceof Element && target.closest('a')) setOpen(false);
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && !panel.hidden) {
+        setOpen(false);
+        btn.focus();
+      }
     });
   }
 </script>
@@ -109,20 +147,17 @@ const menuId = 'site-primary-menu';
 
   .site-header__inner {
     display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding-block: 0.45rem 0.55rem;
+  }
+
+  .site-header__bar {
+    display: flex;
     flex-wrap: nowrap;
     align-items: center;
     gap: 0.5rem 0.75rem;
-    min-height: var(--header-height);
-    padding-block: 0.45rem;
-  }
-
-  .site-header__lead {
-    display: flex;
-    align-items: center;
-    gap: 0.65rem;
-    min-width: 0;
-    margin-right: auto;
-    flex: 0 1 auto;
+    min-height: calc(var(--header-height) - 0.5rem);
   }
 
   .site-header__brand {
@@ -132,6 +167,7 @@ const menuId = 'site-primary-menu';
     color: inherit;
     text-decoration: none;
     min-width: 0;
+    margin-right: auto;
   }
 
   .site-header__brand:hover {
@@ -167,19 +203,39 @@ const menuId = 'site-primary-menu';
     text-overflow: ellipsis;
   }
 
-  .site-header__nav {
+  .site-header__desktop-switcher {
     display: none;
+  }
+
+  .site-header__mobile-switcher {
+    display: block;
+    width: 100%;
+    padding-top: 0.45rem;
+  }
+
+  .site-header__mobile-switcher :global(.audience-switcher) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    font-size: 0.95rem;
+  }
+
+  .site-header__mobile-switcher :global(.audience-switcher__link) {
+    justify-content: center;
+    min-height: 2.75rem;
+    padding: 0.55rem 0.75rem;
+    font-weight: 700;
+  }
+
+  .site-header__nav {
+    display: flex;
     flex-wrap: wrap;
     gap: 0.15rem 1.05rem;
     align-items: center;
-    width: 100%;
-    order: 5;
-    padding-top: 0.35rem;
-    border-top: 1px solid var(--line);
   }
 
-  .site-header__nav.is-open {
-    display: flex;
+  .site-header__nav--desktop {
+    display: none;
   }
 
   .site-header__nav a {
@@ -225,35 +281,28 @@ const menuId = 'site-primary-menu';
   .site-header__actions {
     display: flex;
     align-items: center;
-    gap: 0.35rem;
+    gap: 0.4rem;
     flex: 0 0 auto;
   }
 
-  .site-header__mobile-primary,
   .site-header__donate,
   .site-header__menu-btn {
     font-family: var(--font-ui);
-    font-size: 0.88rem;
+    font-size: 0.92rem;
     font-weight: 650;
     text-decoration: none;
-    height: 2.5rem;
-    min-height: 2.5rem;
+    height: 2.6rem;
+    min-height: 2.6rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
   }
 
-  .site-header__mobile-primary {
-    color: var(--color-ink);
-    padding-inline: 0.35rem;
-  }
-
   .site-header__donate {
     background: var(--color-ink);
     color: var(--color-on-photo) !important;
-    padding: 0 0.85rem;
+    padding: 0 0.9rem;
     border-radius: var(--radius);
-    height: 2.5rem;
   }
 
   .site-header__donate:hover {
@@ -267,46 +316,116 @@ const menuId = 'site-primary-menu';
     background: transparent;
     color: var(--color-ink);
     border-radius: var(--radius);
-    padding: 0 0.7rem;
+    padding: 0 0.85rem;
     cursor: pointer;
+    min-width: 4.5rem;
+  }
+
+  .site-header__menu-btn[aria-expanded='true'] {
+    background: var(--mist);
+    border-color: var(--color-ink);
+  }
+
+  .site-header__panel {
+    display: none;
+    flex-direction: column;
+    gap: 0.15rem;
+    width: 100%;
+    padding-top: 0.65rem;
+    margin-top: 0.55rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .site-header__panel.is-open {
+    display: flex;
+  }
+
+  .site-header__panel-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3rem;
+    padding: 0.7rem 1rem;
+    margin-bottom: 0.25rem;
+    border-radius: var(--radius);
+    background: var(--color-ink);
+    color: #fff !important;
+    font-family: var(--font-ui);
+    font-size: 1.05rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .site-header--students .site-header__panel-primary {
+    background: var(--color-ink);
+    box-shadow: inset 0 -3px 0 var(--color-maize);
+  }
+
+  .site-header--community .site-header__panel-primary {
+    background: var(--color-lake-deep);
+  }
+
+  .site-header__nav--mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+  }
+
+  .site-header__nav--mobile a {
+    width: 100%;
+    min-height: 3rem;
+    padding: 0.7rem 0.15rem;
+    font-size: 1.05rem;
+    font-weight: 650;
+    color: var(--color-ink);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .site-header__nav--mobile a::after {
+    display: none;
   }
 
   @media (max-width: 640px) {
-    .site-header__lead :global(.audience-switcher) {
-      display: none;
-    }
-
-    .site-header__mobile-primary {
-      display: none;
-    }
-
     .site-header__brand-name {
       font-size: 1.08rem;
     }
 
     .site-header__house {
-      max-width: 10rem;
+      max-width: 9.5rem;
     }
   }
 
   @media (min-width: 980px) {
     .site-header__inner {
-      gap: 1rem 1.25rem;
+      padding-block: 0.45rem;
     }
 
-    .site-header__nav {
+    .site-header__bar {
+      gap: 1rem 1.25rem;
+      min-height: var(--header-height);
+    }
+
+    .site-header__desktop-switcher {
+      display: block;
+      flex: 0 0 auto;
+    }
+
+    .site-header__mobile-switcher,
+    .site-header__menu-btn,
+    .site-header__panel {
+      display: none !important;
+    }
+
+    .site-header__nav--desktop {
       display: flex;
-      width: auto;
-      order: 0;
       flex: 1;
       justify-content: center;
-      padding-top: 0;
-      border-top: 0;
+      width: auto;
     }
 
-    .site-header__mobile-primary,
-    .site-header__menu-btn {
-      display: none;
+    .site-header__brand {
+      margin-right: 0;
     }
 
     .site-header__brand-name {
@@ -315,6 +434,7 @@ const menuId = 'site-primary-menu';
 
     .site-header__actions {
       gap: 0.55rem;
+      margin-left: auto;
     }
 
     .site-header__donate {

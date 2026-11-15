@@ -86,18 +86,36 @@ Useful paths locally:
 | Branch | Role |
 |---|---|
 | **`main`** | Shippable site. Every push runs **Deploy GitHub Pages** and publishes the live preview. |
-| `redesign` | Historical iteration branch; merge into `main` via PR #1 (or successor), then use `main` only. |
+| `gh-pages` | Published site root + PR preview trees under `pr/<n>/` (see below). |
+| `redesign` | Historical iteration branch; prefer `main` going forward. |
 
-**How deploy works**
+**How production deploy works**
 
 1. Push (or merge) to `main`.
 2. Workflow `.github/workflows/deploy-pages.yml` runs `npm ci` → `npm run build` with `GITHUB_PAGES=true` (Astro `base` = `/jewmich-phase1`).
-3. Artifact is published with `actions/deploy-pages`.
-4. Site updates at https://avigoldschmidt.github.io/jewmich-phase1/
-
-Repo → Settings → Pages should use **Source: GitHub Actions** (not the old `gh-pages` branch).
+3. The build is published to the **`gh-pages` branch root**, leaving any `pr/` preview folders intact.
+4. Site updates at https://avigoldschmidt.github.io/jewmich-phase1/ (and the custom domain mirror).
 
 Manual re-run: Actions → “Deploy GitHub Pages” → Run workflow.
+
+### PR previews
+
+Every same-repo pull request gets an automatic preview:
+
+1. Workflow `.github/workflows/pr-preview.yml` builds with  
+   `BASE_URL=/jewmich-phase1/pr/<number>` (and `GITHUB_PAGES=true`).
+2. Output is pushed to `gh-pages` under **`pr/<number>/`** (does not wipe the site root).
+3. A sticky PR comment posts the preview URL:  
+   `https://avigoldschmidt.github.io/jewmich-phase1/pr/<number>/`
+4. When the PR closes, that `pr/<number>/` folder is removed from `gh-pages`.
+
+**Pages source (required)**
+
+Settings → Pages → Build and deployment → Source must be:
+
+**Deploy from a branch** → branch **`gh-pages`** → folder **`/(root)`**
+
+That single source serves production at `/jewmich-phase1/` and PR previews at `/jewmich-phase1/pr/<n>/`. Fork PRs do not get previews (token cannot push to `gh-pages`).
 
 ---
 

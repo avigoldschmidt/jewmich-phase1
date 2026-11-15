@@ -1,0 +1,87 @@
+name: PR preview
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, closed]
+
+# Same-repo PRs only — fork PRs cannot push to gh-pages with the default token.
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: pr-preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  deploy-preview:
+    if: >
+      github.event.action != 'closed' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build PR preview
+        run: |
+          touch public/.nojekyll
+          npm run build
+        env:
+          GITHUB_PAGES: 'true'
+          BASE_URL: /jewmich-phase1/pr/${{ github.event.pull_request.number }}
+
+      - name: Deploy to gh-pages/pr/<n>
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: dist
+          target-folder: pr/${{ github.event.pull_request.number }}
+          clean: true
+          commit-message: 'Preview PR #${{ github.event.pull_request.number }} (${{ github.sha }})'
+
+      - name: Sticky preview comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: pr-preview
+          message: |
+            ### PR preview
+
+            **https://avigoldschmidt.github.io/jewmich-phase1/pr/${{ github.event.pull_request.number }}/**
+
+            Built from `${{ github.event.pull_request.head.sha }}` with Astro `base` `/jewmich-phase1/pr/${{ github.event.pull_request.number }}`.
+
+            > **Pages source:** Preview URLs resolve when the repo Pages source is **Deploy from a branch → `gh-pages` / `(root)`**. If Pages is set to **GitHub Actions** (production via `deploy-pages.yml`), this path is published on the `gh-pages` branch but not served until the source is switched. Production on `main` keeps syncing the site root on that branch (excluding `pr/`) so a switch does not wipe the live site.
+
+  remove-preview:
+    if: >
+      github.event.action == 'closed' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Empty dir for cleanup
+        run: echo "empty_dir=$(mktemp -d)" >> "$GITHUB_ENV"
+
+      - name: Remove gh-pages/pr/<n>
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: ${{ env.empty_dir }}
+          target-folder: pr/${{ github.event.pull_request.number }}
+          clean: true
+          commit-message: 'Remove preview for PR #${{ github.event.pull_request.number }}'
+
+      - name: Update sticky comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: pr-preview
+          message: |
+            ### PR preview
+
+            Preview for this PR was removed from `gh-pages` (`pr/${{ github.event.pull_request.number }}/`) after the PR closed.

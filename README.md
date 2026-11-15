@@ -86,18 +86,40 @@ Useful paths locally:
 | Branch | Role |
 |---|---|
 | **`main`** | Shippable site. Every push runs **Deploy GitHub Pages** and publishes the live preview. |
-| `redesign` | Historical iteration branch; merge into `main` via PR #1 (or successor), then use `main` only. |
+| `gh-pages` | Published site root + PR preview trees under `pr/<n>/` (see below). |
+| `redesign` | Historical iteration branch; prefer `main` going forward. |
 
-**How deploy works**
+**How production deploy works**
 
 1. Push (or merge) to `main`.
 2. Workflow `.github/workflows/deploy-pages.yml` runs `npm ci` → `npm run build` with `GITHUB_PAGES=true` (Astro `base` = `/jewmich-phase1`).
-3. Artifact is published with `actions/deploy-pages`.
-4. Site updates at https://avigoldschmidt.github.io/jewmich-phase1/
-
-Repo → Settings → Pages should use **Source: GitHub Actions** (not the old `gh-pages` branch).
+3. Artifact is published with `actions/deploy-pages` (GitHub Actions Pages source).
+4. The same build is also synced to the **`gh-pages` branch root**, leaving any `pr/` preview folders intact.
+5. Site updates at https://avigoldschmidt.github.io/jewmich-phase1/
 
 Manual re-run: Actions → “Deploy GitHub Pages” → Run workflow.
+
+### PR previews
+
+Every same-repo pull request gets an automatic preview:
+
+1. Workflow `.github/workflows/pr-preview.yml` builds with  
+   `BASE_URL=/jewmich-phase1/pr/<number>` (and `GITHUB_PAGES=true`).
+2. Output is pushed to `gh-pages` under **`pr/<number>/`** (does not wipe the site root).
+3. A sticky PR comment posts the preview URL:  
+   `https://avigoldschmidt.github.io/jewmich-phase1/pr/<number>/`
+4. When the PR closes, that `pr/<number>/` folder is removed from `gh-pages`.
+
+**Pages source (important)**
+
+GitHub Pages can only use **one** source at a time:
+
+| Pages source | Production (`/jewmich-phase1/`) | PR previews (`/jewmich-phase1/pr/<n>/`) |
+|---|---|---|
+| **GitHub Actions** (current default) | Served via `deploy-pages.yml` | Published on the `gh-pages` branch but **not served** |
+| **Deploy from a branch → `gh-pages` / `(root)`** | Served from branch root (kept in sync by main deploy) | **Served** |
+
+To make preview URLs clickable in the browser, set **Settings → Pages → Build and deployment → Source** to **Deploy from a branch**, branch **`gh-pages`**, folder **`/(root)`**. Production continues to update from `main` because the deploy workflow syncs the site root onto that branch. Fork PRs do not get previews (token cannot push to `gh-pages`).
 
 ---
 

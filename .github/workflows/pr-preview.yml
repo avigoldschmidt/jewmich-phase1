@@ -46,6 +46,12 @@ jobs:
           clean: true
           commit-message: 'Preview PR #${{ github.event.pull_request.number }} (${{ github.sha }})'
 
+      - name: Request Pages rebuild
+        continue-on-error: true
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds"
+        env:
+          GH_TOKEN: ${{ github.token }}
+
       - name: Sticky preview comment
         uses: marocchino/sticky-pull-request-comment@v2
         with:
@@ -57,7 +63,7 @@ jobs:
 
             Built from `${{ github.event.pull_request.head.sha }}` with Astro `base` `/jewmich-phase1/pr/${{ github.event.pull_request.number }}`.
 
-            > **Pages source:** Preview URLs resolve when the repo Pages source is **Deploy from a branch → `gh-pages` / `(root)`**. If Pages is set to **GitHub Actions** (production via `deploy-pages.yml`), this path is published on the `gh-pages` branch but not served until the source is switched. Production on `main` keeps syncing the site root on that branch (excluding `pr/`) so a switch does not wipe the live site.
+            Requires Pages source **Deploy from a branch → `gh-pages` / `(root)`** (production + previews share that branch).
 
   remove-preview:
     if: >

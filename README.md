@@ -93,9 +93,8 @@ Useful paths locally:
 
 1. Push (or merge) to `main`.
 2. Workflow `.github/workflows/deploy-pages.yml` runs `npm ci` → `npm run build` with `GITHUB_PAGES=true` (Astro `base` = `/jewmich-phase1`).
-3. Artifact is published with `actions/deploy-pages` (GitHub Actions Pages source).
-4. The same build is also synced to the **`gh-pages` branch root**, leaving any `pr/` preview folders intact.
-5. Site updates at https://avigoldschmidt.github.io/jewmich-phase1/
+3. The build is published to the **`gh-pages` branch root**, leaving any `pr/` preview folders intact.
+4. Site updates at https://avigoldschmidt.github.io/jewmich-phase1/ (and the custom domain mirror).
 
 Manual re-run: Actions → “Deploy GitHub Pages” → Run workflow.
 
@@ -110,16 +109,13 @@ Every same-repo pull request gets an automatic preview:
    `https://avigoldschmidt.github.io/jewmich-phase1/pr/<number>/`
 4. When the PR closes, that `pr/<number>/` folder is removed from `gh-pages`.
 
-**Pages source (important)**
+**Pages source (required)**
 
-GitHub Pages can only use **one** source at a time:
+Settings → Pages → Build and deployment → Source must be:
 
-| Pages source | Production (`/jewmich-phase1/`) | PR previews (`/jewmich-phase1/pr/<n>/`) |
-|---|---|---|
-| **GitHub Actions** (current default) | Served via `deploy-pages.yml` | Published on the `gh-pages` branch but **not served** |
-| **Deploy from a branch → `gh-pages` / `(root)`** | Served from branch root (kept in sync by main deploy) | **Served** |
+**Deploy from a branch** → branch **`gh-pages`** → folder **`/(root)`**
 
-To make preview URLs clickable in the browser, set **Settings → Pages → Build and deployment → Source** to **Deploy from a branch**, branch **`gh-pages`**, folder **`/(root)`**. Production continues to update from `main` because the deploy workflow syncs the site root onto that branch. Fork PRs do not get previews (token cannot push to `gh-pages`).
+That single source serves production at `/jewmich-phase1/` and PR previews at `/jewmich-phase1/pr/<n>/`. Fork PRs do not get previews (token cannot push to `gh-pages`).
 
 ---
 

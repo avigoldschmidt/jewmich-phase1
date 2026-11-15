@@ -5,61 +5,35 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# Production is served from the gh-pages branch (Settings → Pages → Deploy from a
+# branch → gh-pages / (root)). actions/deploy-pages only works with the GitHub
+# Actions source, so main publishes via JamesIves and preserves pr/ previews.
 permissions:
   contents: write
   pages: write
-  id-token: write
 
 concurrency:
   group: pages
   cancel-in-progress: true
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: npm
+
       - run: npm ci
+
       - name: Build
-        run: |
-          touch public/.nojekyll
-          npm run build
+        run: npm run build
         env:
           GITHUB_PAGES: 'true'
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-      - name: Upload dist for gh-pages sync
-        uses: actions/upload-artifact@v4
-        with:
-          name: dist-gh-pages
-          path: dist
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
-
-  # Keep gh-pages root in sync so PR previews under pr/<n>/ can share one branch
-  # without wiping production. Used when Pages source is the gh-pages branch.
-  sync-gh-pages:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
-        with:
-          name: dist-gh-pages
-          path: dist
       - name: Publish site root to gh-pages (keep pr/)
         uses: JamesIves/github-pages-deploy-action@v4
         with:
@@ -69,3 +43,9 @@ jobs:
           clean-exclude: |
             pr
           commit-message: 'Deploy main (${{ github.sha }})'
+
+      - name: Request Pages rebuild
+        continue-on-error: true
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds"
+        env:
+          GH_TOKEN: ${{ github.token }}

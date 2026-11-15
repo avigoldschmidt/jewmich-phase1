@@ -86,8 +86,16 @@ Useful paths locally:
 | Branch | Role |
 |---|---|
 | **`main`** | Shippable site. Every push runs **Deploy GitHub Pages** and publishes the live preview. |
-| `gh-pages` | Published site root + PR preview trees under `pr/<n>/` (see below). |
-| `redesign` | Historical iteration branch; prefer `main` going forward. |
+| `gh-pages` | Published site root + PR preview trees under `pr/<n>/` (see below). Do not commit site source here. |
+
+### Git workflow (keep it lean)
+
+1. Create a **feature branch** off `main` (one task per branch).
+2. Open a **pull request** — review the automatic Pages preview.
+3. **Merge** into `main` when ready (never force-push `main`).
+4. **Delete** the feature branch after merge. GitHub is set to **Automatically delete head branches**; still delete locally (`git fetch --prune` and drop the local branch).
+
+Do not leave long-lived feature branches or closed-PR leftovers on the remote.
 
 **How production deploy works**
 

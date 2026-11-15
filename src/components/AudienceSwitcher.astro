@@ -6,25 +6,32 @@ import { withBase } from '../lib/paths';
 interface Props {
   audience: Audience;
   compact?: boolean;
+  tone?: 'dark' | 'light';
 }
 
-const { audience, compact = false } = Astro.props;
+const { audience, compact = false, tone = 'dark' } = Astro.props;
 const current =
   audience === 'community' || audience === 'youth' ? 'community' : 'students';
 ---
 
 <nav
-  class:list={['audience-switcher', compact && 'audience-switcher--compact']}
+  class:list={[
+    'audience-switcher',
+    `audience-switcher--${tone}`,
+    compact && 'audience-switcher--compact',
+  ]}
   aria-label="Audience"
 >
   <a
-    class:list={['audience-switcher__link', current === 'students' && 'is-active']}
+    class:list={[
+      'audience-switcher__link',
+      current === 'students' && 'is-active',
+    ]}
     href={withBase(SITE.homes.students)}
     aria-current={current === 'students' ? 'page' : undefined}
   >
     Students
   </a>
-  <span class="audience-switcher__sep" aria-hidden="true">|</span>
   <a
     class:list={[
       'audience-switcher__link',
@@ -40,54 +47,62 @@ const current =
 <style>
   .audience-switcher {
     display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
+    align-items: stretch;
+    gap: 0;
+    padding: 1px;
+    border-radius: var(--radius);
     font-family: var(--font-ui);
-    font-size: 0.88rem;
-    font-weight: 600;
+    font-size: 0.75rem;
+    font-weight: 650;
+    letter-spacing: 0.01em;
+  }
+
+  .audience-switcher--dark {
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .audience-switcher--dark .audience-switcher__link {
+    color: rgba(255, 255, 255, 0.68);
+  }
+
+  .audience-switcher--dark .audience-switcher__link:hover {
+    color: #fff;
+  }
+
+  .audience-switcher--dark .audience-switcher__link.is-active {
+    background: rgba(255, 255, 255, 0.14);
+    color: #fff;
+  }
+
+  .audience-switcher--light {
+    border: 1px solid var(--line-strong);
+    background: var(--mist);
+  }
+
+  .audience-switcher--light .audience-switcher__link {
+    color: var(--color-muted);
+  }
+
+  .audience-switcher--light .audience-switcher__link:hover {
+    color: var(--color-ink);
+  }
+
+  .audience-switcher--light .audience-switcher__link.is-active {
+    background: var(--color-ink);
+    color: #fff;
   }
 
   .audience-switcher__link {
-    position: relative;
-    color: var(--color-muted);
     text-decoration: none;
-    padding: 0.2rem 0;
+    padding: 0.22rem 0.55rem;
+    border-radius: calc(var(--radius) - 1px);
+    min-height: 1.55rem;
+    display: inline-flex;
+    align-items: center;
   }
 
-  .audience-switcher__link::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -0.1rem;
-    height: 1.5px;
-    background: var(--color-accent);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 220ms var(--ease);
-  }
-
-  .audience-switcher__link:hover,
-  .audience-switcher__link.is-active {
-    color: var(--color-ink);
-  }
-
-  .audience-switcher__link:hover::after,
-  .audience-switcher__link.is-active::after {
-    transform: scaleX(1);
-  }
-
-  .audience-switcher__sep {
-    color: rgba(14, 15, 18, 0.28);
-    user-select: none;
-  }
-
-  .audience-switcher--compact .audience-switcher__link {
-    color: var(--color-muted);
-  }
-
-  .audience-switcher--compact .audience-switcher__link:hover,
-  .audience-switcher--compact .audience-switcher__link.is-active {
-    color: var(--color-ink);
+  .audience-switcher--compact {
+    font-size: 0.72rem;
   }
 </style>

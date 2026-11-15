@@ -5,45 +5,67 @@ export type NavItem = {
   href: string;
 };
 
-/** ≤5 primary links; Donate is always rendered separately in the header. */
+/** ≤5 primary links; Donate and Search are rendered separately in the header. */
 export const STUDENT_NAV: NavItem[] = [
   { label: 'Shabbat', href: '/students/shabbat' },
-  { label: 'Holidays', href: '/students/high-holidays' },
+  { label: 'Holidays', href: '/students/holidays' },
   { label: 'Learn', href: '/students/learn' },
   { label: 'Visit', href: '/visit' },
   { label: 'Events', href: '/events' },
 ];
 
 export const COMMUNITY_NAV: NavItem[] = [
-  { label: 'Visit', href: '/visit' },
   { label: 'Services', href: '/community/services' },
-  { label: 'Youth', href: '/youth' },
-  { label: 'Holidays', href: '/community/high-holidays' },
-  { label: 'Events', href: '/events' },
+  { label: 'Holidays', href: '/community/holidays' },
+  { label: 'Learn', href: '/community/learn' },
+  { label: 'Visit', href: '/visit' },
+  { label: 'Jewish Life', href: '/community/jewish-life' },
 ];
 
-export const SHARED_FOOTER_LINKS: NavItem[] = [
-  { label: 'About', href: '/about' },
-  { label: 'Contact', href: '/contact' },
-  { label: 'Map', href: '/map' },
-  { label: 'Kosher', href: '/kosher' },
-  { label: 'Visit', href: '/visit' },
-  { label: 'Donate', href: '/donate' },
-  { label: 'Chai Club', href: '/chai-club' },
-  { label: 'Membership', href: '/membership' },
-  { label: 'Life & Legacy', href: '/life-and-legacy' },
-  { label: 'Events', href: '/events' },
-  { label: 'Youth', href: '/youth' },
+export const FOOTER_GROUPS: { heading: string; links: NavItem[] }[] = [
+  {
+    heading: 'Visit',
+    links: [
+      { label: 'Find us', href: '/visit' },
+      { label: 'Kosher', href: '/community/jewish-life#kosher' },
+      { label: 'Contact', href: '/contact' },
+      { label: 'Candle lighting', href: '/candle-lighting' },
+    ],
+  },
+  {
+    heading: 'Give',
+    links: [
+      { label: 'Donate', href: '/donate' },
+      { label: 'Chai Club', href: '/donate#chai-club' },
+      { label: 'Life & Legacy', href: '/donate#life-and-legacy' },
+      { label: 'Membership', href: '/donate#membership' },
+    ],
+  },
+  {
+    heading: 'About',
+    links: [
+      { label: 'About', href: '/about' },
+      { label: 'Youth', href: '/youth' },
+      { label: 'Events', href: '/events' },
+      { label: 'Newsletter', href: '/newsletter' },
+    ],
+  },
 ];
+
+/** @deprecated Prefer FOOTER_GROUPS */
+export const SHARED_FOOTER_LINKS: NavItem[] = FOOTER_GROUPS.flatMap((g) => g.links);
 
 export const SITE = {
   name: 'Chabad House of Ann Arbor',
   studentBrand: 'JewMich',
   communityBrand: 'Chabad Ann Arbor',
   addressLines: ['715 Hill Street', 'Ann Arbor, MI 48104'],
-  addressShort: '715 Hill',
+  addressShort: '715 Hill St',
   phoneDisplay: '734-995-3276',
   phoneTel: '+17349953276',
+  since: '1975',
+  /** Placeholder until staff supply EIN */
+  ein: '',
   domains: {
     students: 'https://www.jewmich.com',
     community: 'https://www.chabadannarbor.com',
@@ -62,4 +84,11 @@ export function navForAudience(audience: Audience): NavItem[] {
 export function homeForAudience(audience: Audience): string {
   if (audience === 'community' || audience === 'youth') return SITE.homes.community;
   return SITE.homes.students;
+}
+
+export function primaryMobileLink(audience: Audience): NavItem {
+  if (audience === 'community' || audience === 'youth') {
+    return { label: 'Services', href: '/community/services' };
+  }
+  return { label: 'Shabbat', href: '/students/shabbat' };
 }

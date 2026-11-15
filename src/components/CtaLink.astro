@@ -4,8 +4,10 @@ import { withBase } from '../lib/paths';
 interface Props {
   href: string;
   label?: string;
-  variant?: 'primary' | 'secondary' | 'maize';
+  variant?: 'primary' | 'secondary' | 'text';
   external?: boolean;
+  /** Open in the same tab (WordPress forms, RSVPs). Default: same tab for all. */
+  sameTab?: boolean;
   class?: string;
 }
 
@@ -14,18 +16,20 @@ const {
   label,
   variant = 'primary',
   external,
+  sameTab = true,
   class: className,
 } = Astro.props;
 
 const isExternal =
   external ?? (/^https?:\/\//.test(href) || href.startsWith('mailto:'));
 const resolvedHref = isExternal ? href : withBase(href);
+const openNewTab = isExternal && !sameTab;
 ---
 
 <a
   class:list={['cta-link', `cta-link--${variant}`, className]}
   href={resolvedHref}
-  {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+  {...(openNewTab ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
 >
   <slot>{label}</slot>
 </a>
@@ -35,53 +39,103 @@ const resolvedHref = isExternal ? href : withBase(href);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.4rem;
-    min-height: 3rem;
-    padding: 0.7rem 1.25rem;
+    gap: 0.35rem;
+    height: var(--control-height);
+    min-height: var(--control-height);
+    padding: 0 1.2rem;
     border: 1.5px solid transparent;
     border-radius: var(--radius);
     font-family: var(--font-ui);
-    font-size: 0.98rem;
+    font-size: 0.95rem;
     font-weight: 650;
     letter-spacing: 0.01em;
-    line-height: 1.2;
+    line-height: 1;
     text-decoration: none;
     transition:
-      background-color 180ms var(--ease),
-      color 180ms var(--ease),
-      border-color 180ms var(--ease);
+      background-color 160ms var(--ease),
+      color 160ms var(--ease),
+      border-color 160ms var(--ease),
+      transform 160ms var(--ease);
+  }
+
+  .cta-link:hover {
+    transform: translateY(-1px);
+  }
+
+  .cta-link:active {
+    transform: translateY(0);
   }
 
   .cta-link--primary {
     background: var(--color-ink);
-    color: var(--color-page);
+    color: var(--color-on-photo);
   }
 
   .cta-link--primary:hover {
-    background: #1c1e24;
+    background: var(--color-lake-deep);
     color: #fff;
   }
 
   .cta-link--secondary {
     background: transparent;
     color: var(--color-ink);
-    border-color: rgba(14, 15, 18, 0.22);
+    border-color: var(--line-strong);
   }
 
   .cta-link--secondary:hover {
     border-color: var(--color-accent);
     color: var(--color-ink);
+    background: rgba(26, 95, 138, 0.04);
   }
 
-  /* Maize kept as a rare student cue — hairline border, not a full-page wash */
-  .cta-link--maize {
-    background: var(--color-ink);
-    color: var(--color-page);
-    box-shadow: inset 0 -2px 0 0 var(--color-maize);
+  .cta-link--text {
+    background: transparent;
+    color: var(--color-accent-text);
+    padding-inline: 0.1rem;
+    height: auto;
+    min-height: 2.75rem;
+    border: 0;
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
   }
 
-  .cta-link--maize:hover {
-    background: #1c1e24;
-    color: #fff;
+  .cta-link--text:hover {
+    color: var(--color-ink);
+    transform: none;
+  }
+
+  /* Hero photo variants — same geometry as page buttons */
+  :global(.cta-link--on-photo) {
+    background: var(--color-on-photo) !important;
+    color: var(--color-ink) !important;
+    border-color: transparent !important;
+  }
+
+  :global(.cta-link--on-photo:hover) {
+    background: var(--color-maize) !important;
+    color: var(--color-ink) !important;
+  }
+
+  :global(.hero--community .cta-link--on-photo:hover) {
+    background: #eef3f8 !important;
+  }
+
+  :global(.cta-link--on-photo-secondary) {
+    background: transparent !important;
+    color: var(--color-on-photo) !important;
+    border-color: rgba(255, 255, 255, 0.55) !important;
+  }
+
+  :global(.cta-link--on-photo-secondary:hover) {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: #fff !important;
+    color: #fff !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cta-link:hover,
+    .cta-link:active {
+      transform: none;
+    }
   }
 </style>

@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { withBase } from '../lib/paths';
+
+const pagefindUi = withBase('/pagefind/pagefind-ui.js');
+const pagefindCss = withBase('/pagefind/pagefind-ui.css');
+const pagefindBase = withBase('/pagefind/');
+---
+
+<BaseLayout
+  title="Search"
+  description="Search Chabad House of Ann Arbor"
+  audience="shared"
+  canonicalPath="/search"
+>
+  <link slot="head" rel="stylesheet" href={pagefindCss} />
+  <section class="section">
+    <div class="container search-page">
+      <h1>Search</h1>
+      <p class="search-page__lede">Find pages across the site.</p>
+      <div id="search" class="search-page__box"></div>
+    </div>
+  </section>
+  <script is:inline define:vars={{ pagefindUi, pagefindBase }}>
+    window.addEventListener('DOMContentLoaded', () => {
+      const script = document.createElement('script');
+      script.src = pagefindUi;
+      script.onload = () => {
+        if (window.PagefindUI) {
+          new window.PagefindUI({
+            element: '#search',
+            showSubResults: true,
+            bundlePath: pagefindBase,
+          });
+        }
+      };
+      document.body.appendChild(script);
+    });
+  </script>
+</BaseLayout>
+
+<style>
+  .search-page {
+    max-width: 40rem;
+  }
+  .search-page h1 {
+    margin: 0 0 0.5rem;
+  }
+  .search-page__lede {
+    color: var(--color-muted);
+    margin: 0 0 1.25rem;
+  }
+  .search-page__box {
+    min-height: 3rem;
+  }
+</style>

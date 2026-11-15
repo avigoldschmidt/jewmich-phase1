@@ -1,33 +1,74 @@
 # JewMich / Chabad Ann Arbor — Phase 1 site
 
-Static **Astro** facelift shell for Chabad House of Ann Arbor.
+Static **Astro** site for Chabad House of Ann Arbor.
 
-- **JewMich.com** → student home (`/home/students`)
-- **ChabadAnnArbor.com** → community home (`/home/community`)
+| Domain (at cutover) | Homepage |
+|---|---|
+| **JewMich.com** | Students — `/home/students` |
+| **ChabadAnnArbor.com** | Community — `/home/community` |
 
-One codebase. Forms stay as CTA gateways or vendor embeds (Zeffy / ChabadMS / PayPal). No custom form UI in Phase 1.
+One codebase. Forms stay as CTA links or vendor embeds (Zeffy / ChabadMS / PayPal). No custom form UI in Phase 1.
 
-> **Source of truth:** this `site/` folder in the Project store until it is pushed to a Chabad-owned GitHub repository and connected to hosting (see JM-9).
+**Live preview (push to `main`):**  
+https://avigoldschmidt.github.io/jewmich-phase1/
 
-## Requirements
+Also served via custom domain when Pages is configured: https://agoldschmidt.com/jewmich-phase1/
 
-- Node.js 22.12+ (Astro 7)
-- npm 10+
+---
+
+## Staff quick start
+
+```bash
+git clone https://github.com/avigoldschmidt/jewmich-phase1.git
+cd jewmich-phase1
+npm install
+npm run dev          # http://localhost:4321
+```
+
+### Edit content
+
+Most page copy lives in Markdown/MDX under:
+
+```
+src/content/
+  home/          # student + community homes
+  students/      # Shabbat, High Holidays, etc.
+  community/
+  youth/
+  shared/        # about, visit, donate copy, …
+  events/        # dated event cards
+```
+
+1. Edit the `.md` / `.mdx` file (title, description, body).
+2. Commit on a branch, open a PR — or push to `main` when you want it live.
+3. Within a few minutes, GitHub Actions rebuilds and updates the live URL above.
+
+### What not to touch (yet)
+
+| Path | Why |
+|---|---|
+| `src/data/actions.ts` | Form / embed URLs for RSVP & donate. Leave until forms migrate. |
+| `src/components/**` | Fixed Phase 1 shell — ask before adding UI. |
+| `public/_redirects`, `netlify.toml` | Legacy URL map; dual-domain cutover. |
+| Prayer / High Holiday **times** | Do not invent — say “contact us” until staff confirm. |
+
+Agent/editor rules: [`AGENTS.md`](./AGENTS.md).
+
+---
 
 ## Local development
 
+- **Node.js** 22.12+ (Astro 7)
+- **npm** 10+
+
 ```bash
-cd site
 npm install
-npm run build   # must succeed
-npm run dev
+npm run build      # must succeed → dist/
+npm run preview    # preview the production build
+npm run dev        # hot reload
 ```
 
-Open the URL Astro prints (usually `http://localhost:4321`).
-
-`npm run build` / `dev` call `scripts/run-astro.mjs`. On a normal disk (after `npm install`) that is a thin Astro passthrough. If `node_modules` cannot be installed in-place (slow network filesystems), the script mirrors the project to a temp directory, runs `npm ci` + Astro there, and copies `dist/` back.
-
-Useful paths:
+Useful paths locally:
 
 | Path | Audience |
 |---|---|
@@ -36,19 +77,35 @@ Useful paths:
 | `/donate` | Multi-method donate |
 | `/students/shabbat` | CTA → legacy Shabbat form |
 
-`/` redirects locally to `/home/students`. Host-based homepage selection is applied at the CDN/host (below).
+`/` redirects locally to `/home/students`. Host-based homepage selection is applied at the CDN when dual domains go live (below).
 
-```bash
-npm run build    # output → dist/
-npm run preview  # preview the production build
-```
+---
 
-## Deploy
+## Branches & deploy
 
-Build command: `npm run build`  
-Publish directory: `dist`
+| Branch | Role |
+|---|---|
+| **`main`** | Shippable site. Every push runs **Deploy GitHub Pages** and publishes the live preview. |
+| `redesign` | Historical iteration branch; merge into `main` via PR #1 (or successor), then use `main` only. |
+
+**How deploy works**
+
+1. Push (or merge) to `main`.
+2. Workflow `.github/workflows/deploy-pages.yml` runs `npm ci` → `npm run build` with `GITHUB_PAGES=true` (Astro `base` = `/jewmich-phase1`).
+3. Artifact is published with `actions/deploy-pages`.
+4. Site updates at https://avigoldschmidt.github.io/jewmich-phase1/
+
+Repo → Settings → Pages should use **Source: GitHub Actions** (not the old `gh-pages` branch).
+
+Manual re-run: Actions → “Deploy GitHub Pages” → Run workflow.
+
+---
+
+## Dual-domain cutover (future — keep for go-live)
 
 Works on **Netlify** or **Cloudflare Pages** free tier.
+
+Build command: `npm run build` · Publish directory: `dist`
 
 ### Attach both domains
 
@@ -57,7 +114,7 @@ Works on **Netlify** or **Cloudflare Pages** free tier.
    - `jewmich.com` + `www.jewmich.com`
    - `chabadannarbor.com` + `www.chabadannarbor.com`
 3. Point DNS (A/AAAA or CNAME) per the host’s instructions.
-4. Confirm HTTPS for **both** apex domains at cutover (ChabadAnnArbor.com HTTPS was unchecked in Phase 1 planning).
+4. Confirm HTTPS for **both** apex domains at cutover.
 
 ### Netlify dual-home rewrite
 
@@ -76,38 +133,19 @@ Works on **Netlify** or **Cloudflare Pages** free tier.
 
 When creating the Pages project, set build output to `dist` and keep the repo-root `functions/` directory.
 
-## Redirect appendix
+### Redirect appendix
 
-Old WordPress paths 301 to new routes (see `public/_redirects`):
+Old WordPress paths 301 to new routes (see `public/_redirects`). **Do not 301** active form processors (`/shabbat/`, `/form-process-*`, Gravity Forms pages) — landings link out to them.
 
-| Old | New |
-|---|---|
-| `/studentcenter/` | `/home/students` |
-| `/cong/` | `/home/community` |
-| `/chs/` | `/youth` |
-| `/visitingliving/`, `/visiting&living` | `/visit` |
-| `/donation/` | `/donate` |
-| `/highholidays` | `/events` (hub) |
-| `/aboutus/` | `/about` |
-
-**Do not 301** active form processors (`/shabbat/`, `/form-process-*`, Gravity Forms pages) into Astro landings — landings link out to them.
+---
 
 ## Donations
 
-`/donate` stacks:
-
-1. **ChabadMS** iframe — `forms.chabadms.com` formid `8080`
-2. **Zeffy** embed — src from live `/donatewithzeffy/` (staff: update if embed rotates)
-3. **PayPal** — `paypal.com/fundraiser/charity/1619170`
-4. **Payment** link — legacy `/payment/` for invoices/fees
-
-## Agent / editor rules
-
-See [`AGENTS.md`](./AGENTS.md). Prefer editing `src/content/**`. Do not add form components in Phase 1.
+`/donate` stacks ChabadMS, Zeffy, PayPal, and a legacy payment link. Prefer existing jewmich.com vendors; no Givebutter in Phase 1.
 
 ## Stack
 
-- Astro 7 (static) + MDX
-- Content collections: `home`, `students`, `community`, `youth`, `shared`
-- Type: Fraunces + Source Serif 4
-- Tokens: navy / paper / brass / maize (student accent only)
+- Astro 7 (static) + MDX + Pagefind
+- Content collections: `home`, `students`, `community`, `youth`, `shared`, `events`
+- Type: Fraunces + Source Serif 4 + Source Sans 3 (self-hosted)
+- Tokens: navy / paper / brass / maize

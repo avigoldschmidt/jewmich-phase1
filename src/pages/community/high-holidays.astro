@@ -1,3 +1,4 @@
 ---
-return Astro.redirect('/community/holidays', 301);
+import { withBase } from '../../lib/paths';
+return Astro.redirect(withBase('/community/holidays'), 301);
 ---

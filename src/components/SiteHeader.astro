@@ -54,6 +54,7 @@ const menuId = 'site-primary-menu';
       </nav>
 
       <div class="site-header__actions">
+        <a class="site-header__search" href={withBase('/search')}>Search</a>
         <a class="site-header__donate" href={withBase('/donate')}>Donate</a>
         <button
           class="site-header__menu-btn"
@@ -281,6 +282,7 @@ const menuId = 'site-primary-menu';
     flex: 0 0 auto;
   }
 
+  .site-header__search,
   .site-header__donate,
   .site-header__menu-btn {
     font-family: var(--font-ui);
@@ -292,6 +294,16 @@ const menuId = 'site-primary-menu';
     display: inline-flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .site-header__search {
+    color: var(--color-muted);
+    padding: 0 0.55rem;
+  }
+
+  .site-header__search:hover,
+  .site-header__search:focus-visible {
+    color: var(--color-ink);
   }
 
   .site-header__donate {

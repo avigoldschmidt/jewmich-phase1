@@ -280,11 +280,10 @@ export const actions = {
     note: 'Opens our registration form',
   },
   'jwc-signup': {
-    kind: 'embed',
-    src: 'https://docs.google.com/spreadsheet/embeddedform?formkey=dEtuMUx1aEI5TVVKenlrNFdyTXlGOHc6MQ',
+    kind: 'link',
+    href: 'https://www.jewmich.com/contact/',
     label: "Jewish Women's Circle",
-    title: "Jewish Women's Circle signup",
-    height: '720px',
+    note: 'Contact us to join — the old Google signup form is retired',
   },
   'happiness-course': {
     kind: 'link',

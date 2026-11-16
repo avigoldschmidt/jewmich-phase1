@@ -1,3 +1,4 @@
 ---
-return Astro.redirect('/community/jewish-life', 301);
+import { withBase } from '../lib/paths';
+return Astro.redirect(withBase('/community/jewish-life#kosher-in-ann-arbor'), 301);
 ---

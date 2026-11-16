@@ -1,3 +1,4 @@
 ---
-return Astro.redirect('/donate#life-and-legacy', 301);
+import { withBase } from '../lib/paths';
+return Astro.redirect(withBase('/donate#life-and-legacy'), 301);
 ---

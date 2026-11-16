@@ -27,7 +27,8 @@ export const FOOTER_GROUPS: { heading: string; links: NavItem[] }[] = [
     heading: 'Visit',
     links: [
       { label: 'Find us', href: '/visit' },
-      { label: 'Kosher', href: '/community/jewish-life#kosher' },
+      { label: 'Kosher', href: '/community/jewish-life#kosher-in-ann-arbor' },
+
       { label: 'Contact', href: '/contact' },
       { label: 'Candle lighting', href: '/candle-lighting' },
     ],
@@ -48,6 +49,7 @@ export const FOOTER_GROUPS: { heading: string; links: NavItem[] }[] = [
       { label: 'Youth', href: '/youth' },
       { label: 'Events', href: '/events' },
       { label: 'Newsletter', href: '/newsletter' },
+      { label: 'Search', href: '/search' },
     ],
   },
 ];

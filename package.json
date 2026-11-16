@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "node ./scripts/run-astro.mjs dev",
-    "build": "node ./scripts/run-astro.mjs build && npm run pagefind",
+    "build": "node ./scripts/run-astro.mjs build && node ./scripts/prefix-base-urls.mjs && npm run pagefind",
     "pagefind": "pagefind --site dist",
     "preview": "node ./scripts/run-astro.mjs preview",
     "astro": "node ./scripts/run-astro.mjs",
